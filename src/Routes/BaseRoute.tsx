@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import NotFound from '../Pages/NotFound';
 
-const Router: FC = () => (
-  <BrowserRouter>
+const BaseRoute: FC = () => (
+  <Switch>
     <Route exact path="/" component={Home} />
-    <Route exact path="/login" component={Login} />
+    <Route path="/login" component={Login} />
     <Route component={NotFound} />
-  </BrowserRouter>
+  </Switch>
 );
 
-export default Router;
+export default BaseRoute;
