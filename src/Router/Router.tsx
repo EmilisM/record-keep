@@ -1,13 +1,14 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Home from './Pages/Home';
-import Login from './Pages/Login';
+import Home from '../Pages/Home';
+import Login from '../Pages/Login';
+import NotFound from '../Pages/NotFound';
 
 const Router: FC = () => (
   <BrowserRouter>
     <Route exact path="/" component={Home} />
     <Route exact path="/login" component={Login} />
-    <Route component={Home} />
+    <Route component={NotFound} />
   </BrowserRouter>
 );
 

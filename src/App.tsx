@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { ThemeProvider } from 'styled-components/macro';
-import theme from './theme';
+import theme from './Themes/theme';
 import GlobalStyle from './globalStyle';
-import Router from './Router';
+import Router from './Router/Router';
 
 const App: FC = () => {
   return (
