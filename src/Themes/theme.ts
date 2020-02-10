@@ -3,14 +3,14 @@ import { DefaultTheme } from 'styled-components/macro';
 const theme: DefaultTheme = {
   colors: {
     background: {
-      first: '#9C7481',
-      second: '#43364A',
-      third: '#2F3043',
-      fourth: '#1B1724',
+      primary: '#F3F1F4',
+      secondary: '#9C7481',
+      secondaryDark: '#43364A',
+      secondaryDarker: '#2F3043',
+      secondaryDarkest: '#1B1724',
     },
     text: {
-      primary: '',
-      secondary: '#f3f1f4',
+      primaryLight: '#F3F1F4',
     },
   },
   font: {

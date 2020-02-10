@@ -7,13 +7,13 @@ const LoginStyled = styled.div`
   width: 100%;
   height: 100%;
 
-  background: ${props => props.theme.colors.background.first};
+  background: ${props => props.theme.colors.background.secondary};
   background-image: linear-gradient(
     110.6deg,
-    ${props => props.theme.colors.background.first} -18.3%,
-    ${props => props.theme.colors.background.second} 16.4%,
-    ${props => props.theme.colors.background.third} 68.2%,
-    ${props => props.theme.colors.background.fourth} 99.1%
+    ${props => props.theme.colors.background.secondary} -18.3%,
+    ${props => props.theme.colors.background.secondaryDark} 16.4%,
+    ${props => props.theme.colors.background.secondaryDarker} 68.2%,
+    ${props => props.theme.colors.background.secondaryDarkest} 99.1%
   );
 
   display: flex;
@@ -25,7 +25,7 @@ const LoginStyled = styled.div`
 `;
 
 const HeadingFirstStyled = styled(HeadingFirst)`
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${props => props.theme.colors.text.primaryLight};
 `;
 
 const Login = (): ReactElement => (
