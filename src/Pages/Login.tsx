@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import LoginBlock from '../Blocks/Login';
-import { HeadingFirst, HeadingSecond } from '../Components/Heading';
+import Heading from '../Components/Heading';
 
 const LoginStyled = styled.div`
   width: 100%;
@@ -24,23 +24,24 @@ const LoginStyled = styled.div`
   padding: 0px 10%;
 `;
 
-const HeadingFirstStyled = styled(HeadingFirst)`
+const HeadingFirstStyled = styled(Heading)`
   color: ${props => props.theme.colors.text.primaryLight};
-  font-size: 80px;
   margin: 0 0 10px 0;
 `;
 
-const HeadingSecondStyled = styled(HeadingSecond)`
+const HeadingSecondStyled = styled(Heading)`
   color: ${props => props.theme.colors.text.primaryLight};
-  font-weight: ${props => props.theme.font.fontWeight.regular};
-  font-size: 40px;
   margin: 0 0 40px 0;
 `;
 
 const Login = (): ReactElement => (
   <LoginStyled>
-    <HeadingFirstStyled>Record Keep</HeadingFirstStyled>
-    <HeadingSecondStyled>An online music collection for avid listeners.</HeadingSecondStyled>
+    <HeadingFirstStyled fontWeight="600" fontSize={80} level="1">
+      Record Keep
+    </HeadingFirstStyled>
+    <HeadingSecondStyled fontWeight="400" fontSize={40} level="2">
+      An online music collection for avid listeners.
+    </HeadingSecondStyled>
     <LoginBlock />
   </LoginStyled>
 );

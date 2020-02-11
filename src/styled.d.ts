@@ -18,12 +18,6 @@ declare module 'styled-components' {
       fontFamily: {
         primary: string;
       };
-      fontWeight: {
-        light: number;
-        regular: number;
-        semiBold: number;
-        bold: number;
-      };
     };
   }
 }

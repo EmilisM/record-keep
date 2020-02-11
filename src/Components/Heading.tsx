@@ -1,37 +1,30 @@
+import React, { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components/macro';
 
-export const HeadingFirst = styled.h1`
+const HeadingBase = ({ level, className, children }: Props): ReactElement => {
+  const Heading = `h${level}` as keyof JSX.IntrinsicElements;
+  return <Heading className={className}>{children}</Heading>;
+};
+
+const HeadingStyled = styled(HeadingBase)<Props>`
   font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.theme.font.fontWeight.semiBold};
+  font-weight: ${props => props.fontWeight};
+  font-size: ${props => props.fontSize}px;
   margin: 0;
 `;
 
-export const HeadingSecond = styled.h2`
-  font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.theme.font.fontWeight.semiBold};
-  margin: 0;
-`;
+type Props = {
+  className?: string;
+  level: '1' | '2' | '3' | '4' | '5' | '6';
+  fontWeight: '300' | '400' | '600' | '700';
+  children: ReactNode;
+  fontSize: number;
+};
 
-export const HeadingThird = styled.h3`
-  font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.theme.font.fontWeight.regular};
-  margin: 0;
-`;
+const Heading = ({ className, level, children, fontWeight, fontSize }: Props): ReactElement => (
+  <HeadingStyled className={className} level={level} fontWeight={fontWeight} fontSize={fontSize}>
+    {children}
+  </HeadingStyled>
+);
 
-export const HeadingFourth = styled.h4`
-  font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.theme.font.fontWeight.regular};
-  margin: 0;
-`;
-
-export const HeadingFifth = styled.h5`
-  font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.theme.font.fontWeight.light};
-  margin: 0;
-`;
-
-export const HeadingSixth = styled.h6`
-  font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.theme.font.fontWeight.light};
-  margin: 0;
-`;
+export default Heading;

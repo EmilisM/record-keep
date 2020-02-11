@@ -17,12 +17,6 @@ const theme: DefaultTheme = {
     fontFamily: {
       primary: `'Source Sans Pro', sans-serif`,
     },
-    fontWeight: {
-      light: 300,
-      regular: 400,
-      semiBold: 600,
-      bold: 700,
-    },
   },
 };
 
