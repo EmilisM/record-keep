@@ -29,7 +29,7 @@ type Props = {
 const Footer = ({ className }: Props): ReactElement => (
   <FooterStyled className={className}>
     <ParagraphStyled>
-      <AnchorStyled href="https://github.com/EmilisM/record-keep" target="_blank" rel="noopener noreferrer">
+      <AnchorStyled href="https://github.com/EmilisM/record-keep" target="_blank">
         Record Keep
       </AnchorStyled>{' '}
       by Emilis Makutėnas - 2020
