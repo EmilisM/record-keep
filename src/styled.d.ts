@@ -9,6 +9,10 @@ declare module 'styled-components' {
         secondaryDark: string;
         secondaryDarker: string;
         secondaryDarkest: string;
+        secondaryLighter: string;
+        secondaryDarkLighter: string;
+        secondaryDarkerLighter: string;
+        secondaryDarkestLighter: string;
       };
       text: {
         primaryLight: string;

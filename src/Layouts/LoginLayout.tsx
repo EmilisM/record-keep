@@ -35,10 +35,16 @@ const Content = styled.div`
 `;
 
 const FooterStyled = styled(Footer)`
-  border-image: linear-gradient(red, blue);
-  border: solid ${props => props.theme.colors.background.primary};
-  border-width: 1px 0 0 0;
   padding: 0px 10%;
+
+  border-image: linear-gradient(
+      110.6deg,
+      ${props => props.theme.colors.background.secondaryLighter} -18.3%,
+      ${props => props.theme.colors.background.secondaryDarkLighter} 16.4%,
+      ${props => props.theme.colors.background.secondaryDarkerLighter} 68.2%,
+      ${props => props.theme.colors.background.secondaryDarkestLighter} 99.1%
+    )
+    1 0 0 / 2px;
 `;
 
 const LoginLayout = ({ className, children }: Props): ReactElement => (

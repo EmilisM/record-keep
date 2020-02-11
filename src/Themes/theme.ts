@@ -8,6 +8,10 @@ const theme: DefaultTheme = {
       secondaryDark: '#43364A',
       secondaryDarker: '#2F3043',
       secondaryDarkest: '#1B1724',
+      secondaryLighter: '#B78E9B',
+      secondaryDarkLighter: '#5B4D62',
+      secondaryDarkerLighter: '#46465A',
+      secondaryDarkestLighter: '#302B3A',
     },
     text: {
       primaryLight: '#F3F1F4',
