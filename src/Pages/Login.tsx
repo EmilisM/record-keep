@@ -2,27 +2,7 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import LoginBlock from '../Blocks/Login';
 import Heading from '../Components/Heading';
-
-const LoginStyled = styled.div`
-  width: 100%;
-  height: 100%;
-
-  background: ${props => props.theme.colors.background.secondary};
-  background-image: linear-gradient(
-    110.6deg,
-    ${props => props.theme.colors.background.secondary} -18.3%,
-    ${props => props.theme.colors.background.secondaryDark} 16.4%,
-    ${props => props.theme.colors.background.secondaryDarker} 68.2%,
-    ${props => props.theme.colors.background.secondaryDarkest} 99.1%
-  );
-
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-
-  padding: 0px 10%;
-`;
+import LoginLayout from '../Layouts/LoginLayout';
 
 const HeadingFirstStyled = styled(Heading)`
   color: ${props => props.theme.colors.text.primaryLight};
@@ -35,15 +15,15 @@ const HeadingSecondStyled = styled(Heading)`
 `;
 
 const Login = (): ReactElement => (
-  <LoginStyled>
+  <LoginLayout>
     <HeadingFirstStyled fontWeight="600" fontSize={80} level="1">
       Record Keep
     </HeadingFirstStyled>
-    <HeadingSecondStyled fontWeight="400" fontSize={40} level="2">
+    <HeadingSecondStyled fontSize={40} level="2">
       An online music collection for avid listeners.
     </HeadingSecondStyled>
     <LoginBlock />
-  </LoginStyled>
+  </LoginLayout>
 );
 
 export default Login;

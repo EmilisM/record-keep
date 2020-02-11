@@ -1,16 +1,25 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
+import Paragraph from '../Components/Paragraph';
+import Anchor from '../Components/Anchor';
 
 const FooterStyled = styled.footer`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  max-height: 48px;
-  z-index: -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 
-  background-color: ${props => props.theme.colors.background.primary};
+  margin-top: auto;
+  max-height: 48px;
+  height: 100%;
+`;
+
+const ParagraphStyled = styled(Paragraph)`
+  color: ${props => props.theme.colors.text.primaryLight};
+  opacity: 0.8;
+`;
+
+const AnchorStyled = styled(Anchor)`
+  color: ${props => props.theme.colors.text.primaryLight};
 `;
 
 type Props = {
@@ -19,7 +28,12 @@ type Props = {
 
 const Footer = ({ className }: Props): ReactElement => (
   <FooterStyled className={className}>
-    <p>Emilis Makutėnas</p>
+    <ParagraphStyled>
+      <AnchorStyled href="https://github.com/EmilisM/record-keep" target="_blank" rel="noopener noreferrer">
+        Record Keep
+      </AnchorStyled>{' '}
+      by Emilis Makutėnas - 2020
+    </ParagraphStyled>
   </FooterStyled>
 );
 
