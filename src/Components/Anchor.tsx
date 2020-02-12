@@ -1,15 +1,17 @@
 import React, { ReactElement, ReactNode } from 'react';
-import styled from 'styled-components/macro';
+import styled, { DefaultTheme } from 'styled-components/macro';
 
 type StyledProps = {
   fontWeight?: '300' | '400' | '600';
   fontSize?: number;
+  color?: keyof DefaultTheme['colors']['text'];
 };
 
 const AnchorStyled = styled.a<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.fontWeight || '400'};
   font-size: ${props => props.fontSize || 16}px;
+  color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
   margin: 0;
   text-decoration: none;
 
@@ -18,19 +20,22 @@ const AnchorStyled = styled.a<StyledProps>`
   }
 `;
 
-type Props = {
+type Props = StyledProps & {
   className?: string;
   children: ReactNode;
   href: string;
   target: string;
 };
 
-const Anchor = ({ className, children, target, href }: Props): ReactElement => (
+const Anchor = ({ className, children, target, href, color, fontWeight, fontSize }: Props): ReactElement => (
   <AnchorStyled
     className={className}
     href={href}
     target={target}
     rel={target === '_blank' ? 'noopener noreferrer' : ''}
+    color={color}
+    fontWeight={fontWeight}
+    fontSize={fontSize}
   >
     {children}
   </AnchorStyled>

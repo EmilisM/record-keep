@@ -5,12 +5,10 @@ import Heading from '../Components/Heading';
 import LoginLayout from '../Layouts/LoginLayout';
 
 const HeadingFirstStyled = styled(Heading)`
-  color: ${props => props.theme.colors.text.primaryLight};
   margin: 0 0 10px 0;
 `;
 
 const HeadingSecondStyled = styled(Heading)`
-  color: ${props => props.theme.colors.text.primaryLight};
   margin: 0 0 40px 0;
 `;
 
