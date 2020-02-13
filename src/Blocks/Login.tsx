@@ -1,17 +1,8 @@
 import React, { ReactElement } from 'react';
-import styled from 'styled-components/macro';
-import Card from '../Components/Card';
+import LoginSwitcher from '../Components/LoginSwitcher';
 
-const LoginBlockStyled = styled.div`
-  width: 100%;
-  height: 50%;
-  max-width: 800px;
-`;
-
-const LoginBlock = (): ReactElement => (
-  <LoginBlockStyled>
-    <Card />
-  </LoginBlockStyled>
-);
+const LoginBlock = (): ReactElement => {
+  return <LoginSwitcher />;
+};
 
 export default LoginBlock;

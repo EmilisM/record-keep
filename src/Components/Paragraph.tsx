@@ -12,7 +12,7 @@ const Paragraph = styled.p<Props>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.fontWeight || '400'};
   font-size: ${props => props.fontSize || 16}px;
-  color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
+  color: ${props => props.theme.colors.text[props.color || 'primaryLight']};
   opacity: ${props => props.opacity || 1};
   margin: 0;
 `;

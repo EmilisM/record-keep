@@ -28,10 +28,10 @@ const Content = styled.div`
   flex: 1 0 auto;
 
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  padding: 0px 10%;
+  padding: 10% 10% 100px;
 `;
 
 const FooterStyled = styled(Footer)`
