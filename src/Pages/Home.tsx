@@ -1,8 +1,6 @@
 import React, { ReactElement } from 'react';
-import styled from 'styled-components/macro';
+import LandingLayout from '../Layouts/LandingLayout';
 
-const HomeStyled = styled.div``;
-
-const Home = (): ReactElement => <HomeStyled />;
+const Home = (): ReactElement => <LandingLayout>Home</LandingLayout>;
 
 export default Home;

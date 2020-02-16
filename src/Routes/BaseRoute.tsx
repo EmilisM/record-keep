@@ -1,13 +1,17 @@
 import React, { FC } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
+
+import NotFound from '../Pages/NotFound';
+import Dashboard from '../Pages/Dashboard';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
-import NotFound from '../Pages/NotFound';
 
 const BaseRoute: FC = () => (
   <Switch>
-    <Route exact path="/" component={Home} />
-    <Route path="/login" component={Login} />
+    <Redirect exact from="/" to="/home" />
+    <Route exact path="/home" component={Home} />
+    <Route exact path="/login" component={Login} />
+    <Route exact path="/dashboard" component={Dashboard} />
     <Route component={NotFound} />
   </Switch>
 );

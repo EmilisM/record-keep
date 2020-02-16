@@ -9,6 +9,7 @@ const LoginSwitcherStyled = styled.div`
 
   display: flex;
   flex-direction: row;
+  background-color: transparent;
 `;
 
 const SelectStyled = styled.div<StyledProps>`
@@ -24,7 +25,7 @@ const SelectStyled = styled.div<StyledProps>`
   padding: 2px 40px;
   `
       : `
-      cursor: pointer;
+  cursor: pointer;
   color: ${props.theme.colors.text.primaryLight};
   padding: 2px 20px;
   `};

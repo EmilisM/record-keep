@@ -1,6 +1,7 @@
 import React, { ReactNode, ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import Footer from '../Blocks/Footer';
+import TitleBlock from '../Blocks/Title';
 
 type Props = {
   className?: string;
@@ -31,7 +32,7 @@ const Content = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  padding: 10% 10% 100px;
+  padding: 0 10% 100px;
 `;
 
 const FooterStyled = styled(Footer)`
@@ -47,11 +48,12 @@ const FooterStyled = styled(Footer)`
     1 0 0 / 2px;
 `;
 
-const LoginLayout = ({ className, children }: Props): ReactElement => (
+const LandingLayout = ({ className, children }: Props): ReactElement => (
   <LoginLayoutStyled className={className}>
+    <TitleBlock />
     <Content>{children}</Content>
     <FooterStyled />
   </LoginLayoutStyled>
 );
 
-export default LoginLayout;
+export default LandingLayout;
