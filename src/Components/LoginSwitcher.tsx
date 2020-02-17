@@ -3,9 +3,10 @@ import styled from 'styled-components/macro';
 
 const LoginSwitcherStyled = styled.div`
   font-family: ${props => props.theme.font.fontFamily.primary};
-  font-size: 20px;
+  font-size: 22px;
   border: 1px solid ${props => props.theme.colors.border.primary};
   border-radius: 8px;
+  font-weight: 300;
 
   display: flex;
   flex-direction: row;

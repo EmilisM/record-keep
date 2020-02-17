@@ -1,6 +1,10 @@
 import React, { ReactElement } from 'react';
-import LandingLayout from '../Layouts/LandingLayout';
+import Link from '../Components/Link';
 
-const Home = (): ReactElement => <LandingLayout>Home</LandingLayout>;
+const Home = (): ReactElement => (
+  <Link fontSize={20} to="Login">
+    Login
+  </Link>
+);
 
 export default Home;

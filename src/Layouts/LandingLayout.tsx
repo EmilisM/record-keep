@@ -1,12 +1,8 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactElement, FC } from 'react';
 import styled from 'styled-components/macro';
 import Footer from '../Blocks/Footer';
 import TitleBlock from '../Blocks/Title';
-
-type Props = {
-  className?: string;
-  children: ReactNode;
-};
+import { Route, RouteProps, RouteComponentProps } from 'react-router-dom';
 
 const LoginLayoutStyled = styled.main`
   display: flex;
@@ -48,12 +44,23 @@ const FooterStyled = styled(Footer)`
     1 0 0 / 2px;
 `;
 
-const LandingLayout = ({ className, children }: Props): ReactElement => (
-  <LoginLayoutStyled className={className}>
-    <TitleBlock />
-    <Content>{children}</Content>
-    <FooterStyled />
-  </LoginLayoutStyled>
+type Props = RouteProps & {
+  component: FC<RouteComponentProps>;
+};
+
+const LandingLayout = ({ component: Component, ...rest }: Props): ReactElement => (
+  <Route
+    {...rest}
+    render={props => (
+      <LoginLayoutStyled>
+        <TitleBlock />
+        <Content>
+          <Component {...props} />
+        </Content>
+        <FooterStyled />
+      </LoginLayoutStyled>
+    )}
+  />
 );
 
 export default LandingLayout;
