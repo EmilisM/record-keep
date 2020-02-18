@@ -2,7 +2,7 @@ import styled, { DefaultTheme } from 'styled-components/macro';
 
 type Props = {
   className?: string;
-  fontWeight?: '300' | '400' | '600';
+  fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: number;
   color?: keyof DefaultTheme['colors']['text'];
   opacity?: number;

@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 
 type StyledProps = {
-  fontWeight?: '300' | '400' | '600';
+  fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: number;
   color?: keyof DefaultTheme['colors']['text'];
 };

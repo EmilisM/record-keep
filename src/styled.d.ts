@@ -26,6 +26,12 @@ declare module 'styled-components' {
       fontFamily: {
         primary: string;
       };
+      fontWeight: {
+        '300': string;
+        '400': string;
+        '600': string;
+        '700': string;
+      };
     };
   }
 }

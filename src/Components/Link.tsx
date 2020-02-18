@@ -4,7 +4,7 @@ import styled, { DefaultTheme } from 'styled-components/macro';
 import RouteConfig from '../Routes/RouteConfig';
 
 type StyledProps = {
-  fontWeight?: '300' | '400' | '600';
+  fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize: number;
   color?: keyof DefaultTheme['colors']['text'];
 };

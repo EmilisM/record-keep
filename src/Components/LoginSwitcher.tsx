@@ -6,7 +6,7 @@ const LoginSwitcherStyled = styled.div`
   font-size: 22px;
   border: 1px solid ${props => props.theme.colors.border.primary};
   border-radius: 8px;
-  font-weight: 300;
+  font-weight: ${props => props.theme.font.fontWeight[300]};
 
   display: flex;
   flex-direction: row;
@@ -17,21 +17,25 @@ const SelectStyled = styled.div<StyledProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 2px;
+  padding-bottom: 4px;
 
   ${props =>
     props.typeActive === props.type
       ? `
   background-color: ${props.theme.colors.background.primary};
   color: ${props.theme.colors.text.primaryDark};
-  padding: 2px 40px;
+  padding-left: 40px;
+  padding-right: 40px;
   `
       : `
   cursor: pointer;
   color: ${props.theme.colors.text.primaryLight};
-  padding: 2px 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   `};
-  border-radius: 6px;
 
+  border-radius: 6px;
   transition: padding 200ms ease, background-color 200ms ease;
 `;
 
