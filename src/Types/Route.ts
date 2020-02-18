@@ -3,4 +3,5 @@ export interface RouteConfigType {
   Home: string;
   Login: string;
   Dashboard: string;
+  About: string;
 }

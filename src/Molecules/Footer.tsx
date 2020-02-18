@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
-import Paragraph from '../Atoms/P';
-import Anchor from '../Atoms/A';
+
+import P from 'Atoms/P';
+import A from 'Atoms/A';
 
 const FooterStyled = styled.footer`
   display: flex;
@@ -19,12 +20,12 @@ type Props = {
 
 const Footer = ({ className }: Props): ReactElement => (
   <FooterStyled className={className}>
-    <Paragraph color="primaryLight" opacity={0.8}>
-      <Anchor href="https://github.com/EmilisM/record-keep" target="_blank">
+    <P color="primaryLight" opacity={0.8}>
+      <A href="https://github.com/EmilisM/record-keep" target="_blank">
         Record Keep
-      </Anchor>{' '}
+      </A>{' '}
       by Emilis Makutėnas - 2020
-    </Paragraph>
+    </P>
   </FooterStyled>
 );
 

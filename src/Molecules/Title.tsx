@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
-import H from '../Atoms/H';
 import styled from 'styled-components/macro';
+
+import H from 'Atoms/H';
 
 const TitleBlockStyled = styled.div`
   padding: 10% 10% 0;

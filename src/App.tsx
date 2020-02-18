@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { ThemeProvider } from 'styled-components/macro';
-import theme from './Themes/theme';
 import GlobalStyle from './globalStyle';
 import { BrowserRouter } from 'react-router-dom';
-import BaseRoute from './Routes/BaseRoute';
+
+import theme from 'Themes/theme';
+import BaseRoute from 'Routes/BaseRoute';
 
 const App: FC = () => {
   return (

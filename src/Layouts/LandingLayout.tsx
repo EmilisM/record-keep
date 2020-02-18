@@ -2,8 +2,8 @@ import React, { ReactElement, FC } from 'react';
 import styled from 'styled-components/macro';
 import { Route, RouteProps, RouteComponentProps } from 'react-router-dom';
 
-import Footer from '../Molecules/Footer';
-import TitleBlock from '../Molecules/Title';
+import Footer from 'Molecules/Footer';
+import TitleBlock from 'Molecules/Title';
 
 const LoginLayoutStyled = styled.main`
   display: flex;
