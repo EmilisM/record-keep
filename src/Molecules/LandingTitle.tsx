@@ -3,9 +3,10 @@ import styled from 'styled-components/macro';
 
 import H from 'Atoms/H';
 import Link from 'Atoms/Link';
+import HomeLinks from 'Molecules/HomeLinks';
 
 const TitleStyled = styled.div`
-  padding: 10% 10% 0;
+  padding: 10% 10% 10px;
 `;
 
 const HeadingFirstStyled = styled(H)`
@@ -13,12 +14,16 @@ const HeadingFirstStyled = styled(H)`
 `;
 
 const HeadingSecondStyled = styled(H)`
-  margin: 0 0 40px 0;
+  margin: 0 0 10px 0;
 `;
 
 const LinkStyled = styled(Link)`
   font-size: inherit;
   font-weight: inherit;
+
+  &:hover {
+    opacity: 1;
+  }
 `;
 
 const LandingTitle = (): ReactElement => (
@@ -29,6 +34,7 @@ const LandingTitle = (): ReactElement => (
     <HeadingSecondStyled fontSize={40} level="2">
       An online music collection for avid listeners.
     </HeadingSecondStyled>
+    <HomeLinks />
   </TitleStyled>
 );
 

@@ -11,10 +11,15 @@ type StyledProps = {
 };
 
 const RouterLinkStyled = styled(RouterLink)<StyledProps>`
-  color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
+  font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.fontWeight || '400'};
   font-size: ${props => props.fontSize || 16}px;
   text-decoration: none;
+  color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 type Props = StyledProps & {
