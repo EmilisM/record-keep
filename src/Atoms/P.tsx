@@ -8,7 +8,7 @@ type Props = {
   opacity?: number;
 };
 
-const Paragraph = styled.p<Props>`
+const P = styled.p<Props>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.fontWeight || '400'};
   font-size: ${props => props.fontSize || 16}px;
@@ -17,4 +17,4 @@ const Paragraph = styled.p<Props>`
   margin: 0;
 `;
 
-export default Paragraph;
+export default P;

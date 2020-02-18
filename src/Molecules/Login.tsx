@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import LoginSwitcher from '../Components/LoginSwitcher';
+import LoginSwitcher from '../Atoms/LoginSwitcher';
 
 const LoginBlock = (): ReactElement => {
   return <LoginSwitcher />;

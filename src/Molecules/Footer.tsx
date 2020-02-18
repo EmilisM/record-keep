@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
-import Paragraph from '../Components/Paragraph';
-import Anchor from '../Components/Anchor';
+import Paragraph from '../Atoms/P';
+import Anchor from '../Atoms/A';
 
 const FooterStyled = styled.footer`
   display: flex;

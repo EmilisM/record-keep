@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 
-type StyledProps = {
+type StyledProps = Props & {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize: number;
   color?: keyof DefaultTheme['colors']['text'];
@@ -13,12 +13,12 @@ type Props = {
   children: ReactNode;
 };
 
-const HeadingBase = ({ className, level, children }: Props): ReactElement => {
+const HStyled = ({ className, level, children }: Props): ReactElement => {
   const Heading = `h${level}` as keyof JSX.IntrinsicElements;
   return <Heading className={className}>{children}</Heading>;
 };
 
-const HeadingStyled = styled(HeadingBase)<StyledProps>`
+const H = styled(HStyled)<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.fontWeight || '400'};
   font-size: ${props => props.fontSize}px;
@@ -26,4 +26,4 @@ const HeadingStyled = styled(HeadingBase)<StyledProps>`
   margin: 0;
 `;
 
-export default HeadingStyled;
+export default H;

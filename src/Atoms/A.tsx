@@ -7,7 +7,7 @@ type StyledProps = {
   color?: keyof DefaultTheme['colors']['text'];
 };
 
-const AnchorStyled = styled.a<StyledProps>`
+const AStyled = styled.a<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.fontWeight || '400'};
   font-size: ${props => props.fontSize || 16}px;
@@ -24,11 +24,11 @@ type Props = StyledProps & {
   className?: string;
   children: ReactNode;
   href: string;
-  target: string;
+  target?: string;
 };
 
-const Anchor = ({ className, children, target, href, color, fontWeight, fontSize }: Props): ReactElement => (
-  <AnchorStyled
+const A = ({ className, children, target, href, color, fontWeight, fontSize }: Props): ReactElement => (
+  <AStyled
     className={className}
     href={href}
     target={target}
@@ -38,7 +38,7 @@ const Anchor = ({ className, children, target, href, color, fontWeight, fontSize
     fontSize={fontSize}
   >
     {children}
-  </AnchorStyled>
+  </AStyled>
 );
 
-export default Anchor;
+export default A;

@@ -1,16 +1,16 @@
 import React, { ReactElement } from 'react';
-import Heading from '../Components/Heading';
+import H from '../Atoms/H';
 import styled from 'styled-components/macro';
 
 const TitleBlockStyled = styled.div`
   padding: 10% 10% 0;
 `;
 
-const HeadingFirstStyled = styled(Heading)`
+const HeadingFirstStyled = styled(H)`
   margin: 0 0 10px 0;
 `;
 
-const HeadingSecondStyled = styled(Heading)`
+const HeadingSecondStyled = styled(H)`
   margin: 0 0 40px 0;
 `;
 
