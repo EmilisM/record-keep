@@ -2,18 +2,19 @@ import React, { ReactElement, ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styled, { DefaultTheme } from 'styled-components/macro';
 
-import RouteConfig from '../Routes/RouteConfig';
+import RouteConfig from 'Routes/RouteConfig';
 
 type StyledProps = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
-  fontSize: number;
+  fontSize?: number;
   color?: keyof DefaultTheme['colors']['text'];
 };
 
 const RouterLinkStyled = styled(RouterLink)<StyledProps>`
   color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
   font-weight: ${props => props.fontWeight || '400'};
-  font-size: ${props => props.fontSize};
+  font-size: ${props => props.fontSize || 16}px;
+  text-decoration: none;
 `;
 
 type Props = StyledProps & {

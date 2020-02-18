@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import LoginBlock from 'Molecules/Login';
+import LoginBlock from 'Molecules/LoginBlock';
 
 const Login = (): ReactElement => <LoginBlock />;
 
