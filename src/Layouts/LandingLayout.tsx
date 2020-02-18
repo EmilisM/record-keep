@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { Route, RouteProps, RouteComponentProps } from 'react-router-dom';
 
 import Footer from 'Molecules/Footer';
-import TitleBlock from 'Molecules/LandingTitle';
+import TitleBlock from 'Organisms/LandingTitle';
 
 const LoginLayoutStyled = styled.main`
   display: flex;
