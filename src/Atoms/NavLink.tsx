@@ -4,8 +4,6 @@ import { NavLink as NavLinkRouter } from 'react-router-dom';
 
 import RouteConfig from 'Routes/RouteConfig';
 
-const activeClassName = 'nav-link-active';
-
 type StyledProps = Props & {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: number;
@@ -16,17 +14,16 @@ type Props = {
   children: ReactNode;
   className?: string;
   to: keyof typeof RouteConfig;
+  activeClassName?: string;
 };
 
-const NavLinkBase = ({ children, className, to }: Props): ReactElement => (
+const NavLinkBase = ({ children, className, to, activeClassName = 'nav-link-active' }: Props): ReactElement => (
   <NavLinkRouter className={className} to={to} activeClassName={activeClassName}>
     {children}
   </NavLinkRouter>
 );
 
-const NavLink = styled(NavLinkBase).attrs({
-  activeClassName,
-})<StyledProps>`
+const NavLink = styled(NavLinkBase)<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.fontWeight || '400'};
   font-size: ${props => props.fontSize || 16}px;
@@ -41,7 +38,7 @@ const NavLink = styled(NavLinkBase).attrs({
     opacity: 0.7;
   }
 
-  &.${activeClassName} {
+  &.${props => props.activeClassName || 'nav-link-active'} {
     opacity: 0.7;
   }
 `;
