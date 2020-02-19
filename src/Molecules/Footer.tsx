@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
 import P from 'Atoms/P';
-import A from 'Atoms/A';
+import A from 'Atoms/Link/A';
 
 const FooterStyled = styled.footer`
   display: flex;

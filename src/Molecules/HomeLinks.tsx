@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
-import NavLink from 'Atoms/NavLink';
+import NavLink from 'Atoms/Link/NavLink';
 
 const HomeLinksContainer = styled.div`
   padding: 10px 0px;

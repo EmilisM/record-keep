@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
 import H from 'Atoms/H';
-import Link from 'Atoms/Link';
+import Link from 'Atoms/Link/Link';
 import HomeLinks from 'Molecules/HomeLinks';
 
 const TitleStyled = styled.div`
