@@ -16,19 +16,31 @@ const LinkSeparator = styled.div`
   margin: 0px 10px;
 `;
 
+const NavLinkStyled = styled(NavLink).attrs({
+  activeClassName: 'nav-link-active',
+})`
+  opacity: 0.6;
+
+  &:hover,
+  &:active,
+  &.${props => props.activeClassName} {
+    opacity: 1;
+  }
+`;
+
 const HomeLinks = (): ReactElement => (
   <HomeLinksContainer>
-    <NavLink to="Home" fontSize={22} fontWeight="300">
+    <NavLinkStyled to="Home" fontSize={22} fontWeight="300">
       Home
-    </NavLink>
+    </NavLinkStyled>
     <LinkSeparator />
-    <NavLink to="Login" fontSize={22} fontWeight="300">
+    <NavLinkStyled to="Login" fontSize={22} fontWeight="300">
       Login / Signup
-    </NavLink>
+    </NavLinkStyled>
     <LinkSeparator />
-    <NavLink to="About" fontSize={22} fontWeight="300">
+    <NavLinkStyled to="About" fontSize={22} fontWeight="300">
       About
-    </NavLink>
+    </NavLinkStyled>
   </HomeLinksContainer>
 );
 

@@ -15,10 +15,17 @@ type Props = {
   className?: string;
   to: keyof typeof RouteConfig;
   activeClassName?: string;
+  onClick?(): void;
 };
 
-const NavLinkBase = ({ children, className, to, activeClassName = 'nav-link-active' }: Props): ReactElement => (
-  <NavLinkRouter className={className} to={to} activeClassName={activeClassName}>
+const NavLinkBase = ({
+  children,
+  className,
+  to,
+  activeClassName = 'nav-link-active',
+  onClick,
+}: Props): ReactElement => (
+  <NavLinkRouter className={className} to={RouteConfig[to]} activeClassName={activeClassName} onClick={onClick}>
     {children}
   </NavLinkRouter>
 );
@@ -33,13 +40,8 @@ const NavLink = styled(NavLinkBase)<StyledProps>`
 
   transition: 200ms opacity ease;
 
-  &:hover,
-  &:focus {
-    opacity: 0.7;
-  }
-
   &.${props => props.activeClassName || 'nav-link-active'} {
-    opacity: 0.7;
+    opacity: 0.6;
   }
 `;
 
