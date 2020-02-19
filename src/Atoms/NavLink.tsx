@@ -1,5 +1,10 @@
 import React, { ReactElement, ReactNode } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
+import { NavLink as NavLinkRouter } from 'react-router-dom';
+
+import RouteConfig from 'Routes/RouteConfig';
+
+const activeClassName = 'nav-link-active';
 
 type StyledProps = Props & {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
@@ -8,24 +13,24 @@ type StyledProps = Props & {
 };
 
 type Props = {
-  className?: string;
   children: ReactNode;
-  href: string;
-  target?: string;
+  className?: string;
+  to: keyof typeof RouteConfig;
 };
 
-const ABase = ({ className, children, target, href }: Props): ReactElement => (
-  <a className={className} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : ''}>
+const NavLinkBase = ({ children, className, to }: Props): ReactElement => (
+  <NavLinkRouter className={className} to={to} activeClassName={activeClassName}>
     {children}
-  </a>
+  </NavLinkRouter>
 );
 
-const A = styled(ABase)<StyledProps>`
+const NavLink = styled(NavLinkBase).attrs({
+  activeClassName,
+})<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.fontWeight || '400'};
   font-size: ${props => props.fontSize || 16}px;
   color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
-  margin: 0;
   text-decoration: none;
   outline: none;
 
@@ -35,6 +40,10 @@ const A = styled(ABase)<StyledProps>`
   &:focus {
     opacity: 0.7;
   }
+
+  &.${activeClassName} {
+    opacity: 0.7;
+  }
 `;
 
-export default A;
+export default NavLink;

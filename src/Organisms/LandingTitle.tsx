@@ -21,7 +21,8 @@ const LinkStyled = styled(Link)`
   font-size: inherit;
   font-weight: inherit;
 
-  &:hover {
+  &:hover,
+  &:focus {
     opacity: 1;
   }
 `;

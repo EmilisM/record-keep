@@ -4,40 +4,38 @@ import styled, { DefaultTheme } from 'styled-components/macro';
 
 import RouteConfig from 'Routes/RouteConfig';
 
-type StyledProps = {
+type StyledProps = Props & {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: number;
   color?: keyof DefaultTheme['colors']['text'];
 };
 
-const RouterLinkStyled = styled(RouterLink)<StyledProps>`
-  font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.fontWeight || '400'};
-  font-size: ${props => props.fontSize || 16}px;
-  text-decoration: none;
-  color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
-type Props = StyledProps & {
+type Props = {
   children: ReactNode;
   className?: string;
   to: keyof typeof RouteConfig;
 };
 
-const Link = ({ children, className, to, color, fontWeight, fontSize }: Props): ReactElement => (
-  <RouterLinkStyled
-    to={RouteConfig[to]}
-    className={className}
-    color={color}
-    fontWeight={fontWeight}
-    fontSize={fontSize}
-  >
+const LinkBase = ({ children, className, to }: Props): ReactElement => (
+  <RouterLink to={RouteConfig[to]} className={className}>
     {children}
-  </RouterLinkStyled>
+  </RouterLink>
 );
+
+const Link = styled(LinkBase)<StyledProps>`
+  font-family: ${props => props.theme.font.fontFamily.primary};
+  font-weight: ${props => props.fontWeight || '400'};
+  font-size: ${props => props.fontSize || 16}px;
+  color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
+  text-decoration: none;
+  outline: none;
+
+  transition: 200ms opacity ease;
+
+  &:hover,
+  &:focus {
+    opacity: 0.7;
+  }
+`;
 
 export default Link;

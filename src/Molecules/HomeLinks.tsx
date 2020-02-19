@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
-import Link from 'Atoms/Link';
+import NavLink from 'Atoms/NavLink';
 
 const HomeLinksContainer = styled.div`
   padding: 10px 0px;
@@ -13,30 +13,22 @@ const HomeLinksContainer = styled.div`
 const LinkSeparator = styled.div`
   width: 1px;
   background-color: ${props => props.theme.colors.background.primary};
-`;
-
-const HomeLink = styled(Link)`
-  &:not(:first-child) {
-    padding-left: 10px;
-  }
-  &:not(:last-child) {
-    padding-right: 10px;
-  }
+  margin: 0px 10px;
 `;
 
 const HomeLinks = (): ReactElement => (
   <HomeLinksContainer>
-    <HomeLink to="Home" fontSize={22} fontWeight="300">
+    <NavLink to="Home" fontSize={22} fontWeight="300">
       Home
-    </HomeLink>
+    </NavLink>
     <LinkSeparator />
-    <HomeLink to="Login" fontSize={22} fontWeight="300">
+    <NavLink to="Login" fontSize={22} fontWeight="300">
       Login / Signup
-    </HomeLink>
+    </NavLink>
     <LinkSeparator />
-    <HomeLink to="About" fontSize={22} fontWeight="300">
+    <NavLink to="About" fontSize={22} fontWeight="300">
       About
-    </HomeLink>
+    </NavLink>
   </HomeLinksContainer>
 );
 
