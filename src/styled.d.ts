@@ -33,5 +33,10 @@ declare module 'styled-components' {
         '700': string;
       };
     };
+    responsive: {
+      mobile: string;
+      tablet: string;
+      desktop: string;
+    };
   }
 }

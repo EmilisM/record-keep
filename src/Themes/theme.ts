@@ -32,6 +32,11 @@ const theme: DefaultTheme = {
       '700': '700',
     },
   },
+  responsive: {
+    mobile: '(max-width: 600px)',
+    tablet: '((min-width: 601px) and (max-width: 1025px))',
+    desktop: '(min-width: 1026px)',
+  },
 };
 
 export default theme;

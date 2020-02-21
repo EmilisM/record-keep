@@ -11,6 +11,8 @@ const TitleStyled = styled.div`
 
 const HeadingFirstStyled = styled(H)`
   margin: 0 0 10px 0;
+
+  white-space: nowrap;
 `;
 
 const HeadingSecondStyled = styled(H)`
@@ -29,10 +31,10 @@ const LinkStyled = styled(Link)`
 
 const LandingTitle = (): ReactElement => (
   <TitleStyled>
-    <HeadingFirstStyled fontWeight="600" fontSize={80} level="1">
+    <HeadingFirstStyled fontWeight="600" fontSize="veryBig" level="1">
       <LinkStyled to="Home">Record Keep</LinkStyled>
     </HeadingFirstStyled>
-    <HeadingSecondStyled fontSize={40} level="2">
+    <HeadingSecondStyled fontSize="big" level="2">
       An online music collection for avid listeners.
     </HeadingSecondStyled>
     <HomeLinks />
