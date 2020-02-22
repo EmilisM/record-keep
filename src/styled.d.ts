@@ -16,6 +16,7 @@ declare module 'styled-components' {
       };
       text: {
         primaryLight: string;
+        primaryLighter: string;
         primaryDark: string;
       };
       border: {

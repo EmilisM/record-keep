@@ -4,13 +4,11 @@ import { NavLink as NavLinkRouter } from 'react-router-dom';
 
 import RouteConfig from 'Routes/RouteConfig';
 
-type StyledProps = Props & {
+type Props = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: number;
   color?: keyof DefaultTheme['colors']['text'];
-};
-
-type Props = {
+  hoverColor?: keyof DefaultTheme['colors']['text'];
   children: ReactNode;
   className?: string;
   to: keyof typeof RouteConfig;
@@ -30,18 +28,20 @@ const NavLinkBase = ({
   </NavLinkRouter>
 );
 
-const NavLink = styled(NavLinkBase)<StyledProps>`
+const NavLink = styled(NavLinkBase)`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => props.fontSize || 16}px;
-  color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
+  color: ${props => props.theme.colors.text[props.color || 'primaryLighter']};
   text-decoration: none;
   outline: none;
 
-  transition: 200ms opacity ease;
+  transition: 200ms opacity ease, 200ms color ease;
 
-  &.${props => props.activeClassName || 'nav-link-active'} {
-    opacity: 0.6;
+  &:active,
+  &:hover,
+  &.${props => props.activeClassName} {
+    color: ${props => props.theme.colors.text[props.hoverColor || 'primaryLight']};
   }
 `;
 

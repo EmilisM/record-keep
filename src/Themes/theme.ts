@@ -15,6 +15,7 @@ const theme: DefaultTheme = {
     },
     text: {
       primaryLight: '#F3F1F4',
+      primaryLighter: 'rgba(243, 241, 244, 0.6)',
       primaryDark: '#2F3043',
     },
     border: {
