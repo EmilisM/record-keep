@@ -30,15 +30,15 @@ const NavLinkStyled = styled(NavLink).attrs({
 
 const HomeLinks = (): ReactElement => (
   <HomeLinksContainer>
-    <NavLinkStyled to="Home" fontSize={22} fontWeight="300">
+    <NavLinkStyled to="Home" fontSize={22} fontWeight="light">
       Home
     </NavLinkStyled>
     <LinkSeparator />
-    <NavLinkStyled to="Login" fontSize={22} fontWeight="300">
+    <NavLinkStyled to="Login" fontSize={22} fontWeight="light">
       Login / Signup
     </NavLinkStyled>
     <LinkSeparator />
-    <NavLinkStyled to="About" fontSize={22} fontWeight="300">
+    <NavLinkStyled to="About" fontSize={22} fontWeight="light">
       About
     </NavLinkStyled>
   </HomeLinksContainer>

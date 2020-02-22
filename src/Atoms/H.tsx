@@ -35,7 +35,7 @@ const HStyled = ({ className, level, children }: Props): ReactElement => {
 
 const H = styled(HStyled)<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.fontWeight || '400'};
+  font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => fontSizes[props.fontSize || 'big'].desktop}px;
   color: ${props => props.theme.colors.text[props.color || 'primaryLight']};
   margin: 0;

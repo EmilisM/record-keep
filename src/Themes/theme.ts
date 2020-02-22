@@ -26,10 +26,10 @@ const theme: DefaultTheme = {
       primary: `'Source Sans Pro', sans-serif`,
     },
     fontWeight: {
-      '300': '300',
-      '400': '400',
-      '600': '600',
-      '700': '700',
+      light: '300',
+      regular: '400',
+      bold: '600',
+      semiBold: '700',
     },
   },
   responsive: {

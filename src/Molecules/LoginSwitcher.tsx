@@ -1,19 +1,19 @@
 import React, { ReactElement, useState } from 'react';
 import styled from 'styled-components/macro';
+import Button from '../Atoms/Button';
 
 const LoginSwitcherStyled = styled.div`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-size: 22px;
   border: 1px solid ${props => props.theme.colors.border.primary};
   border-radius: 8px;
-  font-weight: ${props => props.theme.font.fontWeight[300]};
 
   display: flex;
   flex-direction: row;
   background-color: transparent;
 `;
 
-const SelectStyled = styled.div<StyledProps>`
+const SelectStyled = styled(Button)<StyledProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,10 +55,10 @@ const LoginSwitcher = ({ className }: Props): ReactElement => {
 
   return (
     <LoginSwitcherStyled className={className}>
-      <SelectStyled typeActive={typeActive} type="login" onClick={() => setTypeActive('login')}>
+      <SelectStyled fontWeight="light" typeActive={typeActive} type="login" onClick={() => setTypeActive('login')}>
         Log in
       </SelectStyled>
-      <SelectStyled typeActive={typeActive} type="signup" onClick={() => setTypeActive('signup')}>
+      <SelectStyled fontWeight="light" typeActive={typeActive} type="signup" onClick={() => setTypeActive('signup')}>
         Sign up
       </SelectStyled>
     </LoginSwitcherStyled>

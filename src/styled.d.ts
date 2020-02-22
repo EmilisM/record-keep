@@ -27,10 +27,10 @@ declare module 'styled-components' {
         primary: string;
       };
       fontWeight: {
-        '300': string;
-        '400': string;
-        '600': string;
-        '700': string;
+        light: string;
+        regular: string;
+        semiBold: string;
+        bold: string;
       };
     };
     responsive: {

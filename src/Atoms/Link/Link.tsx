@@ -24,7 +24,7 @@ const LinkBase = ({ children, className, to }: Props): ReactElement => (
 
 const Link = styled(LinkBase)<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.fontWeight || '400'};
+  font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => props.fontSize || 16}px;
   color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
   text-decoration: none;

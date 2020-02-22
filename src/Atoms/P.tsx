@@ -10,7 +10,7 @@ type Props = {
 
 const P = styled.p<Props>`
   font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.fontWeight || '400'};
+  font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => props.fontSize || 16}px;
   color: ${props => props.theme.colors.text[props.color || 'primaryLight']};
   opacity: ${props => props.opacity || 1};

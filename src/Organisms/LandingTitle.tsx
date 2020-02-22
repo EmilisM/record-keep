@@ -31,10 +31,10 @@ const LinkStyled = styled(Link)`
 
 const LandingTitle = (): ReactElement => (
   <TitleStyled>
-    <HeadingFirstStyled fontWeight="600" fontSize="veryBig" level="1">
+    <HeadingFirstStyled fontWeight="bold" fontSize="veryBig" level="1">
       <LinkStyled to="Home">Record Keep</LinkStyled>
     </HeadingFirstStyled>
-    <HeadingSecondStyled fontSize="big" level="2">
+    <HeadingSecondStyled fontWeight="regular" fontSize="big" level="2">
       An online music collection for avid listeners.
     </HeadingSecondStyled>
     <HomeLinks />

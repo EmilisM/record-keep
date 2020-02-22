@@ -22,7 +22,7 @@ const ABase = ({ className, children, target, href }: Props): ReactElement => (
 
 const A = styled(ABase)<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.fontWeight || '400'};
+  font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => props.fontSize || 16}px;
   color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
   margin: 0;
