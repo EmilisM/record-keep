@@ -3,10 +3,10 @@ import styled from 'styled-components/macro';
 
 import H from 'Atoms/H';
 import Link from 'Atoms/Link/Link';
-import HomeLinks from 'Molecules/HomeLinks';
+import LandingLinks from 'Molecules/LandingLinks';
 
 const TitleStyled = styled.div`
-  padding: 10% 10% 10px;
+  padding: 8% 10% 10px;
 `;
 
 const HeadingFirstStyled = styled(H)`
@@ -37,7 +37,7 @@ const LandingTitle = (): ReactElement => (
     <HeadingSecondStyled fontWeight="regular" fontSize="big" level="2">
       An online music collection for avid listeners.
     </HeadingSecondStyled>
-    <HomeLinks />
+    <LandingLinks />
   </TitleStyled>
 );
 

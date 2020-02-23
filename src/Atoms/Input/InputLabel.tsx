@@ -13,40 +13,34 @@ const fontSizes: FontSizes<Sizes> = {
 
 type Props = {
   className?: string;
-  onClick?(): void;
-  children: ReactNode;
-  fontWeight?: keyof DefaultTheme['font']['fontWeight'];
+  children?: ReactNode;
+  htmlFor?: string;
   fontSize?: Sizes;
+  fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   color?: keyof DefaultTheme['colors']['text'];
 };
 
-const ButtonBase = ({ className, children, onClick }: Props): ReactElement => (
-  <button onClick={onClick} className={className}>
+const InputLabelBase = ({ className, children, htmlFor }: Props): ReactElement => (
+  <label className={className} htmlFor={htmlFor}>
     {children}
-  </button>
+  </label>
 );
 
-const Button = styled(ButtonBase)`
+const InputLabel = styled(InputLabelBase)`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => fontSizes[props.fontSize || 'medium'].desktop}px;
-  color: ${props => props.theme.colors.text[props.color || 'primaryDark']};
-  background-color: ${props => props.theme.colors.background.primary};
-  outline: none;
+  background-color: transparent;
 
-  border: 1px solid ${props => props.theme.colors.border.primary};
-
-  border-radius: 8px;
-  padding: 6px 10px;
-  cursor: pointer;
+  color: ${props => props.theme.colors.text.primaryLight};
 
   @media ${props => props.theme.responsive.tablet} {
-    font-size: ${props => fontSizes[props.fontSize || 'medium'].tablet};
+    font-size: ${props => fontSizes[props.fontSize || 'medium'].tablet}px;
   }
 
   @media ${props => props.theme.responsive.mobile} {
-    font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile};
+    font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile}px;
   }
 `;
 
-export default Button;
+export default InputLabel;

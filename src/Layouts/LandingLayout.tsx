@@ -38,7 +38,7 @@ const Content = styled.main`
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  padding: 0 10% 100px;
+  padding: 0 10% 20px;
 `;
 
 const FooterStyled = styled(Footer)`
