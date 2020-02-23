@@ -10,6 +10,11 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     margin: 0;
   }
+
+  #root {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export default GlobalStyle;

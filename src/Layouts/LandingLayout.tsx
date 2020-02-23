@@ -10,10 +10,11 @@ type StyledProps = {
   backgroundPosition: string;
 };
 
-const LandingLayoutStyled = styled.main<StyledProps>`
+const LandingLayoutStyled = styled.div<StyledProps>`
   display: flex;
   flex-direction: column;
   height: 100%;
+  flex: 1;
 
   background: ${props => props.theme.colors.background.secondary};
   background-image: linear-gradient(
@@ -30,7 +31,7 @@ const LandingLayoutStyled = styled.main<StyledProps>`
   background-position-x: ${props => props.backgroundPosition};
 `;
 
-const Content = styled.div`
+const Content = styled.main`
   flex: 1 0 auto;
 
   display: flex;
