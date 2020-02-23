@@ -1,6 +1,6 @@
 import React, { ReactElement, FC } from 'react';
 import styled from 'styled-components/macro';
-import { Route, RouteProps, RouteComponentProps, useHistory } from 'react-router-dom';
+import { Route, RouteProps, RouteComponentProps, useLocation } from 'react-router-dom';
 
 import Footer from 'Molecules/Footer';
 import LandingTitle from 'Organisms/LandingTitle';
@@ -10,12 +10,10 @@ type StyledProps = {
   backgroundPosition: string;
 };
 
-const LoginLayoutStyled = styled.main<StyledProps>`
+const LandingLayoutStyled = styled.main<StyledProps>`
   display: flex;
   flex-direction: column;
   height: 100%;
-
-  overflow-y: auto;
 
   background: ${props => props.theme.colors.background.secondary};
   background-image: linear-gradient(
@@ -43,7 +41,7 @@ const Content = styled.div`
 `;
 
 const FooterStyled = styled(Footer)`
-  padding: 0px 10%;
+  padding: 10px 10%;
 
   border-image: linear-gradient(
       110deg,
@@ -59,7 +57,7 @@ type Props = RouteProps & {
   component: FC<RouteComponentProps>;
 };
 
-const getBackgroundPositionX = (pathname: string): string => {
+const getBackgroundPositionX = (pathname?: string): string => {
   switch (pathname) {
     default:
     case RouteConfig.Home:
@@ -72,19 +70,19 @@ const getBackgroundPositionX = (pathname: string): string => {
 };
 
 const LandingLayout = ({ component: Component, ...rest }: Props): ReactElement => {
-  const history = useHistory();
+  const location = useLocation<{ from: string }>();
 
   return (
     <Route
       {...rest}
       render={props => (
-        <LoginLayoutStyled backgroundPosition={getBackgroundPositionX(history.location.pathname)}>
+        <LandingLayoutStyled backgroundPosition={getBackgroundPositionX(location?.pathname)}>
           <LandingTitle />
           <Content>
             <Component {...props} />
           </Content>
           <FooterStyled />
-        </LoginLayoutStyled>
+        </LandingLayoutStyled>
       )}
     />
   );

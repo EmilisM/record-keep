@@ -4,13 +4,10 @@ import styled, { DefaultTheme } from 'styled-components/macro';
 
 import RouteConfig from 'Routes/RouteConfig';
 
-type StyledProps = Props & {
+type Props = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: number;
   color?: keyof DefaultTheme['colors']['text'];
-};
-
-type Props = {
   children: ReactNode;
   className?: string;
   to: keyof typeof RouteConfig;
@@ -22,7 +19,7 @@ const LinkBase = ({ children, className, to }: Props): ReactElement => (
   </RouterLink>
 );
 
-const Link = styled(LinkBase)<StyledProps>`
+const Link = styled(LinkBase)`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => props.fontSize || 16}px;

@@ -7,7 +7,7 @@ const fontSizes: FontSizes<Sizes> = {
   big: {
     desktop: 60,
     tablet: 40,
-    mobile: 20,
+    mobile: 25,
   },
   veryBig: {
     desktop: 80,

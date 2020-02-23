@@ -37,7 +37,7 @@ const SpanLabel = styled.span`
   padding: 2px 20px 4px;
 
   border-radius: 6px;
-  transition: padding 200ms ease, background-color 200ms ease;
+  transition: padding 200ms ease, background-color 200ms ease, color 200ms ease;
 `;
 
 const LabelStyled = styled.label`

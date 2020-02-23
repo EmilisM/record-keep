@@ -20,7 +20,7 @@ type Props = {
 
 const Footer = ({ className }: Props): ReactElement => (
   <FooterStyled className={className}>
-    <P color="primaryLight" opacity={0.8} fontWeight="light">
+    <P color="primaryLight" opacity={0.8} fontWeight="light" fontSize="small">
       <A href="https://github.com/EmilisM/record-keep" target="_blank">
         Record Keep
       </A>{' '}
