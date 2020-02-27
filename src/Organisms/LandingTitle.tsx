@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
-import H from 'Atoms/H';
+import H from 'Atoms/Text/H';
 import Link from 'Atoms/Link/Link';
 import LandingLinks from 'Molecules/LandingLinks';
 

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
-import P from 'Atoms/P';
+import P from 'Atoms/Text/P';
 import A from 'Atoms/Link/A';
 
 const FooterStyled = styled.footer`
