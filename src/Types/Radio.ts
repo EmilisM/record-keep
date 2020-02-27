@@ -1,6 +1,4 @@
-interface RadioOptionType {
-  value: string;
+export interface RadioOptionType<T extends string> {
+  value: T;
   label: string;
 }
-
-export default RadioOptionType;

@@ -1,7 +1,7 @@
 import React, { ReactElement, ChangeEvent } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
-import RadioOptionType from 'Types/Radio';
+import { RadioOptionType } from 'Types/Radio';
 
 type Sizes = 'medium';
 const fontSizes: FontSizes<Sizes> = {
@@ -12,16 +12,19 @@ const fontSizes: FontSizes<Sizes> = {
   },
 };
 
-type Props = {
+type Props<T extends string> = StyledProps & {
   className?: string;
-  onChange?(e: ChangeEvent<HTMLInputElement>): void;
-  fontWeight?: keyof DefaultTheme['font']['fontWeight'];
-  fontSize?: Sizes;
+  onChange(e: ChangeEvent<HTMLInputElement>, value: RadioOptionType<T>): void;
+  name: string;
+  options: RadioOptionType<T>[];
+  value: RadioOptionType<T>;
+};
+
+type StyledProps = {
   color?: keyof DefaultTheme['colors']['text'];
   hoverColor?: keyof DefaultTheme['colors']['text'];
-  name: string;
-  options: RadioOptionType[];
-  value: string;
+  fontWeight?: keyof DefaultTheme['font']['fontWeight'];
+  fontSize?: Sizes;
 };
 
 const InputStyled = styled.input`
@@ -49,24 +52,7 @@ const LabelStyled = styled.label`
   align-items: center;
 `;
 
-const RadioBase = ({ className, onChange, name, options, value }: Props): ReactElement => (
-  <div className={className}>
-    {options.map((option, index) => (
-      <LabelStyled key={`${name}-${index}`}>
-        <InputStyled
-          type="radio"
-          name={name}
-          onChange={onChange}
-          value={option.value}
-          checked={option.value === value}
-        />
-        <SpanLabel>{option.label}</SpanLabel>
-      </LabelStyled>
-    ))}
-  </div>
-);
-
-const Radio = styled(RadioBase)`
+const Radio = styled.div<StyledProps>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => fontSizes[props.fontSize || 'medium'].desktop}px;
@@ -107,4 +93,27 @@ const Radio = styled(RadioBase)`
   }
 `;
 
-export default Radio;
+function RadioBase<T extends string>({
+  className,
+  onChange,
+  name,
+  options,
+  value,
+  fontWeight,
+  fontSize,
+  hoverColor,
+  color,
+}: Props<T>): ReactElement {
+  return (
+    <Radio className={className} fontWeight={fontWeight} fontSize={fontSize} hoverColor={hoverColor} color={color}>
+      {options.map((option, index) => (
+        <LabelStyled key={`${name}-${index}`}>
+          <InputStyled type="radio" name={name} onChange={e => onChange(e, option)} checked={option === value} />
+          <SpanLabel>{option.label}</SpanLabel>
+        </LabelStyled>
+      ))}
+    </Radio>
+  );
+}
+
+export default RadioBase;

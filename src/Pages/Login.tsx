@@ -1,33 +1,40 @@
 import React, { ReactElement, useState } from 'react';
 
 import RadioButton from 'Atoms/Radio';
-import RadioButtonOptionType from 'Types/Radio';
 import LoginForm from 'Molecules/LoginForm';
 import styled from 'styled-components/macro';
-import { LoginFormType } from 'Types/Login';
+import { RadioOptionType } from 'Types/Radio';
 
 const LoginFormStyled = styled(LoginForm)`
   margin-top: 20px;
 `;
 
-const options: RadioButtonOptionType[] = [
-  { value: 'login', label: 'Log in' },
-  { value: 'signup', label: 'Sign up' },
+type LoginFormType = 'login' | 'signup';
+
+export const loginFormOptions: RadioOptionType<LoginFormType>[] = [
+  {
+    value: 'login',
+    label: 'Log in',
+  },
+  {
+    value: 'signup',
+    label: 'Sign up',
+  },
 ];
 
 const Login = (): ReactElement => {
-  const [activeForm, setActiveForm] = useState<LoginFormType>('login');
+  const [activeForm, setActiveForm] = useState<RadioOptionType<LoginFormType>>(loginFormOptions[0]);
 
   return (
     <>
-      <RadioButton
-        options={options}
+      <RadioButton<LoginFormType>
+        options={loginFormOptions}
         name="login-switcher"
         fontWeight="light"
         value={activeForm}
-        onChange={e => setActiveForm(e.target.value as LoginFormType)}
+        onChange={(e, value) => setActiveForm(value)}
       />
-      <LoginFormStyled type={activeForm} />
+      <LoginFormStyled type={activeForm.value} />
     </>
   );
 };
