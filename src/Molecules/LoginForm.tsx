@@ -5,14 +5,28 @@ import InputLabel from 'Atoms/Input/InputLabel';
 import Button from 'Atoms/Button';
 import LoginCard from 'Atoms/LoginCard';
 import { LoginFormType } from 'Types/Login';
+import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 
-const InputContainer = styled.div`
+type StyledProps = {
+  type?: LoginFormType;
+};
+
+const BaseInputContainer = styled.div`
   display: flex;
   flex-direction: column;
+`;
 
-  &:not(:first-child) {
-    margin-top: 20px;
-  }
+const MiddleInputContainer = styled(BaseInputContainer)`
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+
+const AnimatedInputContainer = styled(BaseInputContainer)<StyledProps>`
+  transition: all 0.2s ease;
+  overflow: hidden;
+
+  max-height: ${props => (props.type === 'signup' ? '100px' : '0px')};
+  margin-bottom: ${props => (props.type === 'signup' ? '20px' : '0px')};
 `;
 
 const InputLabelStyled = styled(InputLabel)`
@@ -21,8 +35,16 @@ const InputLabelStyled = styled(InputLabel)`
 
 const ButtonStyled = styled(Button)`
   width: 100%;
-  margin-top: 20px;
   text-align: left;
+  display: flex;
+`;
+
+const ArrowStyled = styled(Arrow)`
+  height: 25px;
+  width: 25px;
+
+  margin: 0 0 0 auto;
+  fill: ${props => props.theme.colors.text.primaryDark};
 `;
 
 type Props = {
@@ -30,30 +52,33 @@ type Props = {
   type: LoginFormType;
 };
 
-const LoginForm = ({ className, type }: Props): ReactElement => (
-  <LoginCard className={className}>
-    <InputContainer>
-      <InputLabelStyled fontWeight="regular" htmlFor="form-email">
-        Email
-      </InputLabelStyled>
-      <Input fontWeight="light" type="email" placeholder="Email" id="form-email" />
-    </InputContainer>
-    <InputContainer>
-      <InputLabelStyled fontWeight="regular" htmlFor="form-password">
-        Password
-      </InputLabelStyled>
-      <Input fontWeight="light" type="password" placeholder="Password" id="form-password" />
-    </InputContainer>
-    {type === 'signup' && (
-      <InputContainer>
+const LoginForm = ({ className, type }: Props): ReactElement => {
+  return (
+    <LoginCard className={className}>
+      <BaseInputContainer>
+        <InputLabelStyled fontWeight="regular" htmlFor="form-email">
+          Email
+        </InputLabelStyled>
+        <Input fontWeight="light" type="email" placeholder="Email" id="form-email" />
+      </BaseInputContainer>
+      <MiddleInputContainer>
+        <InputLabelStyled fontWeight="regular" htmlFor="form-password">
+          Password
+        </InputLabelStyled>
+        <Input fontWeight="light" type="password" placeholder="Password" id="form-password" />
+      </MiddleInputContainer>
+      <AnimatedInputContainer type={type}>
         <InputLabelStyled fontWeight="regular" htmlFor="form-repeat-password">
           Repeat password
         </InputLabelStyled>
         <Input fontWeight="light" type="password" placeholder="Password" id="form-repeat-password" />
-      </InputContainer>
-    )}
-    <ButtonStyled fontWeight="light">{type === 'login' ? 'Log in' : 'Sign up'}</ButtonStyled>
-  </LoginCard>
-);
+      </AnimatedInputContainer>
+      <ButtonStyled fontWeight="light">
+        {type === 'login' ? 'Log in' : 'Sign up'}
+        <ArrowStyled />
+      </ButtonStyled>
+    </LoginCard>
+  );
+};
 
 export default LoginForm;
