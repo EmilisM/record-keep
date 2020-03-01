@@ -6,7 +6,11 @@ import Link from 'Atoms/Link/Link';
 import LandingLinks from 'Molecules/LandingLinks';
 
 const TitleStyled = styled.div`
-  padding: 8% 10% 10px;
+  padding: 6% 10% 20px;
+
+  @media ${props => props.theme.responsive.mobile} {
+    padding: 3% 5% 20px;
+  }
 `;
 
 const HeadingFirstStyled = styled(H)`
@@ -35,7 +39,7 @@ const LandingTitle = (): ReactElement => (
       <LinkStyled to="Home">Record Keep</LinkStyled>
     </HeadingFirstStyled>
     <HeadingSecondStyled fontWeight="regular" fontSize="big" level="2">
-      An online music collection for avid listeners.
+      An online music collection for enthusiasts.
     </HeadingSecondStyled>
     <LandingLinks />
   </TitleStyled>

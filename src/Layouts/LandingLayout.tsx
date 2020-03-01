@@ -39,6 +39,10 @@ const Content = styled.main`
   align-items: flex-start;
   flex-direction: column;
   padding: 0 10% 20px;
+
+  @media ${props => props.theme.responsive.mobile} {
+    padding: 0 5% 20px;
+  }
 `;
 
 const FooterStyled = styled(Footer)`
@@ -52,6 +56,10 @@ const FooterStyled = styled(Footer)`
       ${props => props.theme.colors.background.secondaryDarkestLighter} 100%
     )
     1 0 0 / 2px;
+
+  @media ${props => props.theme.responsive.mobile} {
+    padding: 10px 6%;
+  }
 `;
 
 type Props = RouteProps & {

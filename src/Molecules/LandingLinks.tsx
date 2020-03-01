@@ -4,8 +4,6 @@ import styled from 'styled-components/macro';
 import NavLink from 'Atoms/Link/NavLink';
 
 const HomeLinksContainer = styled.nav`
-  padding: 10px 0px;
-
   display: flex;
   flex-direction: row;
 `;
