@@ -46,7 +46,7 @@ const Content = styled.main`
 `;
 
 const FooterStyled = styled(Footer)`
-  padding: 10px 10%;
+  padding: 14px 10%;
 
   border-image: linear-gradient(
       110deg,

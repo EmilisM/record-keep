@@ -6,6 +6,8 @@ import Button from 'Atoms/Button';
 import LoginCard from 'Atoms/LoginCard';
 import { LoginFormType } from 'Types/Login';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
+import { useHistory } from 'react-router-dom';
+import RouteConfig from 'Routes/RouteConfig';
 
 type StyledProps = {
   type?: LoginFormType;
@@ -53,6 +55,8 @@ type Props = {
 };
 
 const LoginForm = ({ className, type }: Props): ReactElement => {
+  const { push } = useHistory();
+
   return (
     <LoginCard className={className}>
       <BaseInputContainer>
@@ -73,7 +77,7 @@ const LoginForm = ({ className, type }: Props): ReactElement => {
         </InputLabelStyled>
         <Input fontWeight="light" type="password" placeholder="Password" id="form-repeat-password" />
       </AnimatedInputContainer>
-      <ButtonStyled fontWeight="light">
+      <ButtonStyled fontWeight="light" onClick={() => push(RouteConfig.Dashboard)}>
         {type === 'login' ? 'Log in' : 'Sign up'}
         <ArrowStyled />
       </ButtonStyled>
