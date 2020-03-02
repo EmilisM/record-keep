@@ -29,8 +29,8 @@ const theme: DefaultTheme = {
     fontWeight: {
       light: '300',
       regular: '400',
-      bold: '600',
-      semiBold: '700',
+      semiBold: '600',
+      bold: '700',
     },
   },
   responsive: {
