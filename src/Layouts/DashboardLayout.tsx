@@ -18,8 +18,6 @@ const Content = styled.main`
   width: 100%;
 `;
 
-const DashboardMenuStyled = styled(DashboardMenu)``;
-
 const DashboardLayout = ({ component: Component, ...rest }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
 

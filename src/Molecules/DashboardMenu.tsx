@@ -14,7 +14,7 @@ const DashboardMenuStyled = styled.div<Props>`
   height: 100%;
   width: 100%;
   max-width: ${props => (props.isOpen ? '300' : '50')}px;
-  padding: ${props => (props.isOpen ? '20px' : '20px 10px 20px')};
+  padding: ${props => (props.isOpen ? '20px' : '20px 10px')};
   ${props => !props.isOpen && 'cursor: pointer;'}
 
   background-image: linear-gradient(
@@ -30,11 +30,13 @@ const DashboardMenuStyled = styled.div<Props>`
   border-color: ${props => props.theme.colors.border.primary};
   overflow: hidden;
 
-  display: none;
-  @media ${props => props.theme.responsive.desktop} {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+
+  @media ${props => props.theme.responsive.mobile} {
+    display: none;
   }
+
   transition: all 0.3s ease;
 `;
 
@@ -49,6 +51,11 @@ const TitleContainer = styled.div`
 
   align-items: center;
   justify-content: space-between;
+
+  border: solid ${props => props.theme.colors.border.primary};
+  border-width: 0 0 1px 0;
+
+  padding-bottom: 10px;
 `;
 
 const ArrowStyled = styled(Arrow)`
@@ -71,19 +78,14 @@ const IconContainer = styled.div<Props>`
 `;
 
 const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
-  <DashboardMenuStyled
-    className={className}
-    isOpen={isOpen}
-    onClick={!isOpen ? onClick : undefined}
-    role="presentation"
-  >
+  <DashboardMenuStyled className={className} isOpen={isOpen} role="presentation">
     <TitleContainer>
       {isOpen && (
         <HStyled fontWeight="semiBold" fontSize="medium" level="1">
           Record Keep
         </HStyled>
       )}
-      <IconContainer onClick={isOpen ? onClick : undefined} isOpen={isOpen}>
+      <IconContainer onClick={onClick} isOpen={isOpen}>
         <ArrowStyled />
       </IconContainer>
     </TitleContainer>

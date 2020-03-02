@@ -6,8 +6,8 @@ type Sizes = 'medium' | 'big' | 'veryBig';
 const fontSizes: FontSizes<Sizes> = {
   medium: {
     desktop: 40,
-    tablet: 20,
-    mobile: 20,
+    tablet: 40,
+    mobile: 40,
   },
   big: {
     desktop: 60,
