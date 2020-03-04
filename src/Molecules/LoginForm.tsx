@@ -7,7 +7,7 @@ import LoginCard from 'Atoms/LoginCard';
 import { LoginFormType } from 'Types/Login';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import { useHistory } from 'react-router-dom';
-import RouteConfig from 'Routes/RouteConfig';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 type StyledProps = {
   type?: LoginFormType;

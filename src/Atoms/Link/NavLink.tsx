@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { NavLink as NavLinkRouter, useLocation } from 'react-router-dom';
 
-import RouteConfig from 'Routes/RouteConfig';
+import { RouteConfig, RouteConfigType } from 'Routes/RouteConfig';
 import { FontSizes } from 'Types/Style';
 
 type Sizes = 'medium';
@@ -19,11 +19,11 @@ type Props = {
   fontSize?: Sizes;
   color?: keyof DefaultTheme['colors']['text'];
   hoverColor?: keyof DefaultTheme['colors']['text'];
-  children: ReactNode;
   className?: string;
-  to: keyof typeof RouteConfig;
   activeClassName?: string;
   onClick?(): void;
+  children: ReactNode;
+  to: RouteConfigType;
 };
 
 const NavLinkBase = ({

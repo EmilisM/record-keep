@@ -3,6 +3,8 @@ import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
 
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
+import { ReactComponent as Home } from 'Assets/Home.svg';
+import DashboardMenuItem from './DashboardMenuItem';
 
 type Props = {
   className?: string;
@@ -10,11 +12,26 @@ type Props = {
   onClick?(): void;
 };
 
+const TitleContainer = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const MenuItemContainer = styled.div`
+  margin-top: 50px;
+
+  transition: all 0.3s ease;
+`;
+
 const DashboardMenuStyled = styled.div<Props>`
   height: 100%;
   width: 100%;
   max-width: ${props => (props.isOpen ? '300' : '50')}px;
-  padding: ${props => (props.isOpen ? '20px' : '20px 10px')};
+  padding: ${props => (props.isOpen ? '20px 20px' : '20px 10px')};
   ${props => !props.isOpen && 'cursor: pointer;'}
 
   background-image: linear-gradient(
@@ -37,25 +54,11 @@ const DashboardMenuStyled = styled.div<Props>`
     display: none;
   }
 
-  transition: all 0.3s ease;
+  transition: all 0.3s ease;F
 `;
 
 const HStyled = styled(H)`
   white-space: nowrap;
-`;
-
-const TitleContainer = styled.div`
-  width: 100%;
-  height: 50px;
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  border: solid ${props => props.theme.colors.border.primary};
-  border-width: 0 0 1px 0;
-
-  padding-bottom: 10px;
 `;
 
 const ArrowStyled = styled(Arrow)`
@@ -89,6 +92,11 @@ const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
         <ArrowStyled />
       </IconContainer>
     </TitleContainer>
+    <MenuItemContainer>
+      <DashboardMenuItem to="Dashboard" Icon={Home}>
+        Home
+      </DashboardMenuItem>
+    </MenuItemContainer>
   </DashboardMenuStyled>
 );
 

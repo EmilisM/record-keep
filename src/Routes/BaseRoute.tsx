@@ -6,7 +6,7 @@ import Home from 'Pages/Home';
 import Login from 'Pages/Login';
 import LandingLayout from 'Layouts/LandingLayout';
 import About from 'Pages/About';
-import RouteConfig from './RouteConfig';
+import { RouteConfig } from './RouteConfig';
 import DashboardRoute from './DashboardRoute';
 
 const BaseRoute: FC = () => (

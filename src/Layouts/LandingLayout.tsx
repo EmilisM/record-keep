@@ -4,7 +4,7 @@ import { Route, RouteProps, RouteComponentProps, useLocation } from 'react-route
 
 import Footer from 'Molecules/Footer';
 import LandingTitle from 'Organisms/LandingTitle';
-import RouteConfig from 'Routes/RouteConfig';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 type StyledProps = {
   backgroundPosition: string;

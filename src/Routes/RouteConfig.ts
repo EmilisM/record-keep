@@ -1,11 +1,9 @@
-import { RouteConfigType } from 'Types/Route';
+export type RouteConfigType = 'Root' | 'Home' | 'Login' | 'Dashboard' | 'About';
 
-const RouteConfig: RouteConfigType = {
+export const RouteConfig: Record<RouteConfigType, string> = {
   Root: '/',
   Home: '/home',
   Login: '/login',
   Dashboard: '/dashboard',
   About: '/about',
 };
-
-export default RouteConfig;
