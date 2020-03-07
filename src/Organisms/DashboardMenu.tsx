@@ -1,16 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, FC } from 'react';
 import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
 
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import { ReactComponent as Home } from 'Assets/Home.svg';
-import DashboardMenuItem from './DashboardMenuItem';
-
-type Props = {
-  className?: string;
-  isOpen: boolean;
-  onClick?(): void;
-};
+import DashboardMenuItem from 'Molecules/DashboardMenuLink';
+import { DashboardRouteType } from 'Routes/RouteConfig';
 
 const TitleContainer = styled.div`
   width: 100%;
@@ -23,8 +18,6 @@ const TitleContainer = styled.div`
 
 const MenuItemContainer = styled.div`
   margin-top: 50px;
-
-  transition: all 0.3s ease;
 `;
 
 const DashboardMenuStyled = styled.div<Props>`
@@ -54,7 +47,7 @@ const DashboardMenuStyled = styled.div<Props>`
     display: none;
   }
 
-  transition: all 0.3s ease;F
+  transition: all 0.3s ease;
 `;
 
 const HStyled = styled(H)`
@@ -80,6 +73,42 @@ const IconContainer = styled.div<Props>`
   }
 `;
 
+const DashboardMenuItemStyled = styled(DashboardMenuItem)`
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
+`;
+
+type Props = {
+  className?: string;
+  isOpen: boolean;
+  onClick?(): void;
+};
+
+type DashboardMenuItem = {
+  label: string;
+  icon: FC;
+  to: DashboardRouteType;
+};
+
+const dashboardMenuItems: DashboardMenuItem[] = [
+  {
+    label: 'Home',
+    icon: Home,
+    to: 'DashboardHome',
+  },
+  {
+    label: 'Collections',
+    icon: Home,
+    to: 'DashboardCollections',
+  },
+  {
+    label: 'Analysis',
+    icon: Home,
+    to: 'DashboardAnalysis',
+  },
+];
+
 const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
   <DashboardMenuStyled className={className} isOpen={isOpen} role="presentation">
     <TitleContainer>
@@ -93,9 +122,11 @@ const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
       </IconContainer>
     </TitleContainer>
     <MenuItemContainer>
-      <DashboardMenuItem to="Dashboard" Icon={Home}>
-        Home
-      </DashboardMenuItem>
+      {dashboardMenuItems.map(item => (
+        <DashboardMenuItemStyled key={item.label} to={item.to} Icon={item.icon}>
+          {item.label}
+        </DashboardMenuItemStyled>
+      ))}
     </MenuItemContainer>
   </DashboardMenuStyled>
 );

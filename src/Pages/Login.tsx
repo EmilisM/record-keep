@@ -11,7 +11,7 @@ const LoginFormStyled = styled(LoginForm)`
 
 type LoginFormType = 'login' | 'signup';
 
-export const loginFormOptions: RadioOptionType<LoginFormType>[] = [
+const loginFormOptions: RadioOptionType<LoginFormType>[] = [
   {
     value: 'login',
     label: 'Log in',

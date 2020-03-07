@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styled, { DefaultTheme } from 'styled-components/macro';
 
-import { RouteConfig, RouteConfigType } from 'Routes/RouteConfig';
+import { RouteConfig, RouteType } from 'Routes/RouteConfig';
 
 type Props = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
@@ -10,7 +10,7 @@ type Props = {
   color?: keyof DefaultTheme['colors']['text'];
   children: ReactNode;
   className?: string;
-  to: RouteConfigType;
+  to: RouteType;
 };
 
 const LinkBase = ({ children, className, to }: Props): ReactElement => (

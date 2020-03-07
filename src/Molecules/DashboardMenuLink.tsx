@@ -1,11 +1,11 @@
 import React, { ReactElement, ReactNode, FC } from 'react';
 import NavLink from 'Atoms/Link/NavLink';
-import { RouteConfigType } from 'Routes/RouteConfig';
+import { DashboardRouteType } from 'Routes/RouteConfig';
 import styled from 'styled-components/macro';
 
 type Props = {
   className?: string;
-  to: RouteConfigType;
+  to: DashboardRouteType;
   children: ReactNode;
   Icon: FC;
 };
@@ -35,7 +35,7 @@ const TitleContainer = styled.div`
   margin-left: 10px;
 `;
 
-const DashboardMenuItem = ({ className, to, children, Icon }: Props): ReactElement => (
+const DashboardMenuLink = ({ className, to, children, Icon }: Props): ReactElement => (
   <NavLinkStyled className={className} to={to}>
     <IconContainer>
       <Icon />
@@ -44,4 +44,4 @@ const DashboardMenuItem = ({ className, to, children, Icon }: Props): ReactEleme
   </NavLinkStyled>
 );
 
-export default DashboardMenuItem;
+export default DashboardMenuLink;

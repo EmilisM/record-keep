@@ -1,7 +1,7 @@
 import React, { ReactElement, FC, useState } from 'react';
 import { Route, RouteProps, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import DashboardMenu from 'Molecules/DashboardMenu';
+import DashboardMenu from 'Organisms/DashboardMenu';
 
 type Props = RouteProps & {
   component: FC<RouteComponentProps>;
