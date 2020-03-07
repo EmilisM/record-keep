@@ -23,9 +23,13 @@ const NavLinkStyled = styled(NavLink).attrs({
 `;
 
 const IconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   svg {
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
 
     fill: ${props => props.theme.colors.text.primaryLight};
   }

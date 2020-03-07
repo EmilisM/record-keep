@@ -4,6 +4,8 @@ import H from 'Atoms/Text/H';
 
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import { ReactComponent as Home } from 'Assets/Home.svg';
+import { ReactComponent as Collections } from 'Assets/Collections.svg';
+import { ReactComponent as Analysis } from 'Assets/Analysis.svg';
 import DashboardMenuItem from 'Molecules/DashboardMenuLink';
 import { DashboardRouteType } from 'Routes/RouteConfig';
 
@@ -23,7 +25,7 @@ const MenuItemContainer = styled.div`
 const DashboardMenuStyled = styled.div<Props>`
   height: 100%;
   width: 100%;
-  max-width: ${props => (props.isOpen ? '300' : '50')}px;
+  max-width: ${props => (props.isOpen ? '300' : '60')}px;
   padding: ${props => (props.isOpen ? '20px 20px' : '20px 10px')};
   ${props => !props.isOpen && 'cursor: pointer;'}
 
@@ -99,12 +101,12 @@ const dashboardMenuItems: DashboardMenuItem[] = [
   },
   {
     label: 'Collections',
-    icon: Home,
+    icon: Collections,
     to: 'DashboardCollections',
   },
   {
     label: 'Analysis',
-    icon: Home,
+    icon: Analysis,
     to: 'DashboardAnalysis',
   },
 ];
