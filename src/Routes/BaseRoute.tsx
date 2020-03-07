@@ -15,7 +15,7 @@ const BaseRoute: FC = () => (
     <LandingLayout exact path={RouteConfig.Home} component={Home} />
     <LandingLayout exact path={RouteConfig.Login} component={Login} />
     <LandingLayout exact path={RouteConfig.About} component={About} />
-    <Route path={RouteConfig.DashboardHome} component={DashboardRoute} />
+    <Route path={RouteConfig.Dashboard} component={DashboardRoute} />
     <Route component={NotFound} />
   </Switch>
 );
