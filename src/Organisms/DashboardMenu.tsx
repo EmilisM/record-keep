@@ -1,33 +1,18 @@
 import React, { ReactElement, FC } from 'react';
 import styled from 'styled-components/macro';
-import H from 'Atoms/Text/H';
 
-import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import { ReactComponent as Home } from 'Assets/Home.svg';
 import { ReactComponent as Collections } from 'Assets/Collections.svg';
 import { ReactComponent as Analysis } from 'Assets/Analysis.svg';
-import DashboardMenuItem from 'Molecules/DashboardMenuLink';
 import { DashboardRouteType } from 'Routes/RouteConfig';
 
-const TitleContainer = styled.div`
-  width: 100%;
-  height: 50px;
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const MenuItemContainer = styled.div`
-  margin-top: 50px;
-`;
+import DashboardMenuLink from 'Molecules/Dashboard/DashboardMenuLink';
+import DashboardMenuTitle from 'Molecules/Dashboard/DashboardMenuTitle';
 
 const DashboardMenuStyled = styled.div<Props>`
   height: 100%;
   width: 100%;
   max-width: ${props => (props.isOpen ? '300' : '60')}px;
-  padding: ${props => (props.isOpen ? '20px 20px' : '20px 10px')};
-  ${props => !props.isOpen && 'cursor: pointer;'}
 
   background-image: linear-gradient(
     to bottom,
@@ -52,33 +37,34 @@ const DashboardMenuStyled = styled.div<Props>`
   transition: all 0.3s ease;
 `;
 
-const HStyled = styled(H)`
-  white-space: nowrap;
-`;
-
-const ArrowStyled = styled(Arrow)`
-  height: 30px;
-  width: auto;
-
-  fill: ${props => props.theme.colors.text.primaryLight};
+const MainContainer = styled.div<Props>`
+  padding: ${props => (props.isOpen ? '20px 20px' : '20px 10px')};
   transition: all 0.3s ease;
 `;
 
-const IconContainer = styled.div<Props>`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-  ${ArrowStyled} {
-    transform: rotateZ(${props => (props.isOpen ? '-180deg' : '0deg')});
-  }
+const MenuItemContainer = styled.div`
+  margin-top: 50px;
 `;
 
-const DashboardMenuItemStyled = styled(DashboardMenuItem)`
+const DashboardMenuLinkStyled = styled(DashboardMenuLink)`
   &:not(:first-child) {
     margin-top: 20px;
   }
+`;
+
+const BottomContainer = styled.div`
+  width: 100%;
+  height: 50px;
+  margin-top: auto;
+
+  border-image: linear-gradient(
+      110deg,
+      ${props => props.theme.colors.background.secondaryLighter} -10%,
+      ${props => props.theme.colors.background.secondaryDarkLighter} 10%,
+      ${props => props.theme.colors.background.secondaryDarkerLighter} 40%,
+      ${props => props.theme.colors.background.secondaryDarkestLighter} 100%
+    )
+    1 0 0 / 2px;
 `;
 
 type Props = {
@@ -113,23 +99,17 @@ const dashboardMenuItems: DashboardMenuItem[] = [
 
 const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
   <DashboardMenuStyled className={className} isOpen={isOpen} role="presentation">
-    <TitleContainer>
-      {isOpen && (
-        <HStyled fontWeight="semiBold" fontSize="medium" level="1">
-          Record Keep
-        </HStyled>
-      )}
-      <IconContainer onClick={onClick} isOpen={isOpen}>
-        <ArrowStyled />
-      </IconContainer>
-    </TitleContainer>
-    <MenuItemContainer>
-      {dashboardMenuItems.map(item => (
-        <DashboardMenuItemStyled key={item.label} to={item.to} Icon={item.icon}>
-          {item.label}
-        </DashboardMenuItemStyled>
-      ))}
-    </MenuItemContainer>
+    <MainContainer isOpen={isOpen}>
+      <DashboardMenuTitle isOpen={isOpen} onClick={onClick} />
+      <MenuItemContainer>
+        {dashboardMenuItems.map(item => (
+          <DashboardMenuLinkStyled key={item.label} to={item.to} Icon={item.icon}>
+            {item.label}
+          </DashboardMenuLinkStyled>
+        ))}
+      </MenuItemContainer>
+    </MainContainer>
+    <BottomContainer />
   </DashboardMenuStyled>
 );
 
