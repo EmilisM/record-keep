@@ -15,7 +15,7 @@ const DashboardMenuStyled = styled.div<Props>`
   max-width: ${props => (props.isOpen ? '300' : '60')}px;
 
   background-image: linear-gradient(
-    to bottom,
+    110deg,
     ${props => props.theme.colors.background.secondary} -10%,
     ${props => props.theme.colors.background.secondaryDark} 10%,
     ${props => props.theme.colors.background.secondaryDarker} 40%,
