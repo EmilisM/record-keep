@@ -32,6 +32,8 @@ const IconContainer = styled.div<Props>`
   justify-content: center;
   cursor: pointer;
 
+  width: 40px;
+
   ${ArrowStyled} {
     transform: rotateZ(${props => (props.isOpen ? '-180deg' : '0deg')});
   }
