@@ -32,7 +32,7 @@ const DashboardMenuStyled = styled.div<Props>`
   transition: all 0.3s ease;
 `;
 
-const MenuItemContainer = styled(DashboardMenuItems)`
+const DashboardMenuItemsStyled = styled(DashboardMenuItems)`
   margin-top: 50px;
 `;
 
@@ -60,7 +60,7 @@ type Props = {
 const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
   <DashboardMenuStyled className={className} isOpen={isOpen} role="presentation">
     <DashboardMenuTitle isOpen={isOpen} onClick={onClick} />
-    <MenuItemContainer />
+    <DashboardMenuItemsStyled />
     <BottomContainer />
   </DashboardMenuStyled>
 );
