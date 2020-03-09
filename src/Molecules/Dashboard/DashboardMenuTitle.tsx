@@ -2,14 +2,17 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
+
 import H from 'Atoms/Text/H';
 
-const TitleContainer = styled.div`
+const TitleContainer = styled.div<Props>`
   width: 100%;
   display: flex;
 
   align-items: center;
   justify-content: space-between;
+
+  padding: ${props => (props.isOpen ? '20px 20px' : '20px 10px')};
 `;
 
 const HStyled = styled(H)`
@@ -46,7 +49,7 @@ type Props = {
 };
 
 const DashboardMenuTitle = ({ className, isOpen, onClick }: Props): ReactElement => (
-  <TitleContainer className={className}>
+  <TitleContainer className={className} isOpen={isOpen}>
     {isOpen && (
       <HStyled fontWeight="semiBold" fontSize="medium" level="1">
         Record Keep

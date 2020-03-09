@@ -60,7 +60,7 @@ const NavLink = styled(NavLinkBase)`
   text-decoration: none;
   outline: none;
 
-  transition: 200ms opacity ease, 200ms color ease;
+  transition: all 200ms ease;
 
   &:active,
   &:hover,

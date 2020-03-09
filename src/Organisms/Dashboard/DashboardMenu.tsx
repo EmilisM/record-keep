@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
-import DashboardMenuLink from 'Molecules/Dashboard/DashboardMenuLink';
 import DashboardMenuTitle from 'Molecules/Dashboard/DashboardMenuTitle';
-import { dashboardMenuItems } from 'Types/Dashboard';
+import DashboardMenuItems from 'Organisms/Dashboard/DashboardMenuItems';
 
 const DashboardMenuStyled = styled.div<Props>`
   height: 100%;
@@ -33,19 +32,8 @@ const DashboardMenuStyled = styled.div<Props>`
   transition: all 0.3s ease;
 `;
 
-const MainContainer = styled.div<Props>`
-  padding: ${props => (props.isOpen ? '20px 20px' : '20px 10px')};
-  transition: all 0.3s ease;
-`;
-
-const MenuItemContainer = styled.div`
+const MenuItemContainer = styled(DashboardMenuItems)`
   margin-top: 50px;
-`;
-
-const DashboardMenuLinkStyled = styled(DashboardMenuLink)`
-  &:not(:first-child) {
-    margin-top: 20px;
-  }
 `;
 
 const BottomContainer = styled.div`
@@ -71,16 +59,8 @@ type Props = {
 
 const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
   <DashboardMenuStyled className={className} isOpen={isOpen} role="presentation">
-    <MainContainer isOpen={isOpen}>
-      <DashboardMenuTitle isOpen={isOpen} onClick={onClick} />
-      <MenuItemContainer>
-        {dashboardMenuItems.map(item => (
-          <DashboardMenuLinkStyled key={item.label} to={item.to} Icon={item.icon}>
-            {item.label}
-          </DashboardMenuLinkStyled>
-        ))}
-      </MenuItemContainer>
-    </MainContainer>
+    <DashboardMenuTitle isOpen={isOpen} onClick={onClick} />
+    <MenuItemContainer />
     <BottomContainer />
   </DashboardMenuStyled>
 );

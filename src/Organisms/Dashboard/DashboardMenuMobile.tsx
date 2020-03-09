@@ -5,7 +5,7 @@ import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 
 import H from 'Atoms/Text/H';
 import Link from 'Atoms/Link/Link';
-import MobileMenuItems from 'Molecules/MobileMenuItems';
+import DashboardMenuItems from 'Organisms/Dashboard/DashboardMenuItems';
 
 const ArrowStyled = styled(Arrow)`
   height: 34px;
@@ -18,12 +18,10 @@ const ArrowStyled = styled(Arrow)`
 
 const MobileMenuStyled = styled.div<Props>`
   width: 100%;
-  height: ${props => (props.isOpen ? '214px' : '54px')};
+  height: ${props => (props.isOpen ? '234px' : '54px')};
 
   position: sticky;
   top: 0;
-
-  padding: 10px;
 
   background-image: linear-gradient(
     110deg,
@@ -61,7 +59,8 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 34px;
+
+  padding: 10px;
 `;
 
 type Props = {
@@ -70,7 +69,7 @@ type Props = {
   onClick?(): void;
 };
 
-const MobileMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
+const DashboardMenuMobile = ({ className, isOpen, onClick }: Props): ReactElement => (
   <MobileMenuStyled isOpen={isOpen} className={className}>
     <HeaderContainer>
       <TitleStyled fontWeight="semiBold" fontSize="regular" level="1">
@@ -78,8 +77,8 @@ const MobileMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
       </TitleStyled>
       <ArrowStyled onClick={onClick} />
     </HeaderContainer>
-    <MobileMenuItems />
+    <DashboardMenuItems />
   </MobileMenuStyled>
 );
 
-export default MobileMenu;
+export default DashboardMenuMobile;

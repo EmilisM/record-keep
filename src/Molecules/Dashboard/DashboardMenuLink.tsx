@@ -18,9 +18,10 @@ const NavLinkStyled = styled(NavLink).attrs({
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 10px 15px;
 
-  .${props => props.activeClassName} {
-    opacity: 0.8;
+  &.${props => props.activeClassName} {
+    background-color: ${props => props.theme.colors.background.secondaryDarkest};
   }
 `;
 
@@ -30,15 +31,15 @@ const IconContainer = styled.div`
   align-items: center;
 
   svg {
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
 
     fill: ${props => props.theme.colors.text.primaryLight};
   }
 `;
 
 const TitleContainer = styled.div`
-  margin-left: 10px;
+  margin-left: 15px;
 `;
 
 const DashboardMenuLink = ({ className, to, children, Icon }: Props): ReactElement => (

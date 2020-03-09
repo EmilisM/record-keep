@@ -2,12 +2,11 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
 import { dashboardMenuItems } from 'Types/Dashboard';
-import DashboardMenuLink from './Dashboard/DashboardMenuLink';
+import DashboardMenuLink from 'Molecules/Dashboard/DashboardMenuLink';
 
 const MobileMenuItemContainer = styled.ul`
   overflow: hidden;
-  margin: 10px 0 0 0;
-
+  margin: 0;
   padding: 0;
 
   width: 100%;
@@ -27,7 +26,7 @@ const MobileMenuItem = styled.li`
 
 const DashboardMenuLinkStyled = styled(DashboardMenuLink)`
   width: 100%;
-  height: 50px;
+  padding: 15px;
 
   svg {
     width: 30px;
