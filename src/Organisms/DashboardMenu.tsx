@@ -1,13 +1,9 @@
-import React, { ReactElement, FC } from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
-
-import { ReactComponent as Home } from 'Assets/Home.svg';
-import { ReactComponent as Collections } from 'Assets/Collections.svg';
-import { ReactComponent as Analysis } from 'Assets/Analysis.svg';
-import { DashboardRouteType } from 'Routes/RouteConfig';
 
 import DashboardMenuLink from 'Molecules/Dashboard/DashboardMenuLink';
 import DashboardMenuTitle from 'Molecules/Dashboard/DashboardMenuTitle';
+import { dashboardMenuItems } from 'Types/Dashboard';
 
 const DashboardMenuStyled = styled.div<Props>`
   height: 100%;
@@ -72,30 +68,6 @@ type Props = {
   isOpen: boolean;
   onClick?(): void;
 };
-
-type DashboardMenuItem = {
-  label: string;
-  icon: FC;
-  to: DashboardRouteType;
-};
-
-const dashboardMenuItems: DashboardMenuItem[] = [
-  {
-    label: 'Home',
-    icon: Home,
-    to: 'DashboardHome',
-  },
-  {
-    label: 'Collections',
-    icon: Collections,
-    to: 'DashboardCollections',
-  },
-  {
-    label: 'Analysis',
-    icon: Analysis,
-    to: 'DashboardAnalysis',
-  },
-];
 
 const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
   <DashboardMenuStyled className={className} isOpen={isOpen} role="presentation">

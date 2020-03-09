@@ -42,7 +42,7 @@ const TitleContainer = styled.div`
 `;
 
 const DashboardMenuLink = ({ className, to, children, Icon }: Props): ReactElement => (
-  <NavLinkStyled className={className} to={to}>
+  <NavLinkStyled fontWeight="light" className={className} to={to}>
     <IconContainer>
       <Icon />
     </IconContainer>

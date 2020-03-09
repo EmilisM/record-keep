@@ -6,7 +6,6 @@ import H from 'Atoms/Text/H';
 
 const TitleContainer = styled.div`
   width: 100%;
-  height: 50px;
   display: flex;
 
   align-items: center;
@@ -15,6 +14,8 @@ const TitleContainer = styled.div`
 
 const HStyled = styled(H)`
   white-space: nowrap;
+
+  line-height: 30px;
 `;
 
 const ArrowStyled = styled(Arrow)`
@@ -26,12 +27,10 @@ const ArrowStyled = styled(Arrow)`
 `;
 
 const IconContainer = styled.div<Props>`
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  width: 100%;
 
   ${ArrowStyled} {
     transform: rotateZ(${props => (props.isOpen ? '-180deg' : '0deg')});

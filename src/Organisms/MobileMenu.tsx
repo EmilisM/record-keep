@@ -5,6 +5,7 @@ import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 
 import H from 'Atoms/Text/H';
 import Link from 'Atoms/Link/Link';
+import MobileMenuItems from 'Molecules/MobileMenuItems';
 
 const ArrowStyled = styled(Arrow)`
   height: 34px;
@@ -17,7 +18,7 @@ const ArrowStyled = styled(Arrow)`
 
 const MobileMenuStyled = styled.div<Props>`
   width: 100%;
-  height: ${props => (props.isOpen ? '200px' : '54px')};
+  height: ${props => (props.isOpen ? '214px' : '54px')};
 
   position: sticky;
   top: 0;
@@ -37,6 +38,7 @@ const MobileMenuStyled = styled.div<Props>`
     display: flex;
   }
 
+  flex-direction: column;
   align-items: flex-start;
 
   ${ArrowStyled} {
@@ -76,6 +78,7 @@ const MobileMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
       </TitleStyled>
       <ArrowStyled onClick={onClick} />
     </HeaderContainer>
+    <MobileMenuItems />
   </MobileMenuStyled>
 );
 
