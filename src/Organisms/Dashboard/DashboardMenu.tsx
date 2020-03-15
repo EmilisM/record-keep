@@ -10,14 +10,6 @@ const DashboardMenuStyled = styled.aside<Props>`
   width: 100%;
   max-width: ${props => (props.isOpen ? '300' : '60')}px;
 
-  background-image: linear-gradient(
-    110deg,
-    ${props => props.theme.colors.background.secondary} -10%,
-    ${props => props.theme.colors.background.secondaryDark} 10%,
-    ${props => props.theme.colors.background.secondaryDarker} 40%,
-    ${props => props.theme.colors.background.secondaryDarkest} 100%
-  );
-
   overflow: hidden;
 
   display: flex;

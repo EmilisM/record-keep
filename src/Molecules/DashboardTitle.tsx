@@ -12,14 +12,22 @@ const DashboardTitleStyled = styled.div`
 
   display: flex;
   align-items: center;
-  padding: 0 10px 10px;
+  padding: 20px;
+
+  @media ${props => props.theme.responsive.mobile} {
+    padding: 20px 10px;
+  }
+`;
+
+const HStyled = styled(H)`
+  line-height: 30px;
 `;
 
 const DashboardTitle = ({ className, children }: Props): ReactElement => (
   <DashboardTitleStyled className={className}>
-    <H fontSize="medium" level="1" color="primaryDark" fontWeight="bold">
+    <HStyled fontSize="medium" level="1" color="primaryLight" fontWeight="semiBold">
       {children}
-    </H>
+    </HStyled>
   </DashboardTitleStyled>
 );
 

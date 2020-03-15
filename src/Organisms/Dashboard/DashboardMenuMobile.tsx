@@ -23,14 +23,6 @@ const MobileMenuStyled = styled.div<Props>`
   position: sticky;
   top: 0;
 
-  background-image: linear-gradient(
-    110deg,
-    ${props => props.theme.colors.background.secondary} -10%,
-    ${props => props.theme.colors.background.secondaryDark} 10%,
-    ${props => props.theme.colors.background.secondaryDarker} 40%,
-    ${props => props.theme.colors.background.secondaryDarkest} 100%
-  );
-
   display: none;
   @media ${props => props.theme.responsive.mobile} {
     display: flex;
@@ -43,6 +35,15 @@ const MobileMenuStyled = styled.div<Props>`
     transform: rotateZ(${props => (props.isOpen ? '-90deg' : '90deg')});
   }
   transition: all 0.3s ease;
+
+  border-image: linear-gradient(
+      110deg,
+      ${props => props.theme.colors.background.secondaryLighter} -10%,
+      ${props => props.theme.colors.background.secondaryDarkLighter} 10%,
+      ${props => props.theme.colors.background.secondaryDarkerLighter} 40%,
+      ${props => props.theme.colors.background.secondaryDarkestLighter} 100%
+    )
+    0 0 1 0 / 2px;
 `;
 
 const TitleStyled = styled(H)`

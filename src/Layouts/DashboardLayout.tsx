@@ -20,10 +20,37 @@ const DashboardLayoutStyled = styled.div`
   @media ${props => props.theme.responsive.mobile} {
     flex-direction: column;
   }
+
+  background-image: linear-gradient(
+    110deg,
+    ${props => props.theme.colors.background.secondary} -10%,
+    ${props => props.theme.colors.background.secondaryDark} 10%,
+    ${props => props.theme.colors.background.secondaryDarker} 40%,
+    ${props => props.theme.colors.background.secondaryDarkest} 100%
+  );
 `;
 
 const Content = styled.main`
   width: 100%;
+  height: 100%;
+
+  background: ${props => props.theme.colors.background.primary};
+  border-radius: 4px 4px 0;
+
+  padding: 20px;
+
+  @media (${props => props.theme.responsive.mobile}) {
+    border-radius: 4px 4px 0 0;
+    padding: 10px;
+  }
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
 `;
 
 const DashboardLayout = ({ component: Component, title, ...rest }: Props): ReactElement => {
@@ -36,10 +63,12 @@ const DashboardLayout = ({ component: Component, title, ...rest }: Props): React
         <DashboardLayoutStyled>
           <DashboardMenu isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
           <DashboardMenuMobile isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
-          <Content>
+          <ContentContainer>
             <DashboardTitle>{title}</DashboardTitle>
-            <Component {...props} />
-          </Content>
+            <Content>
+              <Component {...props} />
+            </Content>
+          </ContentContainer>
         </DashboardLayoutStyled>
       )}
     />
