@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 
-import H from 'Atoms/Text/H';
+import P from 'Atoms/Text/P';
 
 const TitleContainer = styled.div<Props>`
   width: 100%;
@@ -12,10 +12,10 @@ const TitleContainer = styled.div<Props>`
   align-items: center;
   justify-content: space-between;
 
-  padding: ${props => (props.isOpen ? '20px 20px' : '20px 10px')};
+  padding: ${props => (props.isOpen ? '20px' : '20px 10px')};
 `;
 
-const HStyled = styled(H)`
+const PStyled = styled(P)`
   white-space: nowrap;
 
   line-height: 30px;
@@ -51,9 +51,9 @@ type Props = {
 const DashboardMenuTitle = ({ className, isOpen, onClick }: Props): ReactElement => (
   <TitleContainer className={className} isOpen={isOpen}>
     {isOpen && (
-      <HStyled fontWeight="semiBold" fontSize="medium" level="1">
+      <PStyled fontWeight="semiBold" fontSize="big">
         Record Keep
-      </HStyled>
+      </PStyled>
     )}
     <IconContainer onClick={onClick} isOpen={isOpen}>
       <ArrowStyled />

@@ -10,9 +10,9 @@ import Analysis from 'Pages/Dashboard/Analysis';
 const DashboardRoute: FC = () => (
   <Switch>
     <Redirect exact path={RouteConfig.Dashboard} to={RouteConfig.DashboardHome} />
-    <DashboardLayout exact path={RouteConfig.DashboardHome} component={Home} />
-    <DashboardLayout exact path={RouteConfig.DashboardCollections} component={Collections} />
-    <DashboardLayout exact path={RouteConfig.DashboardAnalysis} component={Analysis} />
+    <DashboardLayout exact path={RouteConfig.DashboardHome} title="Home" component={Home} />
+    <DashboardLayout exact path={RouteConfig.DashboardCollections} title="Collections" component={Collections} />
+    <DashboardLayout exact path={RouteConfig.DashboardAnalysis} title="Analysis" component={Analysis} />
   </Switch>
 );
 
