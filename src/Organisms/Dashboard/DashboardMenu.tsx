@@ -15,7 +15,7 @@ const DashboardMenuStyled = styled.aside<Props>`
   display: flex;
   flex-direction: column;
 
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     display: none;
   }
 

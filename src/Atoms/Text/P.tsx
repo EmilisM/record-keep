@@ -36,11 +36,12 @@ const P = styled.p<Props>`
   opacity: ${props => props.opacity || 1};
   margin: 0;
 
-  @media ${props => props.theme.responsive.tablet} {
+  @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
+  props.theme.breakpoints.desktop})) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].tablet}px;
   }
 
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile}px;
   }
 `;

@@ -17,7 +17,7 @@ const DashboardLayoutStyled = styled.div`
 
   flex: 1;
 
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     flex-direction: column;
   }
 
@@ -39,7 +39,7 @@ const Content = styled.main`
 
   padding: 20px;
 
-  @media (${props => props.theme.responsive.mobile}) {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     border-radius: 4px 4px 0 0;
     padding: 10px;
   }

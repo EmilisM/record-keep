@@ -24,7 +24,7 @@ const MobileMenuStyled = styled.div<Props>`
   top: 0;
 
   display: none;
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     display: flex;
   }
 

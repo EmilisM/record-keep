@@ -58,11 +58,12 @@ const Radio = styled.div<StyledProps>`
   font-size: ${props => fontSizes[props.fontSize || 'medium'].desktop}px;
   color: ${props => props.theme.colors.text[props.color || 'primaryLight']};
 
-  @media ${props => props.theme.responsive.tablet} {
+  @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
+  props.theme.breakpoints.desktop})) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].tablet};
   }
 
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile};
   }
 

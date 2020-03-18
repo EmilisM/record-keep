@@ -34,9 +34,8 @@ declare module 'styled-components' {
         bold: string;
       };
     };
-    responsive: {
+    breakpoints: {
       mobile: string;
-      tablet: string;
       desktop: string;
     };
   }

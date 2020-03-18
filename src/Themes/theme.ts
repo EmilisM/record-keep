@@ -33,10 +33,9 @@ const theme: DefaultTheme = {
       bold: '700',
     },
   },
-  responsive: {
-    mobile: '(max-width: 600px)',
-    tablet: '((min-width: 601px) and (max-width: 1025px))',
-    desktop: '(min-width: 1026px)',
+  breakpoints: {
+    mobile: '600px',
+    desktop: '1025px',
   },
 };
 

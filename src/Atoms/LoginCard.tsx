@@ -8,7 +8,7 @@ const LoginCard = styled.div`
   width: 100%;
   max-width: 400px;
 
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     max-width: 100%;
   }
 `;

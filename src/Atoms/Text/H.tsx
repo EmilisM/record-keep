@@ -50,11 +50,12 @@ const H = styled(HStyled)<StyledProps>`
   color: ${props => props.theme.colors.text[props.color || 'primaryLight']};
   margin: 0;
 
-  @media ${props => props.theme.responsive.tablet} {
+  @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
+  props.theme.breakpoints.desktop})) {
     font-size: ${props => fontSizes[props.fontSize || 'big'].tablet}px;
   }
 
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     font-size: ${props => fontSizes[props.fontSize || 'big'].mobile}px;
   }
 `;

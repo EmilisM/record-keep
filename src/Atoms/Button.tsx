@@ -40,11 +40,12 @@ const Button = styled(ButtonBase)`
   padding: 6px 10px;
   cursor: pointer;
 
-  @media ${props => props.theme.responsive.tablet} {
+  @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
+  props.theme.breakpoints.desktop})) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].tablet};
   }
 
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile};
   }
 `;

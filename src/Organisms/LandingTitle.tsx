@@ -8,7 +8,7 @@ import LandingLinks from 'Molecules/LandingLinks';
 const TitleStyled = styled.div`
   padding: 6% 10% 20px;
 
-  @media ${props => props.theme.responsive.mobile} {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     padding: 3% 5% 20px;
   }
 `;
