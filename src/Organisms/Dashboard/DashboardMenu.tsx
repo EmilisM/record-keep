@@ -9,6 +9,7 @@ const DashboardMenuStyled = styled.aside<Props>`
   height: 100%;
   width: 100%;
   max-width: ${props => (props.isOpen ? '300' : '60')}px;
+  min-width: 60px;
 
   overflow: hidden;
 

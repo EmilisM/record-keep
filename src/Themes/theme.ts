@@ -4,6 +4,8 @@ const theme: DefaultTheme = {
   colors: {
     background: {
       primary: '#F3F1F4',
+      primaryDarker: '#dfd8e2',
+      primaryLight: '#e7e2e9',
       secondary: '#9C7481',
       secondaryDark: '#43364A',
       secondaryDarker: '#2F3043',
@@ -20,6 +22,7 @@ const theme: DefaultTheme = {
     },
     border: {
       primary: '#F3F1F4',
+      cardShadow: '#8c8291',
     },
   },
   font: {
@@ -35,7 +38,7 @@ const theme: DefaultTheme = {
   },
   breakpoints: {
     mobile: '600px',
-    desktop: '1025px',
+    desktop: '1000px',
   },
 };
 

@@ -5,6 +5,8 @@ declare module 'styled-components' {
     colors: {
       background: {
         primary: string;
+        primaryDarker: string;
+        primaryLight: string;
         secondary: string;
         secondaryDark: string;
         secondaryDarker: string;
@@ -21,6 +23,7 @@ declare module 'styled-components' {
       };
       border: {
         primary: string;
+        cardShadow: string;
       };
     };
     font: {

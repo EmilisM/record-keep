@@ -6,15 +6,26 @@ const HomeContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
-  props.theme.breakpoints.desktop})) {
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     flex-direction: column;
   }
 `;
 
 const CardStyled = styled(Card)`
-  width: 47%;
+  width: 50%;
   height: 450px;
+
+  &:not(:first-child) {
+    margin-left: 20px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    width: 100%;
+
+    &:not(:first-child) {
+      margin-top: 20px;
+    }
+  }
 `;
 
 const Home = (): ReactElement => (

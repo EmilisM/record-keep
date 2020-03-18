@@ -34,7 +34,11 @@ const Content = styled.main`
   width: 100%;
   height: 100%;
 
-  background: ${props => props.theme.colors.background.primary};
+  background: linear-gradient(
+    135deg,
+    ${props => props.theme.colors.background.primaryLight},
+    ${props => props.theme.colors.background.primary}
+  );
   border-radius: 4px 4px 0;
 
   padding: 20px;
