@@ -2,9 +2,9 @@ import React, { ReactElement, FC, useState } from 'react';
 import { Route, RouteProps, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
-import DashboardTitle from 'Molecules/DashboardTitle';
 import DashboardMenu from 'Organisms/Dashboard/DashboardMenu';
 import DashboardMenuMobile from 'Organisms/Dashboard/DashboardMenuMobile';
+import DashboardHeader from 'Organisms/Dashboard/DashboardHeader';
 
 type Props = RouteProps & {
   component: FC<RouteComponentProps>;
@@ -68,7 +68,7 @@ const DashboardLayout = ({ component: Component, title, ...rest }: Props): React
           <DashboardMenu isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
           <DashboardMenuMobile isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
           <ContentContainer>
-            <DashboardTitle>{title}</DashboardTitle>
+            <DashboardHeader title={title} />
             <Content>
               <Component {...props} />
             </Content>

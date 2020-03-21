@@ -8,15 +8,8 @@ type Props = {
 };
 
 const DashboardTitleStyled = styled.div`
-  width: 100%;
-
   display: flex;
   align-items: center;
-  padding: 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    padding: 20px 10px;
-  }
 `;
 
 const HStyled = styled(H)`
