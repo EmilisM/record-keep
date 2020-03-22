@@ -17,7 +17,7 @@ const DashboardLayoutStyled = styled.div`
 
   flex: 1;
 
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     flex-direction: column;
   }
 
