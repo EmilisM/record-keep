@@ -20,6 +20,7 @@ declare module 'styled-components' {
         primaryLight: string;
         primaryLighter: string;
         primaryDark: string;
+        primaryDarker: string;
       };
       border: {
         primary: string;

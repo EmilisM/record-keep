@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import Card from 'Atoms/Card';
+import Card from 'Atoms/Card/Card';
 import styled from 'styled-components/macro';
 
 const HomeContainer = styled.div`
