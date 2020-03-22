@@ -11,6 +11,9 @@ const DashboardHeaderStyled = styled.div`
 
   padding: 15px;
 
+  height: 100%;
+  max-height: 70px;
+
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     padding: 15px 10px;
   }

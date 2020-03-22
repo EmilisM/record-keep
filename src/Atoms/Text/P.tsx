@@ -1,7 +1,7 @@
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'small' | 'medium' | 'big';
+type Sizes = 'small' | 'medium' | 'regular' | 'big';
 const fontSizes: FontSizes<Sizes> = {
   small: {
     desktop: 16,
@@ -11,6 +11,11 @@ const fontSizes: FontSizes<Sizes> = {
   medium: {
     desktop: 22,
     tablet: 21,
+    mobile: 20,
+  },
+  regular: {
+    desktop: 20,
+    tablet: 20,
     mobile: 20,
   },
   big: {
