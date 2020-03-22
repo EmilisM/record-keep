@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 
 import { dashboardMenuItems } from 'Types/Dashboard';
 import DashboardMenuLink from 'Molecules/Dashboard/DashboardMenuLink';
+import { ReactComponent as Logout } from 'Assets/Logout.svg';
 
 const MobileMenuItemContainer = styled.ul`
   overflow: hidden;
@@ -11,10 +12,13 @@ const MobileMenuItemContainer = styled.ul`
 
   width: 100%;
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const MobileMenuItem = styled.li`
-  min-height: 50px;
+  min-height: 60px;
 
   display: flex;
   justify-content: start;
@@ -24,9 +28,15 @@ const MobileMenuItem = styled.li`
   color: ${props => props.theme.colors.text.primaryLight};
 `;
 
+const MobileMenuItemLogout = styled(MobileMenuItem)`
+  margin-top: auto;
+`;
+
 const DashboardMenuLinkStyled = styled(DashboardMenuLink)`
   width: 100%;
   padding: 15px;
+
+  white-space: nowrap;
 
   svg {
     width: 30px;
@@ -47,6 +57,11 @@ const MobileMenuItems = ({ className }: Props): ReactElement => (
         </DashboardMenuLinkStyled>
       </MobileMenuItem>
     ))}
+    <MobileMenuItemLogout>
+      <DashboardMenuLinkStyled Icon={Logout} to="Logout">
+        Log out
+      </DashboardMenuLinkStyled>
+    </MobileMenuItemLogout>
   </MobileMenuItemContainer>
 );
 

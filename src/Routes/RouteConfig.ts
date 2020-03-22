@@ -1,6 +1,6 @@
 export type DashboardRouteType = 'Dashboard' | 'DashboardHome' | 'DashboardCollections' | 'DashboardAnalysis';
 
-export type RouteType = 'Root' | 'Home' | 'Login' | 'About' | DashboardRouteType;
+export type RouteType = 'Root' | 'Home' | 'Login' | 'About' | 'Logout' | DashboardRouteType;
 
 export const DashboardRouteConfig: Record<DashboardRouteType, string> = {
   DashboardHome: '/dashboard/home',
@@ -14,5 +14,6 @@ export const RouteConfig: Record<RouteType, string> = {
   Home: '/home',
   Login: '/login',
   About: '/about',
+  Logout: '/logout',
   ...DashboardRouteConfig,
 };

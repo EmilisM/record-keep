@@ -7,7 +7,7 @@ import NavLink from 'Atoms/Link/NavLink';
 
 type Props = {
   className?: string;
-  to: DashboardRouteType;
+  to: DashboardRouteType | 'Logout';
   children: ReactNode;
   Icon: FC;
 };

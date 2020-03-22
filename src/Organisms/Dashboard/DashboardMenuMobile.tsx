@@ -18,7 +18,7 @@ const ArrowStyled = styled(Arrow)`
 
 const MobileMenuStyled = styled.div<Props>`
   width: 100%;
-  height: ${props => (props.isOpen ? '234px' : '54px')};
+  height: ${props => (props.isOpen ? '294px' : '54px')};
 
   position: sticky;
   top: 0;
