@@ -4,8 +4,7 @@ import styled from 'styled-components/macro';
 import SelectMenu from 'Atoms/Select/SelectMenu';
 import SelectControl from 'Atoms/Select/SelectControl';
 import { useHistory } from 'react-router-dom';
-
-import { DashboardRouteConfig } from 'Routes/RouteConfig';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 type Props = {
   className?: string;
@@ -30,15 +29,15 @@ type SearchSelectOption = {
 
 const options: SearchSelectOption[] = [
   {
-    value: DashboardRouteConfig.DashboardHome,
+    value: RouteConfig.Dashboard.Home,
     label: 'Home',
   },
   {
-    value: DashboardRouteConfig.DashboardCollections,
+    value: RouteConfig.Dashboard.Collections.Root,
     label: 'Collections',
   },
   {
-    value: DashboardRouteConfig.DashboardAnalysis,
+    value: RouteConfig.Dashboard.Analysis,
     label: 'Analysis',
   },
 ];

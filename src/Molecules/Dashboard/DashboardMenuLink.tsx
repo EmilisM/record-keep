@@ -1,13 +1,11 @@
 import React, { ReactElement, ReactNode, FC } from 'react';
 import styled from 'styled-components/macro';
 
-import { DashboardRouteType } from 'Routes/RouteConfig';
-
 import NavLink from 'Atoms/Link/NavLink';
 
 type Props = {
   className?: string;
-  to: DashboardRouteType | 'Logout';
+  to: string;
   children: ReactNode;
   Icon: FC;
 };

@@ -6,15 +6,14 @@ import DashboardMenu from 'Organisms/Dashboard/DashboardMenu';
 import DashboardMenuMobile from 'Organisms/Dashboard/DashboardMenuMobile';
 import DashboardHeader from 'Organisms/Dashboard/DashboardHeader';
 
-type Props = RouteProps & {
-  component: FC<RouteComponentProps>;
+type Props<T> = RouteProps & {
+  component: FC<RouteComponentProps<T>>;
   title: string;
 };
 
 const DashboardLayoutStyled = styled.div`
   display: flex;
   flex-direction: row;
-
   flex: 1;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
@@ -65,10 +64,14 @@ const ContentContainer = styled.div<StyledProps>`
   height: 100%;
 
   margin-left: ${props => (props.isOpen ? '300px' : '60px')};
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    margin-left: 0;
+  }
+
   transition: all 300ms ease;
 `;
 
-const DashboardLayout = ({ component: Component, title, ...rest }: Props): ReactElement => {
+function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -88,6 +91,6 @@ const DashboardLayout = ({ component: Component, title, ...rest }: Props): React
       )}
     />
   );
-};
+}
 
 export default DashboardLayout;

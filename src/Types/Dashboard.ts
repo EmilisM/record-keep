@@ -1,4 +1,4 @@
-import { DashboardRouteType } from 'Routes/RouteConfig';
+import { RouteConfig } from 'Routes/RouteConfig';
 import { FC } from 'react';
 
 import { ReactComponent as Home } from 'Assets/Home.svg';
@@ -8,23 +8,23 @@ import { ReactComponent as Analysis } from 'Assets/Analysis.svg';
 export type DashboardMenuItem = {
   label: string;
   icon: FC;
-  to: DashboardRouteType;
+  to: string;
 };
 
 export const dashboardMenuItems: DashboardMenuItem[] = [
   {
     label: 'Home',
     icon: Home,
-    to: 'DashboardHome',
+    to: RouteConfig.Dashboard.Home,
   },
   {
     label: 'Collections',
     icon: Collections,
-    to: 'DashboardCollections',
+    to: RouteConfig.Dashboard.Collections.Root,
   },
   {
     label: 'Analysis',
     icon: Analysis,
-    to: 'DashboardAnalysis',
+    to: RouteConfig.Dashboard.Analysis,
   },
 ];

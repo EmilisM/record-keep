@@ -57,19 +57,15 @@ const Collections = (): ReactElement => (
       <CollectionsActionCardStyled />
     </FirstRow>
     <SecondRow>
-      <CollectionItemStyled name="First" count={56} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
-      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={56} />
+      <CollectionItemStyled name="First" count={56} />
+      <CollectionItemStyled name="First" count={56} />
+      <CollectionItemStyled name="First" count={56} />
+      <CollectionItemStyled name="First" count={56} />
+      <CollectionItemStyled name="First" count={56} />
+      <CollectionItemStyled name="First" count={56} />
+      <CollectionItemStyled name="First" count={56} />
+      <CollectionItemStyled name="First" count={56} />
     </SecondRow>
   </CollectionsStyled>
 );

@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
 import NavLink from 'Atoms/Link/NavLink';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 const HomeLinksContainer = styled.nav`
   display: flex;
@@ -20,15 +21,15 @@ const NavLinkStyled = styled(NavLink).attrs({
 
 const HomeLinks = (): ReactElement => (
   <HomeLinksContainer>
-    <NavLinkStyled to="Home" fontSize="medium" fontWeight="light">
+    <NavLinkStyled to={RouteConfig.Home} fontSize="medium" fontWeight="light">
       Home
     </NavLinkStyled>
     <LinkSeparator />
-    <NavLinkStyled to="Login" fontSize="medium" fontWeight="light">
+    <NavLinkStyled to={RouteConfig.Login} fontSize="medium" fontWeight="light">
       Log in / Sign up
     </NavLinkStyled>
     <LinkSeparator />
-    <NavLinkStyled to="About" fontSize="medium" fontWeight="light">
+    <NavLinkStyled to={RouteConfig.About} fontSize="medium" fontWeight="light">
       About
     </NavLinkStyled>
   </HomeLinksContainer>

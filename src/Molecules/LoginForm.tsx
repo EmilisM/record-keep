@@ -77,7 +77,7 @@ const LoginForm = ({ className, type }: Props): ReactElement => {
         </InputLabelStyled>
         <Input fontWeight="light" type="password" placeholder="Password" id="form-repeat-password" />
       </AnimatedInputContainer>
-      <ButtonStyled fontWeight="light" onClick={() => push(RouteConfig.DashboardHome)}>
+      <ButtonStyled fontWeight="light" onClick={() => push(RouteConfig.Dashboard.Home)}>
         {type === 'login' ? 'Log in' : 'Sign up'}
         <ArrowStyled />
       </ButtonStyled>

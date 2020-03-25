@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
 import Link from 'Atoms/Link/Link';
 import LandingLinks from 'Molecules/LandingLinks';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 const TitleStyled = styled.div`
   padding: 6% 10% 20px;
@@ -36,7 +37,7 @@ const LinkStyled = styled(Link)`
 const LandingTitle = (): ReactElement => (
   <TitleStyled>
     <HeadingFirstStyled fontWeight="semiBold" fontSize="veryBig" level="1">
-      <LinkStyled to="Home">Record Keep</LinkStyled>
+      <LinkStyled to={RouteConfig.Home}>Record Keep</LinkStyled>
     </HeadingFirstStyled>
     <HeadingSecondStyled fontWeight="regular" fontSize="big" level="2">
       An online music collection for enthusiasts.

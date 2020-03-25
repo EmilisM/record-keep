@@ -6,6 +6,7 @@ import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import H from 'Atoms/Text/H';
 import Link from 'Atoms/Link/Link';
 import DashboardMenuItems from 'Organisms/Dashboard/DashboardMenuItems';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 const ArrowStyled = styled(Arrow)`
   height: 34px;
@@ -75,7 +76,7 @@ const DashboardMenuMobile = ({ className, isOpen, onClick }: Props): ReactElemen
   <MobileMenuStyled isOpen={isOpen} className={className}>
     <HeaderContainer>
       <TitleStyled fontWeight="semiBold" fontSize="regular" level="1">
-        <LinkStyled to="DashboardHome">Record keep</LinkStyled>
+        <LinkStyled to={RouteConfig.Dashboard.Home}>Record keep</LinkStyled>
       </TitleStyled>
       <ArrowStyled onClick={onClick} />
     </HeaderContainer>

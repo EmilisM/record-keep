@@ -1,19 +1,38 @@
-export type DashboardRouteType = 'Dashboard' | 'DashboardHome' | 'DashboardCollections' | 'DashboardAnalysis';
-
-export type RouteType = 'Root' | 'Home' | 'Login' | 'About' | 'Logout' | DashboardRouteType;
-
-export const DashboardRouteConfig: Record<DashboardRouteType, string> = {
-  DashboardHome: '/dashboard/home',
-  DashboardAnalysis: '/dashboard/analysis',
-  DashboardCollections: '/dashboard/collections',
-  Dashboard: '/dashboard',
+type BaseRoute = {
+  Root: string;
 };
 
-export const RouteConfig: Record<RouteType, string> = {
+type CollectionsRoutes = BaseRoute & {
+  Collection: string;
+};
+
+type DashboardRoutes = BaseRoute & {
+  Home: string;
+  Analysis: string;
+  Collections: CollectionsRoutes;
+};
+
+type RouteType = BaseRoute & {
+  Home: string;
+  Login: string;
+  About: string;
+  Logout: string;
+  Dashboard: DashboardRoutes;
+};
+
+export const RouteConfig: RouteType = {
   Root: '/',
   Home: '/home',
   Login: '/login',
   About: '/about',
   Logout: '/logout',
-  ...DashboardRouteConfig,
+  Dashboard: {
+    Root: '/dashboard',
+    Home: '/dashboard/home',
+    Analysis: '/dashboard/analysis',
+    Collections: {
+      Root: '/dashboard/collections',
+      Collection: '/dashboard/collections/:collectionName',
+    },
+  },
 };

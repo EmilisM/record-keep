@@ -2,19 +2,17 @@ import React, { ReactElement, ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styled, { DefaultTheme } from 'styled-components/macro';
 
-import { RouteConfig, RouteType } from 'Routes/RouteConfig';
-
 type Props = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: number;
   color?: keyof DefaultTheme['colors']['text'];
   children: ReactNode;
   className?: string;
-  to: RouteType;
+  to: string;
 };
 
 const LinkBase = ({ children, className, to }: Props): ReactElement => (
-  <RouterLink to={RouteConfig[to]} className={className}>
+  <RouterLink to={to} className={className}>
     {children}
   </RouterLink>
 );
