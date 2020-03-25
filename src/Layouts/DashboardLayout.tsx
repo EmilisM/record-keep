@@ -43,6 +43,10 @@ const Content = styled.main`
 
   padding: 20px;
 
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    padding: 15px;
+  }
+
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     border-radius: 4px 4px 0 0;
     padding: 10px;

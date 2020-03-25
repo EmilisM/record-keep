@@ -26,6 +26,14 @@ const CollectionItemStyled = styled(Card)`
   &:hover {
     opacity: 0.8;
   }
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    padding: 10px 15px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    padding: 10px;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -41,12 +49,20 @@ const ArrowStyled = styled(Arrow)`
   margin: 0 0 0 auto;
 `;
 
+const ImageStyled = styled(Image)`
+  width: 96px;
+  height: 96px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 64px;
+    height: 64px;
+  }
+`;
+
 const CollectionItem = ({ className, name, count, id }: Props): ReactElement => (
   <CollectionItemStyled as={Link} to="DashboardCollections" className={className}>
-    <Image
+    <ImageStyled
       src={`https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fnandostudio%2Fbe-the-dj%2F128%2Fvinyl-icon.png&f=1&nofb=1`}
-      width={96}
-      height={96}
     />
     <TitleContainer>
       <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryDarker">

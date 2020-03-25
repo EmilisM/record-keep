@@ -61,7 +61,11 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   width: 100%;
 
-  padding: 10px;
+  padding: 10px 15px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    padding: 10px;
+  }
 `;
 
 type Props = {

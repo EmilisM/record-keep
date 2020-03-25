@@ -13,6 +13,10 @@ const FirstRow = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    flex-wrap: wrap-reverse;
+  }
 `;
 
 const SecondRow = styled.div`
@@ -21,15 +25,29 @@ const SecondRow = styled.div`
 
 const CollectionsFilterCardStyled = styled(CollectionsFilterCard)`
   width: 70%;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 100%;
+    margin: 10px 0 0 0;
+  }
 `;
 
 const CollectionsActionCardStyled = styled(CollectionsActionCard)`
   width: 30%;
-  margin-left: 20px;
+  margin: 0 0 0 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 const CollectionItemStyled = styled(CollectionItem)`
   margin-top: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    margin-top: 10px;
+  }
 `;
 
 const Collections = (): ReactElement => (

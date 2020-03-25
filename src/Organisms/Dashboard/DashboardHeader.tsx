@@ -9,10 +9,14 @@ const DashboardHeaderStyled = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  padding: 15px;
+  padding: 15px 20px;
 
   height: 100%;
   max-height: 70px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    padding: 15px 15px;
+  }
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     padding: 15px 10px;
