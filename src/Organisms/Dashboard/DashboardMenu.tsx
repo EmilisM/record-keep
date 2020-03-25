@@ -13,6 +13,10 @@ const DashboardMenuStyled = styled.aside<Props>`
 
   overflow: hidden;
 
+  position: fixed;
+  top: 0;
+  left: 0;
+
   display: flex;
   flex-direction: column;
 
@@ -21,6 +25,7 @@ const DashboardMenuStyled = styled.aside<Props>`
   }
 
   transition: all 0.3s ease;
+  overflow-x: hidden;
 `;
 
 const DashboardMenuItemsStyled = styled(DashboardMenuItems)`

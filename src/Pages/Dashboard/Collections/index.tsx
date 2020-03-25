@@ -59,6 +59,17 @@ const Collections = (): ReactElement => (
     <SecondRow>
       <CollectionItemStyled name="First" count={56} id="20" />
       <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
+      <CollectionItemStyled name="First" count={78} id="20" />
     </SecondRow>
   </CollectionsStyled>
 );

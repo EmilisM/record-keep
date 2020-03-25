@@ -53,12 +53,19 @@ const Content = styled.main`
   }
 `;
 
-const ContentContainer = styled.div`
+interface StyledProps {
+  isOpen: boolean;
+}
+
+const ContentContainer = styled.div<StyledProps>`
   display: flex;
   flex-direction: column;
 
   width: 100%;
   height: 100%;
+
+  margin-left: ${props => (props.isOpen ? '300px' : '60px')};
+  transition: all 300ms ease;
 `;
 
 const DashboardLayout = ({ component: Component, title, ...rest }: Props): ReactElement => {
@@ -71,7 +78,7 @@ const DashboardLayout = ({ component: Component, title, ...rest }: Props): React
         <DashboardLayoutStyled>
           <DashboardMenu isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
           <DashboardMenuMobile isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
-          <ContentContainer>
+          <ContentContainer isOpen={isOpen}>
             <DashboardHeader title={title} />
             <Content>
               <Component {...props} />

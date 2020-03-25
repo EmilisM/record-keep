@@ -20,9 +20,6 @@ const MobileMenuStyled = styled.div<Props>`
   width: 100%;
   height: ${props => (props.isOpen ? '294px' : '54px')};
 
-  position: sticky;
-  top: 0;
-
   display: none;
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     display: flex;
