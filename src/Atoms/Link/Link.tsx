@@ -6,13 +6,14 @@ type Props = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: number;
   color?: keyof DefaultTheme['colors']['text'];
-  children: ReactNode;
   className?: string;
+  id?: string;
+  children: ReactNode;
   to: string;
 };
 
-const LinkBase = ({ children, className, to }: Props): ReactElement => (
-  <RouterLink to={to} className={className}>
+const LinkBase = ({ children, className, to, id }: Props): ReactElement => (
+  <RouterLink id={id} to={to} className={className}>
     {children}
   </RouterLink>
 );
