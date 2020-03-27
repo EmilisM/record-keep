@@ -5,10 +5,11 @@ import styled from 'styled-components/macro';
 import DashboardMenu from 'Organisms/Dashboard/DashboardMenu';
 import DashboardMenuMobile from 'Organisms/Dashboard/DashboardMenuMobile';
 import DashboardHeader from 'Organisms/Dashboard/DashboardHeader';
+import { isString } from 'Types/General';
 
 type Props<T> = RouteProps & {
   component: FC<RouteComponentProps<T>>;
-  title: string;
+  title: string | ((params: T) => string);
 };
 
 const DashboardLayoutStyled = styled.div`
@@ -77,12 +78,12 @@ function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>):
   return (
     <Route
       {...rest}
-      render={props => (
+      render={(props: RouteComponentProps<T>) => (
         <DashboardLayoutStyled>
           <DashboardMenu isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
           <DashboardMenuMobile isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
           <ContentContainer isOpen={isOpen}>
-            <DashboardHeader title={title} />
+            <DashboardHeader title={isString(title) ? title : title(props.match.params)} />
             <Content>
               <Component {...props} />
             </Content>

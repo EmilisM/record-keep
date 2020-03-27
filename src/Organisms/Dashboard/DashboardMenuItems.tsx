@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import { dashboardMenuItems } from 'Types/Dashboard';
 import DashboardMenuLink from 'Molecules/Dashboard/DashboardMenuLink';
 import { ReactComponent as Logout } from 'Assets/Logout.svg';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 const MobileMenuItemContainer = styled.ul`
   overflow: hidden;
@@ -58,7 +59,7 @@ const MobileMenuItems = ({ className }: Props): ReactElement => (
       </MobileMenuItem>
     ))}
     <MobileMenuItemLogout>
-      <DashboardMenuLinkStyled Icon={Logout} to="Logout">
+      <DashboardMenuLinkStyled Icon={Logout} to={RouteConfig.Logout}>
         Log out
       </DashboardMenuLinkStyled>
     </MobileMenuItemLogout>

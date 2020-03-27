@@ -11,13 +11,13 @@ const fontSizes: FontSizes<Sizes> = {
   },
   medium: {
     desktop: 40,
-    tablet: 40,
-    mobile: 40,
+    tablet: 30,
+    mobile: 30,
   },
   regular: {
     desktop: 30,
     tablet: 30,
-    mobile: 30,
+    mobile: 25,
   },
   big: {
     desktop: 60,
