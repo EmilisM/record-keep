@@ -6,12 +6,6 @@ import Link from 'Atoms/Link/Link';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import { RouteConfig } from 'Routes/RouteConfig';
 
-type Props = {
-  className?: string;
-  name: string;
-  count: number;
-};
-
 const CollectionItemStyled = styled(Link)`
   display: flex;
   width: 100%;
@@ -36,6 +30,8 @@ const CollectionItemStyled = styled(Link)`
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     padding: 10px;
   }
+
+  transition: all 300ms ease;
 `;
 
 const TitleContainer = styled.div`
@@ -60,6 +56,12 @@ const ImageStyled = styled(Image)`
     height: 64px;
   }
 `;
+
+type Props = {
+  className?: string;
+  name: string;
+  count: number;
+};
 
 const CollectionItem = ({ className, name, count }: Props): ReactElement => (
   <CollectionItemStyled to={`${RouteConfig.Dashboard.Collections.Root}/${name}`} className={className}>

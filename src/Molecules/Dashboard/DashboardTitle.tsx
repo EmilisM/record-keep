@@ -13,7 +13,7 @@ const DashboardTitleStyled = styled.div`
 `;
 
 const HStyled = styled(H)`
-  line-height: 30px;
+  line-height: 40px;
 `;
 
 const DashboardTitle = ({ className, children }: Props): ReactElement => (

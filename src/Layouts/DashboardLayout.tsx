@@ -1,4 +1,4 @@
-import React, { ReactElement, FC, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Route, RouteProps, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
@@ -8,7 +8,7 @@ import DashboardHeader from 'Organisms/Dashboard/DashboardHeader';
 import { isString } from 'Types/General';
 
 type Props<T> = RouteProps & {
-  component: FC<RouteComponentProps<T>>;
+  component: (props: RouteComponentProps<T>) => ReactElement;
   title: string | ((params: T) => string);
 };
 

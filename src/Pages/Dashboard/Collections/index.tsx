@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
-import CollectionsFilterCard from 'Organisms/Collection/CollectionsFilterCard';
-import CollectionsActionCard from 'Organisms/Collection/CollectionsActionCard';
+import CollectionsFilterCard from 'Organisms/Collections/CollectionsFilterCard';
 import CollectionItem from 'Molecules/Collection/CollectionItem';
+import NewCollectionItem from 'Molecules/Collection/NewCollectionItem';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -24,25 +24,18 @@ const SecondRow = styled.div`
 `;
 
 const CollectionsFilterCardStyled = styled(CollectionsFilterCard)`
-  width: 70%;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-    margin: 10px 0 0 0;
-  }
-`;
-
-const CollectionsActionCardStyled = styled(CollectionsActionCard)`
-  width: 30%;
-  margin: 0 0 0 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-    margin: 0;
-  }
+  width: 100%;
 `;
 
 const CollectionItemStyled = styled(CollectionItem)`
+  margin-top: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    margin-top: 10px;
+  }
+`;
+
+const NewCollectionItemStyled = styled(NewCollectionItem)`
   margin-top: 20px;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
@@ -54,9 +47,9 @@ const Collections = (): ReactElement => (
   <CollectionsStyled>
     <FirstRow>
       <CollectionsFilterCardStyled />
-      <CollectionsActionCardStyled />
     </FirstRow>
     <SecondRow>
+      <NewCollectionItemStyled />
       <CollectionItemStyled name="First" count={56} />
       <CollectionItemStyled name="First" count={56} />
       <CollectionItemStyled name="First" count={56} />
