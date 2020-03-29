@@ -35,7 +35,7 @@ const DashboardMenuItemsStyled = styled(DashboardMenuItems)`
 type Props = {
   className?: string;
   isOpen: boolean;
-  onClick?(): void;
+  onClick?: () => void;
 };
 
 const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (

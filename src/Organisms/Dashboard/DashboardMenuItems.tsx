@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 
 import { dashboardMenuItems } from 'Types/Dashboard';
@@ -47,13 +47,14 @@ const DashboardMenuLinkStyled = styled(DashboardMenuLink)`
 
 type Props = {
   className?: string;
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
-const MobileMenuItems = ({ className }: Props): ReactElement => (
+const MobileMenuItems = ({ className, onClick }: Props): ReactElement => (
   <MobileMenuItemContainer className={className}>
     {dashboardMenuItems.map(item => (
       <MobileMenuItem key={item.label}>
-        <DashboardMenuLinkStyled Icon={item.icon} to={item.to}>
+        <DashboardMenuLinkStyled Icon={item.icon} to={item.to} onClick={onClick}>
           {item.label}
         </DashboardMenuLinkStyled>
       </MobileMenuItem>

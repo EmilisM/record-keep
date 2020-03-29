@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, MouseEvent } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { NavLink as NavLinkRouter, useLocation } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ type Props = {
   hoverColor?: keyof DefaultTheme['colors']['text'];
   className?: string;
   activeClassName?: string;
-  onClick?(): void;
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
   children: ReactNode;
   to: string;
 };

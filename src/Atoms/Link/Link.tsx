@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, MouseEvent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styled, { DefaultTheme } from 'styled-components/macro';
 
@@ -10,10 +10,11 @@ type Props = {
   id?: string;
   children: ReactNode;
   to: string;
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
-const LinkBase = ({ children, className, to, id }: Props): ReactElement => (
-  <RouterLink id={id} to={to} className={className}>
+const LinkBase = ({ children, className, to, id, onClick }: Props): ReactElement => (
+  <RouterLink id={id} to={to} className={className} onClick={onClick}>
     {children}
   </RouterLink>
 );

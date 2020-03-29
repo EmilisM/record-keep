@@ -1,10 +1,11 @@
-import React, { ReactElement, ReactNode, FC } from 'react';
+import React, { ReactElement, ReactNode, FC, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 
 import NavLink from 'Atoms/Link/NavLink';
 
 type Props = {
   className?: string;
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
   to: string;
   children: ReactNode;
   Icon: FC;
@@ -40,8 +41,8 @@ const TitleContainer = styled.div`
   margin-left: 15px;
 `;
 
-const DashboardMenuLink = ({ className, to, children, Icon }: Props): ReactElement => (
-  <NavLinkStyled fontWeight="light" className={className} to={to}>
+const DashboardMenuLink = ({ className, to, children, Icon, onClick }: Props): ReactElement => (
+  <NavLinkStyled fontWeight="light" className={className} to={to} onClick={onClick}>
     <IconContainer>
       <Icon />
     </IconContainer>

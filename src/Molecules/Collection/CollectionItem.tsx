@@ -38,6 +38,10 @@ const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    margin-left: 10px;
+  }
 `;
 
 const ArrowStyled = styled(Arrow)`
@@ -45,6 +49,7 @@ const ArrowStyled = styled(Arrow)`
   height: 40px;
 
   margin: 0 0 0 auto;
+  fill: ${props => props.theme.colors.text.primaryDarker};
 `;
 
 const ImageStyled = styled(Image)`
@@ -52,12 +57,12 @@ const ImageStyled = styled(Image)`
   height: 96px;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
   }
 `;
 
-type Props = {
+export type Props = {
   className?: string;
   name: string;
   count: number;
@@ -73,7 +78,7 @@ const CollectionItem = ({ className, name, count }: Props): ReactElement => (
         {name}
       </H>
       <H level="3" fontSize="regular" fontWeight="light" color="primaryDarker">
-        {count} {count > 1 ? 'records' : 'record'}
+        {count} {count === 1 ? 'record' : 'records'}
       </H>
     </TitleContainer>
     <ArrowStyled />

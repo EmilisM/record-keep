@@ -1,4 +1,4 @@
-import React, { ReactElement, ChangeEvent } from 'react';
+import React, { ReactElement, ChangeEvent, RefObject, KeyboardEvent } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
@@ -12,7 +12,7 @@ const fontSizes: FontSizes<Sizes> = {
   regular: {
     desktop: 30,
     tablet: 30,
-    mobile: 25,
+    mobile: 20,
   },
 };
 
@@ -27,9 +27,23 @@ type Props = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   color?: keyof DefaultTheme['colors']['text'];
   type?: string;
+  inputRef?: RefObject<HTMLInputElement>;
+  autoFocus?: boolean;
+  onKeyPress?: (event: KeyboardEvent<HTMLInputElement>) => void;
 };
 
-const InputBase = ({ className, name, onChange, value, placeholder, id, type }: Props): ReactElement => (
+const InputBase = ({
+  className,
+  name,
+  onChange,
+  value,
+  placeholder,
+  id,
+  type,
+  inputRef,
+  autoFocus,
+  onKeyPress,
+}: Props): ReactElement => (
   <input
     type={type}
     className={className}
@@ -38,6 +52,9 @@ const InputBase = ({ className, name, onChange, value, placeholder, id, type }: 
     value={value}
     placeholder={placeholder}
     id={id}
+    ref={inputRef}
+    autoFocus={autoFocus}
+    onKeyPress={onKeyPress}
   />
 );
 

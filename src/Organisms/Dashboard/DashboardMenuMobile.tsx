@@ -76,11 +76,13 @@ const DashboardMenuMobile = ({ className, isOpen, onClick }: Props): ReactElemen
   <MobileMenuStyled isOpen={isOpen} className={className}>
     <HeaderContainer>
       <TitleStyled fontWeight="semiBold" fontSize="medium" level="1">
-        <LinkStyled to={RouteConfig.Dashboard.Home}>Record keep</LinkStyled>
+        <LinkStyled to={RouteConfig.Dashboard.Home} onClick={onClick}>
+          Record keep
+        </LinkStyled>
       </TitleStyled>
       <ArrowStyled onClick={onClick} />
     </HeaderContainer>
-    <DashboardMenuItems />
+    <DashboardMenuItems onClick={() => isOpen && onClick && onClick()} />
   </MobileMenuStyled>
 );
 
