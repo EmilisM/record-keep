@@ -9,7 +9,7 @@ import InputDashboard from 'Atoms/Input/InputDashboard';
 type Props = {
   className?: string;
   onClick: () => void;
-  onClickComplete: () => void;
+  onSubmit: () => void;
   isEditable: boolean;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -82,17 +82,10 @@ const InputDashboardStyled = styled(InputDashboard)`
   }
 `;
 
-const NewCollectionItem = ({
-  className,
-  onClick,
-  onClickComplete,
-  isEditable,
-  value,
-  onChange,
-}: Props): ReactElement => {
+const NewCollectionItem = ({ className, onClick, onSubmit, isEditable, value, onChange }: Props): ReactElement => {
   const onKeyPressInput = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
-      onClickComplete();
+      onSubmit();
     }
   };
 
@@ -114,7 +107,7 @@ const NewCollectionItem = ({
               value={value}
               onChange={onChange}
             />
-            <ArrowStyled onClick={onClickComplete} />
+            <ArrowStyled onClick={onSubmit} />
           </>
         ) : (
           <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryDarker">

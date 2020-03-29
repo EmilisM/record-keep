@@ -1,12 +1,14 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 import CollectionsFilterCard from 'Organisms/Collections/CollectionsFilterCard';
-import CollectionItem, { Props as CollectionItemProps } from 'Molecules/Collection/CollectionItem';
+import CollectionItem from 'Molecules/Collection/CollectionItem';
 import NewCollectionItem from 'Molecules/Collection/NewCollectionItem';
 import { ReactComponent as Delete } from 'Assets/Add.svg';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { ActionMenuOption } from 'Types/ActionMenu';
+import { CollectionItemOption } from 'Types/Collection';
 import { RouteConfig } from 'Routes/RouteConfig';
+import { useHistory } from 'react-router-dom';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -51,8 +53,6 @@ const DeleteStyled = styled(Delete)`
   transform: rotateZ(45deg);
 `;
 
-type CollectionItemPicked = Pick<CollectionItemProps, 'title' | 'subTitle'>;
-
 const accountMenuOptions: ActionMenuOption[] = [
   {
     value: 'edit',
@@ -66,36 +66,59 @@ const accountMenuOptions: ActionMenuOption[] = [
   },
 ];
 
-const collectionItemsInit: CollectionItemPicked[] = [
+const collectionItemsInit: CollectionItemOption[] = [
   {
-    title: 'First',
-    subTitle: '56 records',
+    name: 'First',
+    value: 'first',
+    count: 56,
+    isEditable: true,
   },
   {
-    title: 'Second',
-    subTitle: '76 records',
+    name: 'Second',
+    value: 'second',
+    count: 74,
+    isEditable: false,
   },
 ];
 
 const Collections = (): ReactElement => {
-  const [collectionItems, setCollectionItems] = useState<CollectionItemPicked[]>(collectionItemsInit);
+  const [collectionItems, setCollectionItems] = useState<CollectionItemOption[]>(collectionItemsInit);
   const [isEditable, setIsEditable] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
+  const { push } = useHistory();
 
-  const onClick = (): void => {
+  const onClickNewCollection = (): void => {
     if (!isEditable) {
       setIsEditable(true);
     }
   };
 
-  const onClickComplete = (): void => {
-    setCollectionItems([{ title: newCollectionName, subTitle: 'No records' }, ...collectionItems]);
+  const onSubmitNewCollection = (): void => {
+    setCollectionItems([{ name: newCollectionName, count: 32, value: 'first', isEditable: false }, ...collectionItems]);
     setNewCollectionName('');
     setIsEditable(false);
   };
 
-  const accoutMenuOnChange = (option: ActionMenuOption): void => {
-    console.log(option);
+  const onEditChange = (): void => {};
+
+  const onEditSubmit = (option: CollectionItemOption, index: number): void => {
+    const collection: CollectionItemOption = { ...collectionItems[index], isEditable: false };
+
+    const newCollections = [...collectionItems];
+    newCollections[index] = collection;
+
+    setCollectionItems(newCollections);
+  };
+
+  const accountMenuOnChange = (): void => {};
+
+  const onClickLink = (event: MouseEvent<HTMLAnchorElement>, option: CollectionItemOption, index: number): void => {
+    event.preventDefault();
+    if (option.isEditable) {
+      onEditSubmit(option, index);
+    } else {
+      push(`${RouteConfig.Dashboard.Collections.Root}/${option.value}`);
+    }
   };
 
   return (
@@ -105,20 +128,23 @@ const Collections = (): ReactElement => {
       </FirstRow>
       <SecondRow>
         <NewCollectionItemStyled
-          onClick={onClick}
-          onClickComplete={onClickComplete}
+          onClick={onClickNewCollection}
+          onSubmit={onSubmitNewCollection}
           isEditable={isEditable}
           value={newCollectionName}
           onChange={event => setNewCollectionName(event.target.value)}
         />
-        {collectionItems.map(item => (
+        {collectionItems.map((item, index) => (
           <CollectionItemStyled
-            key={`${item.title}-${item.subTitle}`}
-            title={item.title}
-            subTitle={item.subTitle}
-            options={accountMenuOptions}
-            onChange={accoutMenuOnChange}
-            to={`${RouteConfig.Dashboard.Collections.Root}/${item.title.toLocaleLowerCase()}`}
+            key={`${item.name}-${item.count}`}
+            title={item.name}
+            subTitle={`${item.count} ${item.count === 1 ? 'record' : 'records'}`}
+            isEditable={item.isEditable}
+            onEditSubmit={() => onEditSubmit(item, index)}
+            onEditChange={onEditChange}
+            accountMenuOptions={accountMenuOptions}
+            accountMenuOnChange={accountMenuOnChange}
+            onClick={event => onClickLink(event, item, index)}
           />
         ))}
       </SecondRow>

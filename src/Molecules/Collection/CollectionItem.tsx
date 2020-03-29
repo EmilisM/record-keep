@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, MouseEvent } from 'react';
+import React, { ReactElement, useState, MouseEvent, KeyboardEvent, ChangeEvent } from 'react';
 import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
 import Image from 'Atoms/Image';
@@ -6,6 +6,7 @@ import Link from 'Atoms/Link/Link';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
+import InputDashboard from 'Atoms/Input/InputDashboard';
 
 const TitleContainer = styled.div`
   display: flex;
@@ -70,37 +71,86 @@ const CollectionItemStyled = styled(Link)`
   }
 `;
 
+const InputDashboardStyled = styled(InputDashboard)`
+  max-width: 300px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    max-width: 160px;
+  }
+`;
+
 export type Props = {
   className?: string;
-  options: ActionMenuOption[];
-  onChange: (option: ActionMenuOption) => void;
+  to?: string;
+  accountMenuOptions: ActionMenuOption[];
   title: string;
   subTitle: string;
-  to: string;
+  isEditable: boolean;
+  accountMenuOnChange: (option: ActionMenuOption) => void;
+  onEditSubmit: () => void;
+  onClick: (event: MouseEvent<HTMLAnchorElement>) => void;
+  onEditChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const CollectionItem = ({ className, title, subTitle, options, onChange, to }: Props): ReactElement => {
+const CollectionItem = ({
+  className,
+  title,
+  subTitle,
+  to,
+  isEditable,
+  onEditSubmit,
+  onEditChange,
+  accountMenuOptions,
+  accountMenuOnChange,
+  onClick,
+}: Props): ReactElement => {
   const [actionMenuOpen, setActionMenuOpen] = useState(false);
 
   const onClickActionMenu = (event: MouseEvent<HTMLDivElement>): void => {
     event.preventDefault();
+    event.stopPropagation();
     setActionMenuOpen(!actionMenuOpen);
   };
 
+  const onKeyPressInput = (event: KeyboardEvent<HTMLInputElement>): void => {
+    event.preventDefault();
+    if (event.key === 'Enter') {
+      onEditSubmit();
+    }
+  };
+
   return (
-    <CollectionItemStyled to={to} className={className}>
+    <CollectionItemStyled to={to || '#'} onClick={onClick} className={className}>
       <ImageStyled
         src={`https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fnandostudio%2Fbe-the-dj%2F128%2Fvinyl-icon.png&f=1&nofb=1`}
       />
       <TitleContainer>
-        <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryDarker">
-          {title}
-        </H>
+        {isEditable ? (
+          <InputDashboardStyled
+            color="primaryDarker"
+            placeholder="Collection name"
+            fontSize="regular"
+            fontWeight="semiBold"
+            onKeyPress={onKeyPressInput}
+            onChange={onEditChange}
+            value={title}
+            autoFocus
+          />
+        ) : (
+          <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryDarker">
+            {title}
+          </H>
+        )}
         <H level="3" fontSize="regular" fontWeight="light" color="primaryDarker">
           {subTitle}
         </H>
       </TitleContainer>
-      <ActionMenuStyled options={options} isOpen={actionMenuOpen} onClick={onClickActionMenu} onChange={onChange} />
+      <ActionMenuStyled
+        options={accountMenuOptions}
+        isOpen={actionMenuOpen}
+        onClick={onClickActionMenu}
+        onChange={accountMenuOnChange}
+      />
       <ArrowStyled />
     </CollectionItemStyled>
   );
