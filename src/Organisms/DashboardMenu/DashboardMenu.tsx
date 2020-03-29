@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 
 import DashboardMenuTitle from 'Molecules/Dashboard/DashboardMenuTitle';
-import DashboardMenuItems from 'Organisms/Dashboard/DashboardMenuItems';
+import DashboardItems from 'Organisms/Dashboard/DashboardItems';
 import DashboardMenuBottomContainer from 'Molecules/Dashboard/DashboardMenuBottomContainer';
 
 const DashboardMenuStyled = styled.aside<Props>`
@@ -28,7 +28,7 @@ const DashboardMenuStyled = styled.aside<Props>`
   overflow-x: hidden;
 `;
 
-const DashboardMenuItemsStyled = styled(DashboardMenuItems)`
+const DashboardItemsStyled = styled(DashboardItems)`
   margin-top: 50px;
 `;
 
@@ -41,7 +41,7 @@ type Props = {
 const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
   <DashboardMenuStyled className={className} isOpen={isOpen} role="presentation">
     <DashboardMenuTitle isOpen={isOpen} onClick={onClick} />
-    <DashboardMenuItemsStyled />
+    <DashboardItemsStyled />
     <DashboardMenuBottomContainer isOpen={isOpen} />
   </DashboardMenuStyled>
 );

@@ -5,7 +5,7 @@ import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 
 import H from 'Atoms/Text/H';
 import Link from 'Atoms/Link/Link';
-import DashboardMenuItems from 'Organisms/Dashboard/DashboardMenuItems';
+import DashboardItems from 'Organisms/Dashboard/DashboardItems';
 import { RouteConfig } from 'Routes/RouteConfig';
 
 const ArrowStyled = styled(Arrow)`
@@ -17,7 +17,7 @@ const ArrowStyled = styled(Arrow)`
   transition: all 0.3s ease;
 `;
 
-const MobileMenuStyled = styled.div<Props>`
+const MobileMenuStyled = styled.div<StyledProps>`
   width: 100%;
   height: ${props => (props.isOpen ? '294px' : '54px')};
 
@@ -66,10 +66,13 @@ const HeaderContainer = styled.div`
   }
 `;
 
-type Props = {
+type StyledProps = {
   className?: string;
   isOpen?: boolean;
-  onClick?(): void;
+};
+
+type Props = StyledProps & {
+  onClick: () => void;
 };
 
 const DashboardMenuMobile = ({ className, isOpen, onClick }: Props): ReactElement => (
@@ -82,7 +85,7 @@ const DashboardMenuMobile = ({ className, isOpen, onClick }: Props): ReactElemen
       </TitleStyled>
       <ArrowStyled onClick={onClick} />
     </HeaderContainer>
-    <DashboardMenuItems onClick={() => isOpen && onClick && onClick()} />
+    <DashboardItems onClick={() => isOpen && onClick()} />
   </MobileMenuStyled>
 );
 

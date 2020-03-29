@@ -2,11 +2,11 @@ import React, { ReactElement, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 
 import { dashboardMenuItems } from 'Types/Dashboard';
-import DashboardMenuLink from 'Molecules/Dashboard/DashboardMenuLink';
+import DashboardLink from 'Molecules/Dashboard/DashboardLink';
 import { ReactComponent as Logout } from 'Assets/Logout.svg';
 import { RouteConfig } from 'Routes/RouteConfig';
 
-const MobileMenuItemContainer = styled.ul`
+const DashboardItemsContainer = styled.ul`
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -18,7 +18,7 @@ const MobileMenuItemContainer = styled.ul`
   flex-direction: column;
 `;
 
-const MobileMenuItem = styled.li`
+const DashboardItem = styled.li`
   min-height: 60px;
 
   display: flex;
@@ -29,11 +29,11 @@ const MobileMenuItem = styled.li`
   color: ${props => props.theme.colors.text.primaryLight};
 `;
 
-const MobileMenuItemLogout = styled(MobileMenuItem)`
+const DashboardItemLogout = styled(DashboardItem)`
   margin-top: auto;
 `;
 
-const DashboardMenuLinkStyled = styled(DashboardMenuLink)`
+const DashboardLinkStyled = styled(DashboardLink)`
   width: 100%;
   padding: 15px;
 
@@ -50,21 +50,21 @@ type Props = {
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
-const MobileMenuItems = ({ className, onClick }: Props): ReactElement => (
-  <MobileMenuItemContainer className={className}>
+const DashboardItems = ({ className, onClick }: Props): ReactElement => (
+  <DashboardItemsContainer className={className}>
     {dashboardMenuItems.map(item => (
-      <MobileMenuItem key={item.label}>
-        <DashboardMenuLinkStyled Icon={item.icon} to={item.to} onClick={onClick}>
+      <DashboardItem key={item.label}>
+        <DashboardLinkStyled Icon={item.icon} to={item.to} onClick={onClick}>
           {item.label}
-        </DashboardMenuLinkStyled>
-      </MobileMenuItem>
+        </DashboardLinkStyled>
+      </DashboardItem>
     ))}
-    <MobileMenuItemLogout>
-      <DashboardMenuLinkStyled Icon={Logout} to={RouteConfig.Logout}>
+    <DashboardItemLogout>
+      <DashboardLinkStyled Icon={Logout} to={RouteConfig.Logout}>
         Log out
-      </DashboardMenuLinkStyled>
-    </MobileMenuItemLogout>
-  </MobileMenuItemContainer>
+      </DashboardLinkStyled>
+    </DashboardItemLogout>
+  </DashboardItemsContainer>
 );
 
-export default MobileMenuItems;
+export default DashboardItems;

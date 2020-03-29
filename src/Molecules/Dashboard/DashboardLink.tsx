@@ -41,7 +41,7 @@ const TitleContainer = styled.div`
   margin-left: 15px;
 `;
 
-const DashboardMenuLink = ({ className, to, children, Icon, onClick }: Props): ReactElement => (
+const DashboardLink = ({ className, to, children, Icon, onClick }: Props): ReactElement => (
   <NavLinkStyled fontWeight="light" className={className} to={to} onClick={onClick}>
     <IconContainer>
       <Icon />
@@ -50,4 +50,4 @@ const DashboardMenuLink = ({ className, to, children, Icon, onClick }: Props): R
   </NavLinkStyled>
 );
 
-export default DashboardMenuLink;
+export default DashboardLink;

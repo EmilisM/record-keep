@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from 'react';
 import { Route, RouteProps, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
-import DashboardMenu from 'Organisms/Dashboard/DashboardMenu';
-import DashboardMenuMobile from 'Organisms/Dashboard/DashboardMenuMobile';
+import DashboardMenu from 'Organisms/DashboardMenu/DashboardMenu';
+import DashboardMenuMobile from 'Organisms/DashboardMobile/DashboardMenuMobile';
 import DashboardHeader from 'Organisms/Dashboard/DashboardHeader';
 import { isString } from 'Types/General';
 
@@ -75,15 +75,23 @@ const ContentContainer = styled.div<StyledProps>`
 function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
 
+  const onClick = (): void => {
+    setIsOpen(!isOpen);
+  };
+
+  const getDashboardHeaderTitle = (params: T): string => {
+    return isString(title) ? title : title(params);
+  };
+
   return (
     <Route
       {...rest}
       render={(props: RouteComponentProps<T>) => (
         <DashboardLayoutStyled>
-          <DashboardMenu isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
-          <DashboardMenuMobile isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+          <DashboardMenu isOpen={isOpen} onClick={onClick} />
+          <DashboardMenuMobile isOpen={isOpen} onClick={onClick} />
           <ContentContainer isOpen={isOpen}>
-            <DashboardHeader title={isString(title) ? title : title(props.match.params)} />
+            <DashboardHeader title={getDashboardHeaderTitle(props.match.params)} />
             <Content>
               <Component {...props} />
             </Content>
