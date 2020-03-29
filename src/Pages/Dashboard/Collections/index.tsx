@@ -3,6 +3,10 @@ import styled from 'styled-components/macro';
 import CollectionsFilterCard from 'Organisms/Collections/CollectionsFilterCard';
 import CollectionItem, { Props as CollectionItemProps } from 'Molecules/Collection/CollectionItem';
 import NewCollectionItem from 'Molecules/Collection/NewCollectionItem';
+import { ReactComponent as Delete } from 'Assets/Add.svg';
+import { ReactComponent as Edit } from 'Assets/Edit.svg';
+import { ActionMenuOption } from 'Types/ActionMenu';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -43,19 +47,38 @@ const NewCollectionItemStyled = styled(NewCollectionItem)`
   }
 `;
 
-const collectionItemsInit: CollectionItemProps[] = [
+const DeleteStyled = styled(Delete)`
+  transform: rotateZ(45deg);
+`;
+
+type CollectionItemPicked = Pick<CollectionItemProps, 'title' | 'subTitle'>;
+
+const accountMenuOptions: ActionMenuOption[] = [
   {
-    name: 'First',
-    count: 56,
+    value: 'edit',
+    label: 'Edit',
+    Icon: Edit,
   },
   {
-    name: 'Second',
-    count: 76,
+    value: 'delete',
+    label: 'Delete',
+    Icon: DeleteStyled,
+  },
+];
+
+const collectionItemsInit: CollectionItemPicked[] = [
+  {
+    title: 'First',
+    subTitle: '56 records',
+  },
+  {
+    title: 'Second',
+    subTitle: '76 records',
   },
 ];
 
 const Collections = (): ReactElement => {
-  const [collectionItems, setCollectionItems] = useState<CollectionItemProps[]>(collectionItemsInit);
+  const [collectionItems, setCollectionItems] = useState<CollectionItemPicked[]>(collectionItemsInit);
   const [isEditable, setIsEditable] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
 
@@ -66,9 +89,13 @@ const Collections = (): ReactElement => {
   };
 
   const onClickComplete = (): void => {
-    setCollectionItems([{ name: newCollectionName, count: 0 }, ...collectionItems]);
+    setCollectionItems([{ title: newCollectionName, subTitle: 'No records' }, ...collectionItems]);
     setNewCollectionName('');
     setIsEditable(false);
+  };
+
+  const accoutMenuOnChange = (option: ActionMenuOption): void => {
+    console.log(option);
   };
 
   return (
@@ -85,7 +112,14 @@ const Collections = (): ReactElement => {
           onChange={event => setNewCollectionName(event.target.value)}
         />
         {collectionItems.map(item => (
-          <CollectionItemStyled key={`${item.name}-${item.count}`} name={item.name} count={item.count} />
+          <CollectionItemStyled
+            key={`${item.title}-${item.subTitle}`}
+            title={item.title}
+            subTitle={item.subTitle}
+            options={accountMenuOptions}
+            onChange={accoutMenuOnChange}
+            to={`${RouteConfig.Dashboard.Collections.Root}/${item.title.toLocaleLowerCase()}`}
+          />
         ))}
       </SecondRow>
     </CollectionsStyled>

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import DashboardTitle from 'Molecules/Dashboard/DashboardTitle';
-import SearchSelect from 'Molecules/SearchSelect';
+import SearchSelect from 'Molecules/Select/SearchSelect';
 
 const DashboardHeaderStyled = styled.div`
   display: flex;

@@ -34,10 +34,10 @@ const InputDashboardStyled = styled(InputDashboard)`
 const CollectionsFilterCard = ({ className }: Props): ReactElement => (
   <CardStyled className={className}>
     <Column>
-      <InputLabel color="primaryDark" fontSize="big" fontWeight="semiBold">
+      <InputLabel color="primaryDarker" fontSize="big" fontWeight="semiBold">
         Search
       </InputLabel>
-      <InputDashboardStyled placeholder="Record name" color="primaryDark" fontWeight="regular" fontSize="regular" />
+      <InputDashboardStyled placeholder="Record name" color="primaryDarker" fontWeight="regular" fontSize="regular" />
     </Column>
   </CardStyled>
 );

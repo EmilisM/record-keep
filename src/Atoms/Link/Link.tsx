@@ -27,12 +27,7 @@ const Link = styled(LinkBase)`
   text-decoration: none;
   outline: none;
 
-  transition: 200ms opacity ease;
-
-  &:hover,
-  &:focus {
-    opacity: 0.7;
-  }
+  transition: all 300ms ease;
 `;
 
 export default Link;
