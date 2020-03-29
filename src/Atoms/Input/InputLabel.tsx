@@ -2,11 +2,16 @@ import React, { ReactElement, ReactNode } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'medium';
+type Sizes = 'medium' | 'big';
 const fontSizes: FontSizes<Sizes> = {
   medium: {
     desktop: 20,
     tablet: 20,
+    mobile: 20,
+  },
+  big: {
+    desktop: 25,
+    tablet: 22,
     mobile: 20,
   },
 };
@@ -32,7 +37,7 @@ const InputLabel = styled(InputLabelBase)`
   font-size: ${props => fontSizes[props.fontSize || 'medium'].desktop}px;
   background-color: transparent;
 
-  color: ${props => props.theme.colors.text.primaryLight};
+  color: ${props => props.theme.colors.text[props.color || 'primaryLight']};
 
   @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
   props.theme.breakpoints.desktop})) {

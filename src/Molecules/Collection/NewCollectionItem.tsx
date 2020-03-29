@@ -4,7 +4,7 @@ import Card from 'Atoms/Card/Card';
 import { ReactComponent as Add } from 'Assets/Add.svg';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import H from 'Atoms/Text/H';
-import InputDashboard from 'Molecules/Input/InputDashboard';
+import InputDashboard from 'Atoms/Input/InputDashboard';
 
 type Props = {
   className?: string;
