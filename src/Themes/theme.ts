@@ -20,10 +20,12 @@ const theme: DefaultTheme = {
       primaryLighter: 'rgba(243, 241, 244, 0.6)',
       primaryDark: '#2F3043',
       primaryDarker: '#303030',
+      error: '#ff3333',
     },
     border: {
       primary: '#F3F1F4',
       cardShadow: '#8c8291',
+      error: '#ff3333',
     },
   },
   font: {

@@ -21,10 +21,12 @@ declare module 'styled-components' {
         primaryLighter: string;
         primaryDark: string;
         primaryDarker: string;
+        error: string;
       };
       border: {
         primary: string;
         cardShadow: string;
+        error: string;
       };
     };
     font: {

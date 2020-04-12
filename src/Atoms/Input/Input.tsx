@@ -30,6 +30,7 @@ type Props = {
   inputRef?: RefObject<HTMLInputElement>;
   autoFocus?: boolean;
   onKeyPress?: (event: KeyboardEvent<HTMLInputElement>) => void;
+  required?: boolean;
 };
 
 const InputBase = ({
@@ -43,6 +44,7 @@ const InputBase = ({
   inputRef,
   autoFocus,
   onKeyPress,
+  required,
 }: Props): ReactElement => (
   <input
     type={type}
@@ -55,6 +57,7 @@ const InputBase = ({
     ref={inputRef}
     autoFocus={autoFocus}
     onKeyPress={onKeyPress}
+    required={required}
   />
 );
 

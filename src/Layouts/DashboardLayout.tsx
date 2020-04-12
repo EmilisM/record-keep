@@ -1,11 +1,13 @@
 import React, { ReactElement, useState } from 'react';
-import { Route, RouteProps, RouteComponentProps } from 'react-router-dom';
+import { Route, RouteProps, RouteComponentProps, Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
 import DashboardMenu from 'Organisms/DashboardMenu/DashboardMenu';
 import DashboardMenuMobile from 'Organisms/DashboardMobile/DashboardMenuMobile';
 import DashboardHeader from 'Organisms/Dashboard/DashboardHeader';
 import { isString } from 'Types/General';
+import { useAuthServiceContext } from 'Services/Hooks/useAuthService';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 type Props<T> = RouteProps & {
   component: (props: RouteComponentProps<T>) => ReactElement;
@@ -74,6 +76,11 @@ const ContentContainer = styled.div<StyledProps>`
 
 function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
+  const [accessToken] = useAuthServiceContext();
+
+  if (!accessToken) {
+    return <Redirect to={RouteConfig.Login} />;
+  }
 
   const onClick = (): void => {
     setIsOpen(!isOpen);

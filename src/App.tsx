@@ -1,19 +1,22 @@
 import React, { FC } from 'react';
 import { ThemeProvider } from 'styled-components/macro';
 import GlobalStyle from './globalStyle';
-import { BrowserRouter } from 'react-router-dom';
 
 import theme from 'Themes/theme';
 import BaseRoute from 'Routes/BaseRoute';
+import { AuthServiceContext } from 'Services/Hooks/useAuthService';
+import useAuthService from 'Services/Hooks/useAuthService';
 
 const App: FC = () => {
+  const authServiceStorage = useAuthService();
+
   return (
-    <BrowserRouter>
+    <AuthServiceContext.Provider value={authServiceStorage}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <BaseRoute />
       </ThemeProvider>
-    </BrowserRouter>
+    </AuthServiceContext.Provider>
   );
 };
 

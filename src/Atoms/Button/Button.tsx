@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, ButtonHTMLAttributes } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
@@ -13,15 +13,16 @@ const fontSizes: FontSizes<Sizes> = {
 
 type Props = {
   className?: string;
-  onClick?(): void;
+  onClick?: () => void;
   children: ReactNode;
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: Sizes;
   color?: keyof DefaultTheme['colors']['text'];
+  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 };
 
-const ButtonBase = ({ className, children, onClick }: Props): ReactElement => (
-  <button onClick={onClick} className={className}>
+const ButtonBase = ({ className, children, onClick, type }: Props): ReactElement => (
+  <button onClick={onClick} className={className} type={type}>
     {children}
   </button>
 );
