@@ -4,7 +4,6 @@ import styled from 'styled-components/macro';
 import { dashboardMenuItems } from 'Types/Dashboard';
 import DashboardLink from 'Molecules/Dashboard/DashboardLink';
 import { ReactComponent as Logout } from 'Assets/Logout.svg';
-import { RouteConfig } from 'Routes/RouteConfig';
 
 const DashboardItemsContainer = styled.ul`
   overflow: hidden;
@@ -48,9 +47,10 @@ const DashboardLinkStyled = styled(DashboardLink)`
 type Props = {
   className?: string;
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+  onClickLogout: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
-const DashboardItems = ({ className, onClick }: Props): ReactElement => (
+const DashboardItems = ({ className, onClick, onClickLogout }: Props): ReactElement => (
   <DashboardItemsContainer className={className}>
     {dashboardMenuItems.map(item => (
       <DashboardItem key={item.label}>
@@ -60,7 +60,7 @@ const DashboardItems = ({ className, onClick }: Props): ReactElement => (
       </DashboardItem>
     ))}
     <DashboardItemLogout>
-      <DashboardLinkStyled Icon={Logout} to={RouteConfig.Logout}>
+      <DashboardLinkStyled Icon={Logout} to="#" onClick={onClickLogout}>
         Log out
       </DashboardLinkStyled>
     </DashboardItemLogout>

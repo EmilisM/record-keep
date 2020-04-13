@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 
 import DashboardMenuTitle from 'Molecules/Dashboard/DashboardMenuTitle';
 import DashboardItems from 'Organisms/Dashboard/DashboardItems';
 import DashboardMenuBottomContainer from 'Molecules/Dashboard/DashboardMenuBottomContainer';
 
-const DashboardMenuStyled = styled.aside<Props>`
+const DashboardMenuStyled = styled.aside<Pick<Props, 'isOpen'>>`
   height: 100%;
   width: 100%;
   max-width: ${props => (props.isOpen ? '300' : '60')}px;
@@ -36,12 +36,13 @@ type Props = {
   className?: string;
   isOpen: boolean;
   onClick?: () => void;
+  onClickLogout: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
-const DashboardMenu = ({ className, isOpen, onClick }: Props): ReactElement => (
+const DashboardMenu = ({ className, isOpen, onClick, onClickLogout }: Props): ReactElement => (
   <DashboardMenuStyled className={className} isOpen={isOpen} role="presentation">
     <DashboardMenuTitle isOpen={isOpen} onClick={onClick} />
-    <DashboardItemsStyled />
+    <DashboardItemsStyled onClickLogout={onClickLogout} />
     <DashboardMenuBottomContainer isOpen={isOpen} />
   </DashboardMenuStyled>
 );

@@ -16,7 +16,6 @@ type RouteType = BaseRoute & {
   Home: string;
   Login: string;
   About: string;
-  Logout: string;
   Dashboard: DashboardRoutes;
 };
 
@@ -25,7 +24,6 @@ export const RouteConfig: RouteType = {
   Home: '/home',
   Login: '/login',
   About: '/about',
-  Logout: '/logout',
   Dashboard: {
     Root: '/dashboard',
     Home: '/dashboard/home',

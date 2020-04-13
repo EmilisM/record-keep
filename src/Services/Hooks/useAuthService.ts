@@ -1,29 +1,41 @@
 import useLocalStorage from './useLocalStorage';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { createContext, useContext } from 'react';
 import API from 'API/index';
 import { getUserInfo } from 'API/User';
 import { useHistory } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
 
-type AuthService = [string | null, (value: string | null) => void, () => void];
+type AuthService = {
+  accessToken: string | null;
+  setAccessToken: (value: string) => void;
+  removeAccessToken: () => void;
+  logout: () => void;
+};
 
 const useAuthService = (): AuthService => {
   const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage<string | null>('access_token', null);
   const { push } = useHistory();
 
+  const logout = useCallback((): void => {
+    removeAccessToken();
+    push(RouteConfig.Login);
+  }, [push, removeAccessToken]);
+
   useEffect(() => {
     if (accessToken) {
       API.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
 
-      getUserInfo().catch(() => {
-        push(RouteConfig.Login);
-        removeAccessToken();
-      });
+      getUserInfo().catch(() => logout());
     }
-  }, [accessToken, removeAccessToken, push]);
+  }, [accessToken, removeAccessToken, logout]);
 
-  return [accessToken, setAccessToken, removeAccessToken];
+  return {
+    accessToken,
+    setAccessToken,
+    removeAccessToken,
+    logout,
+  };
 };
 
 export const AuthServiceContext = createContext<AuthService | null>(null);

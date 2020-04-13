@@ -36,7 +36,7 @@ const Login = (): ReactElement => {
   const [repeatPassword, setRepeatPassword] = useState<LoginField>({ value: '' });
   const [formError, setFormError] = useState<string[]>();
 
-  const [, setAccessToken] = useAuthServiceContext();
+  const { setAccessToken } = useAuthServiceContext();
   const { push } = useHistory();
 
   const onClearFormError = (): void => {

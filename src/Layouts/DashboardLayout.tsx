@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, MouseEvent } from 'react';
 import { Route, RouteProps, RouteComponentProps, Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
@@ -76,7 +76,7 @@ const ContentContainer = styled.div<StyledProps>`
 
 function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
-  const [accessToken] = useAuthServiceContext();
+  const { accessToken, logout } = useAuthServiceContext();
 
   if (!accessToken) {
     return <Redirect to={RouteConfig.Login} />;
@@ -84,6 +84,12 @@ function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>):
 
   const onClick = (): void => {
     setIsOpen(!isOpen);
+  };
+
+  const onClickLogout = (event: MouseEvent<HTMLAnchorElement>): void => {
+    event.preventDefault();
+
+    logout();
   };
 
   const getDashboardHeaderTitle = (params: T): string => {
@@ -95,8 +101,8 @@ function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>):
       {...rest}
       render={(props: RouteComponentProps<T>) => (
         <DashboardLayoutStyled>
-          <DashboardMenu isOpen={isOpen} onClick={onClick} />
-          <DashboardMenuMobile isOpen={isOpen} onClick={onClick} />
+          <DashboardMenu isOpen={isOpen} onClick={onClick} onClickLogout={onClickLogout} />
+          <DashboardMenuMobile isOpen={isOpen} onClick={onClick} onClickLogout={onClickLogout} />
           <ContentContainer isOpen={isOpen}>
             <DashboardHeader title={getDashboardHeaderTitle(props.match.params)} />
             <Content>

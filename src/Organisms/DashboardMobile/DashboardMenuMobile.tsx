@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
@@ -17,7 +17,7 @@ const ArrowStyled = styled(Arrow)`
   transition: all 0.3s ease;
 `;
 
-const MobileMenuStyled = styled.div<StyledProps>`
+const MobileMenuStyled = styled.div<Pick<Props, 'isOpen'>>`
   width: 100%;
   height: ${props => (props.isOpen ? '294px' : '54px')};
 
@@ -66,16 +66,14 @@ const HeaderContainer = styled.div`
   }
 `;
 
-type StyledProps = {
+type Props = {
   className?: string;
   isOpen?: boolean;
-};
-
-type Props = StyledProps & {
   onClick: () => void;
+  onClickLogout: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
-const DashboardMenuMobile = ({ className, isOpen, onClick }: Props): ReactElement => (
+const DashboardMenuMobile = ({ className, isOpen, onClick, onClickLogout }: Props): ReactElement => (
   <MobileMenuStyled isOpen={isOpen} className={className}>
     <HeaderContainer>
       <TitleStyled fontWeight="semiBold" fontSize="medium" level="1">
@@ -85,7 +83,7 @@ const DashboardMenuMobile = ({ className, isOpen, onClick }: Props): ReactElemen
       </TitleStyled>
       <ArrowStyled onClick={onClick} />
     </HeaderContainer>
-    <DashboardItems onClick={() => isOpen && onClick()} />
+    <DashboardItems onClick={() => isOpen && onClick()} onClickLogout={onClickLogout} />
   </MobileMenuStyled>
 );
 
