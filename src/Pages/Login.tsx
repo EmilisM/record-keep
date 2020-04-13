@@ -9,7 +9,7 @@ import { getAccessToken, createUser } from 'API/User';
 import { useHistory } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { AxiosError } from 'axios';
-import { ErrorTokenResponse, CreateUserErrorResponse } from 'API/User/types';
+import { ErrorTokenResponse, CreateUserErrorResponse } from 'Types/User';
 import { LoginField } from 'Types/Login';
 
 const LoginFormStyled = styled(LoginForm)`

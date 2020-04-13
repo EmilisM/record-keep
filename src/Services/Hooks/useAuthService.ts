@@ -2,9 +2,10 @@ import useLocalStorage from './useLocalStorage';
 import { useEffect, useCallback } from 'react';
 import { createContext, useContext } from 'react';
 import API from 'API/index';
-import { getUserInfo } from 'API/User';
 import { useHistory } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
+import { useUserInfo } from 'State/Hooks/User';
+import { isStateError } from 'Types/State';
 
 type AuthService = {
   accessToken: string | null;
@@ -16,6 +17,7 @@ type AuthService = {
 const useAuthService = (): AuthService => {
   const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage<string | null>('access_token', null);
   const { push } = useHistory();
+  const getUserInfo = useUserInfo();
 
   const logout = useCallback((): void => {
     removeAccessToken();
@@ -26,9 +28,12 @@ const useAuthService = (): AuthService => {
     if (accessToken) {
       API.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
 
-      getUserInfo().catch(() => logout());
+      const userInfo = getUserInfo();
+      if (isStateError(userInfo)) {
+        logout();
+      }
     }
-  }, [accessToken, removeAccessToken, logout]);
+  }, [accessToken, removeAccessToken, logout, getUserInfo]);
 
   return {
     accessToken,

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import API, { authServer } from 'API';
-import { TokenResponse, UserInfo } from './types';
+import { TokenResponse, UserInfo } from 'Types/User';
 
 export const getAccessToken = async (email: string, password: string): Promise<TokenResponse> => {
   const params = new URLSearchParams([
