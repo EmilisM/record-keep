@@ -5,9 +5,9 @@ import { FontSizes } from 'Types/Style';
 type Sizes = 'medium';
 const fontSizes: FontSizes<Sizes> = {
   medium: {
-    desktop: 20,
-    tablet: 20,
-    mobile: 20,
+    desktop: 18,
+    tablet: 18,
+    mobile: 18,
   },
 };
 
@@ -26,7 +26,7 @@ const FormError = styled(FormErrorBase)`
   font-size: ${props => fontSizes[props.fontSize || 'medium'].desktop}px;
   border-radius: 8px;
   border: 1px solid ${props => props.theme.colors.border.error};
-  padding: 6px 10px 6px;
+  padding: 6px 10px;
   background-color: transparent;
 
   color: ${props => props.theme.colors.text.error};

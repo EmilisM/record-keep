@@ -5,11 +5,12 @@ import LoginForm from 'Molecules/LoginForm';
 import styled from 'styled-components/macro';
 import { RadioOptionType } from 'Types/Radio';
 import { useAuthServiceContext } from 'Services/Hooks/useAuthService';
-import { getAccessToken } from 'API/User';
+import { getAccessToken, createUser } from 'API/User';
 import { useHistory } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { AxiosError } from 'axios';
-import { ErrorTokenResponse } from 'API/User/types';
+import { ErrorTokenResponse, CreateUserErrorResponse } from 'API/User/types';
+import { LoginField } from 'Types/Login';
 
 const LoginFormStyled = styled(LoginForm)`
   margin-top: 20px;
@@ -30,10 +31,10 @@ const loginFormOptions: RadioOptionType<LoginFormType>[] = [
 
 const Login = (): ReactElement => {
   const [activeForm, setActiveForm] = useState<RadioOptionType<LoginFormType>>(loginFormOptions[0]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [formError, setFormError] = useState<string>();
+  const [email, setEmail] = useState<LoginField>({ value: '' });
+  const [password, setPassword] = useState<LoginField>({ value: '' });
+  const [repeatPassword, setRepeatPassword] = useState<LoginField>({ value: '' });
+  const [formError, setFormError] = useState<string[]>();
 
   const [, setAccessToken] = useAuthServiceContext();
   const { push } = useHistory();
@@ -42,17 +43,33 @@ const Login = (): ReactElement => {
     setFormError(undefined);
   };
 
+  const logUserIn = (): Promise<void> =>
+    getAccessToken(email.value, password.value)
+      .then(token => {
+        setAccessToken(token.access_token);
+        push(RouteConfig.Dashboard.Root);
+      })
+      .catch((error: AxiosError<ErrorTokenResponse>) => {
+        if (error.response) {
+          setFormError([error.response.data.error_description]);
+        }
+      });
+
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
     if (activeForm.value === 'login') {
-      getAccessToken(username, password)
-        .then(token => {
-          setAccessToken(token.access_token);
-          push(RouteConfig.Dashboard.Root);
-        })
-        .catch((error: AxiosError<ErrorTokenResponse>) => setFormError(error.response?.data.error_description));
+      logUserIn();
     } else if (activeForm.value === 'signup') {
+      createUser(email.value, password.value, repeatPassword.value)
+        .then(() => logUserIn())
+        .catch((error: AxiosError<CreateUserErrorResponse>) => {
+          const errors = error.response?.data.errors;
+          setEmail({ ...email, error: errors?.Email });
+          setPassword({ ...password, error: errors?.Password });
+          setRepeatPassword({ ...password, error: errors?.RepeatPassword });
+          setFormError(errors?.form);
+        });
     }
   };
 
@@ -71,12 +88,12 @@ const Login = (): ReactElement => {
       <LoginFormStyled
         type={activeForm.value}
         onSubmit={onSubmit}
-        username={username}
-        setUsername={setUsername}
+        email={email}
+        setEmail={value => setEmail({ ...email, value })}
         password={password}
-        setPassword={setPassword}
+        setPassword={value => setPassword({ ...password, value })}
         repeatPassword={repeatPassword}
-        setRepeatPassword={setRepeatPassword}
+        setRepeatPassword={value => setRepeatPassword({ ...repeatPassword, value })}
         formError={formError}
       />
     </>

@@ -4,9 +4,10 @@ import Input from 'Atoms/Input/Input';
 import InputLabel from 'Atoms/Input/InputLabel';
 import Button from 'Atoms/Button/Button';
 import LoginCard from 'Atoms/Card/LoginCard';
-import { LoginFormType } from 'Types/Login';
+import { LoginFormType, LoginField } from 'Types/Login';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import FormError from 'Atoms/Error/FormError';
+import { getErrorMessage } from 'Types/Error';
 
 type StyledProps = {
   type?: LoginFormType;
@@ -19,15 +20,14 @@ const BaseInputContainer = styled.div`
 
 const MiddleInputContainer = styled(BaseInputContainer)`
   margin-top: 20px;
-  margin-bottom: 20px;
 `;
 
 const AnimatedInputContainer = styled(BaseInputContainer)<StyledProps>`
   transition: all 0.2s ease;
   overflow: hidden;
 
-  max-height: ${props => (props.type === 'signup' ? '100px' : '0px')};
-  margin-bottom: ${props => (props.type === 'signup' ? '20px' : '0px')};
+  max-height: ${props => (props.type === 'signup' ? '118px' : '0px')};
+  margin-top: ${props => (props.type === 'signup' ? '20px' : '0px')};
 `;
 
 const InputLabelStyled = styled(InputLabel)`
@@ -38,6 +38,7 @@ const ButtonStyled = styled(Button)`
   width: 100%;
   text-align: left;
   display: flex;
+  margin-top: 20px;
 `;
 
 const ArrowStyled = styled(Arrow)`
@@ -49,18 +50,22 @@ const ArrowStyled = styled(Arrow)`
 `;
 
 const FormErrorStyled = styled(FormError)`
-  margin-bottom: 20px;
+  margin: 10px 0 20px;
+`;
+
+const FieldErrorStyled = styled(FormError)`
+  margin-top: 10px;
 `;
 
 type Props = {
   className?: string;
   type: LoginFormType;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  username: string;
-  password: string;
-  repeatPassword: string;
-  formError?: string;
-  setUsername: (value: string) => void;
+  email: LoginField;
+  password: LoginField;
+  repeatPassword: LoginField;
+  formError?: string[];
+  setEmail: (value: string) => void;
   setPassword: (value: string) => void;
   setRepeatPassword: (value: string) => void;
 };
@@ -69,8 +74,8 @@ const LoginForm = ({
   className,
   type,
   onSubmit,
-  username,
-  setUsername,
+  email,
+  setEmail,
   password,
   formError,
   setPassword,
@@ -89,9 +94,10 @@ const LoginForm = ({
           placeholder="Email"
           id="form-email"
           required
-          value={username}
-          onChange={e => setUsername(e.target.value)}
+          value={email.value}
+          onChange={e => setEmail(e.target.value)}
         />
+        {email.error && <FieldErrorStyled>{getErrorMessage(email.error)}</FieldErrorStyled>}
       </BaseInputContainer>
       <MiddleInputContainer>
         <InputLabelStyled fontWeight="regular" htmlFor="form-password">
@@ -103,9 +109,10 @@ const LoginForm = ({
           placeholder="Password"
           id="form-password"
           required
-          value={password}
+          value={password.value}
           onChange={e => setPassword(e.target.value)}
         />
+        {password.error && <FieldErrorStyled>{getErrorMessage(password.error)}</FieldErrorStyled>}
       </MiddleInputContainer>
       <AnimatedInputContainer type={type}>
         <InputLabelStyled fontWeight="regular" htmlFor="form-repeat-password">
@@ -117,11 +124,12 @@ const LoginForm = ({
           placeholder="Password"
           id="form-repeat-password"
           required={type === 'signup'}
-          value={repeatPassword}
+          value={repeatPassword.value}
           onChange={e => setRepeatPassword(e.target.value)}
         />
+        {repeatPassword.error && <FieldErrorStyled>{getErrorMessage(repeatPassword.error)}</FieldErrorStyled>}
       </AnimatedInputContainer>
-      {formError && <FormErrorStyled>{formError}</FormErrorStyled>}
+      {formError && <FormErrorStyled>{getErrorMessage(formError)}</FormErrorStyled>}
       <ButtonStyled fontWeight="light" type="submit">
         {type === 'login' ? 'Log in' : 'Sign up'}
         <ArrowStyled />
