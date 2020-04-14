@@ -27,6 +27,8 @@ const ActionMenuIconContainer = styled.div<Pick<Props, 'isOpen'>>`
   padding: 0 10px;
   max-width: 56px;
 
+  cursor: pointer;
+
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     max-width: 38px;
     padding: 0 5px;
@@ -70,7 +72,7 @@ const ActionMenuItems = styled.ul`
 
 const ActionMenu = ({ className, options, onChange, isOpen, onClick }: Props): ReactElement => (
   <ActionMenuIconContainer className={className} onClick={onClick} isOpen={isOpen}>
-    <DotsStyled />
+    <DotsStyled className="action-menu__icon" />
     {isOpen && (
       <ActionMenuStyled>
         <ActionMenuItems>

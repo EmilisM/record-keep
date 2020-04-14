@@ -15,6 +15,7 @@ const ActionMenuItemStyled = styled.li`
   display: flex;
   align-items: center;
   flex-direction: row;
+  border-radius: 4px;
 
   padding: 0 10px;
 

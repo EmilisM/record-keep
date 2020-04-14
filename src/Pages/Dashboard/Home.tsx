@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import Card from 'Atoms/Card/Card';
 import styled from 'styled-components/macro';
+import UserCard from 'Molecules/UserCard';
 
 const HomeContainer = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const CardStyled = styled(Card)`
 const Home = (): ReactElement => (
   <HomeContainer>
     <CardStyled>Home</CardStyled>
-    <CardStyled>Home</CardStyled>
+    <UserCard />
   </HomeContainer>
 );
 
