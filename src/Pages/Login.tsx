@@ -19,10 +19,13 @@ const LoginFormStyled = styled(LoginForm)`
 
 const RadioContainer = styled.div`
   display: flex;
-  max-width: 400px;
-  width: 100%;
-
   justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    max-width: 100%;
+  }
 `;
 
 type LoginFormType = 'login' | 'signup';
