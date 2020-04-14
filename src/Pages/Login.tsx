@@ -11,9 +11,18 @@ import { RouteConfig } from 'Routes/RouteConfig';
 import { AxiosError } from 'axios';
 import { ErrorTokenResponse, CreateUserErrorResponse } from 'Types/User';
 import { LoginField } from 'Types/Login';
+import Loader from 'Atoms/Loader';
 
 const LoginFormStyled = styled(LoginForm)`
   margin-top: 20px;
+`;
+
+const RadioContainer = styled.div`
+  display: flex;
+  max-width: 400px;
+  width: 100%;
+
+  justify-content: space-between;
 `;
 
 type LoginFormType = 'login' | 'signup';
@@ -35,6 +44,7 @@ const Login = (): ReactElement => {
   const [password, setPassword] = useState<LoginField>({ value: '' });
   const [repeatPassword, setRepeatPassword] = useState<LoginField>({ value: '' });
   const [formError, setFormError] = useState<string[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { setAccessToken } = useAuthServiceContext();
   const { push } = useHistory();
@@ -47,9 +57,11 @@ const Login = (): ReactElement => {
     getAccessToken(email.value, password.value)
       .then(token => {
         setAccessToken(token.access_token);
+        setIsLoading(false);
         push(RouteConfig.Dashboard.Root);
       })
       .catch((error: AxiosError<ErrorTokenResponse>) => {
+        setIsLoading(false);
         if (error.response) {
           setFormError([error.response.data.error_description]);
         }
@@ -58,16 +70,23 @@ const Login = (): ReactElement => {
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
+    if (isLoading) {
+      return;
+    }
+
+    setIsLoading(true);
     if (activeForm.value === 'login') {
       logUserIn();
     } else if (activeForm.value === 'signup') {
       createUser(email.value, password.value, repeatPassword.value)
         .then(() => logUserIn())
         .catch((error: AxiosError<CreateUserErrorResponse>) => {
+          setIsLoading(false);
+
           const errors = error.response?.data.errors;
           setEmail({ ...email, error: errors?.Email });
           setPassword({ ...password, error: errors?.Password });
-          setRepeatPassword({ ...password, error: errors?.RepeatPassword });
+          setRepeatPassword({ ...repeatPassword, error: errors?.RepeatPassword });
           setFormError(errors?.form);
         });
     }
@@ -75,16 +94,19 @@ const Login = (): ReactElement => {
 
   return (
     <>
-      <RadioButton
-        options={loginFormOptions}
-        name="login-switcher"
-        fontWeight="light"
-        value={activeForm}
-        onChange={(e, value) => {
-          setActiveForm(value);
-          onClearFormError();
-        }}
-      />
+      <RadioContainer>
+        <RadioButton
+          options={loginFormOptions}
+          name="login-switcher"
+          fontWeight="light"
+          value={activeForm}
+          onChange={(e, value) => {
+            setActiveForm(value);
+            onClearFormError();
+          }}
+        />
+        {isLoading && <Loader />}
+      </RadioContainer>
       <LoginFormStyled
         type={activeForm.value}
         onSubmit={onSubmit}
