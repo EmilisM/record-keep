@@ -25,7 +25,7 @@ const ActionMenuIconContainer = styled.div<Pick<Props, 'isOpen'>>`
   align-items: center;
   border-radius: 4px;
   padding: 0 10px;
-  max-width: 56px;
+  max-width: 48px;
 
   cursor: pointer;
 
@@ -45,12 +45,8 @@ const ActionMenuIconContainer = styled.div<Pick<Props, 'isOpen'>>`
 
 const ActionMenuStyled = styled.div`
   position: absolute;
-  top: 36px;
+  top: 28px;
   right: 0;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    top: 28px;
-  }
 
   border-radius: 4px;
   background-color: ${props => props.theme.colors.background.primary};

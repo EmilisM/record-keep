@@ -20,8 +20,8 @@ const ActionMenuItemStyled = styled.li`
   padding: 0 10px;
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
 
   &:hover {
@@ -36,7 +36,9 @@ const Label = styled(Span)`
 const ActionMenuItem = ({ className, option, onClick }: Props): ReactElement => (
   <ActionMenuItemStyled className={className} onClick={onClick}>
     <option.Icon />
-    <Label color="primaryDarker">{option.label}</Label>
+    <Label fontSize="regular" color="primaryDarker">
+      {option.label}
+    </Label>
   </ActionMenuItemStyled>
 );
 
