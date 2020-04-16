@@ -6,12 +6,12 @@ import styled from 'styled-components/macro';
 import { RadioOptionType } from 'Types/Radio';
 import { useAuthServiceContext } from 'Services/Hooks/useAuthService';
 import { getAccessToken, createUser } from 'API/User';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { AxiosError } from 'axios';
 import { ErrorTokenResponse, CreateUserErrorResponse } from 'Types/User';
 import { LoginField } from 'Types/Login';
-import Loader from 'Atoms/Loader';
+import Loader from 'Atoms/Loader/Loader';
 
 const LoginFormStyled = styled(LoginForm)`
   margin-top: 20px;
@@ -49,8 +49,12 @@ const Login = (): ReactElement => {
   const [formError, setFormError] = useState<string[]>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { setAccessToken } = useAuthServiceContext();
+  const { setAccessToken, isAuth } = useAuthServiceContext();
   const { push } = useHistory();
+
+  if (isAuth) {
+    return <Redirect to={RouteConfig.Dashboard.Root} />;
+  }
 
   const onClearFormError = (): void => {
     setFormError(undefined);

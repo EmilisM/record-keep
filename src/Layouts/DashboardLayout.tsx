@@ -76,9 +76,9 @@ const ContentContainer = styled.div<StyledProps>`
 
 function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
-  const { accessToken, logout } = useAuthServiceContext();
+  const { logout, isAuth } = useAuthServiceContext();
 
-  if (!accessToken) {
+  if (!isAuth) {
     return <Redirect to={RouteConfig.Login} />;
   }
 

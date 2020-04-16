@@ -5,6 +5,7 @@ import styled from 'styled-components/macro';
 import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
+import H from 'Atoms/Text/H';
 
 type Props = {
   className?: string;
@@ -86,6 +87,9 @@ const UserCard = ({ className }: Props): ReactElement => {
           onClick={() => setIsOpen(!isOpen)}
         />
       </CardHeader>
+      <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryDarker">
+        s
+      </H>
     </CardStyled>
   );
 };

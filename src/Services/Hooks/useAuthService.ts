@@ -1,23 +1,26 @@
 import useLocalStorage from './useLocalStorage';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { createContext, useContext } from 'react';
-import API from 'API/index';
 import { useHistory } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
-import { useUserInfo } from 'State/Hooks/User';
-import { isStateError } from 'Types/State';
+import { useQuery } from 'react-query';
+import { getUserInfo } from 'API/User';
 
 type AuthService = {
   accessToken: string | null;
   setAccessToken: (value: string) => void;
   removeAccessToken: () => void;
   logout: () => void;
+  isLoading: boolean;
+  isAuth: boolean;
 };
 
 const useAuthService = (): AuthService => {
   const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage<string | null>('access_token', null);
   const { push } = useHistory();
-  const getUserInfo = useUserInfo();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
+  const { refetch } = useQuery('userInfo', getUserInfo, { manual: true });
 
   const logout = useCallback((): void => {
     removeAccessToken();
@@ -26,20 +29,23 @@ const useAuthService = (): AuthService => {
 
   useEffect(() => {
     if (accessToken) {
-      API.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-      const userInfo = getUserInfo();
-      if (isStateError(userInfo)) {
-        logout();
-      }
+      setIsLoading(true);
+      refetch().then(() => {
+        setIsAuth(true);
+        setIsLoading(false);
+      });
     }
-  }, [accessToken, removeAccessToken, logout, getUserInfo]);
+
+    setIsAuth(false);
+  }, [accessToken, refetch]);
 
   return {
     accessToken,
     setAccessToken,
     removeAccessToken,
     logout,
+    isLoading,
+    isAuth,
   };
 };
 
