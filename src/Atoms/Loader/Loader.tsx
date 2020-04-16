@@ -6,7 +6,11 @@ const LoaderStyled = styled.div`
   width: 40px;
   height: 40px;
 
-  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+  background-image: linear-gradient(
+    135deg,
+    ${props => props.theme.colors.special.loaderFirst} 0%,
+    ${props => props.theme.colors.special.loaderSecond} 70%
+  );
 
   animation: rotate 1s linear infinite;
 

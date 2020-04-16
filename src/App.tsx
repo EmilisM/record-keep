@@ -14,7 +14,9 @@ const App = (): ReactElement => {
     <AuthServiceContext.Provider value={authServiceStorage}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        {authServiceStorage.isLoading ? <PageLoader /> : <BaseRoute />}
+        <PageLoader isLoading={authServiceStorage.isLoading}>
+          <BaseRoute />
+        </PageLoader>
       </ThemeProvider>
     </AuthServiceContext.Provider>
   );

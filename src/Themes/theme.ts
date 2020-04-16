@@ -27,6 +27,10 @@ const theme: DefaultTheme = {
       cardShadow: '#8c8291',
       error: '#ff3333',
     },
+    special: {
+      loaderFirst: '#667eea',
+      loaderSecond: '#764ba2',
+    },
   },
   font: {
     fontFamily: {

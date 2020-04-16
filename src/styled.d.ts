@@ -28,6 +28,10 @@ declare module 'styled-components' {
         cardShadow: string;
         error: string;
       };
+      special: {
+        loaderFirst: string;
+        loaderSecond: string;
+      };
     };
     font: {
       fontFamily: {
