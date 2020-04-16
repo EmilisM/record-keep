@@ -2,12 +2,17 @@ import React, { ReactElement, ReactNode } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'medium' | 'regular' | 'big' | 'veryBig';
+type Sizes = 'medium' | 'normal' | 'regular' | 'big' | 'veryBig';
 const fontSizes: FontSizes<Sizes> = {
   medium: {
     desktop: 40,
     tablet: 30,
     mobile: 30,
+  },
+  normal: {
+    desktop: 20,
+    tablet: 18,
+    mobile: 16,
   },
   regular: {
     desktop: 25,

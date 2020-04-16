@@ -1,4 +1,5 @@
 import { ErrorResponse, ErrorsBase } from 'Types/Error';
+import { Moment } from 'moment';
 
 export interface TokenResponse {
   access_token: string;

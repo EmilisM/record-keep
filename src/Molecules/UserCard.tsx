@@ -6,13 +6,16 @@ import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import H from 'Atoms/Text/H';
+import { useQuery } from 'react-query';
+import { getUserInfo } from 'API/User';
+import P from 'Atoms/Text/P';
+import moment from 'moment';
 
 type Props = {
   className?: string;
 };
 
 const CardStyled = styled(Card)`
-  max-width: 400px;
   width: 100%;
 
   display: flex;
@@ -36,8 +39,6 @@ const CardHeader = styled.div`
     ${props => props.theme.colors.background.secondaryDark},
     ${props => props.theme.colors.background.secondaryDarkest}
   );
-  position: absolute;
-  top: 0px;
 `;
 
 const UserImageStyled = styled.img`
@@ -64,6 +65,22 @@ const ActionMenuStyled = styled(ActionMenu)<{ isOpen: boolean }>`
   }
 `;
 
+const CardBody = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+
+  width: 100%;
+  height: 100%;
+`;
+
+const Field = styled.div`
+  width: 100%;
+
+  margin-top: 20px;
+`;
+
 const actionMenuOptions: ActionMenuOption[] = [
   {
     value: 'edit',
@@ -75,9 +92,10 @@ const actionMenuOptions: ActionMenuOption[] = [
 const UserCard = ({ className }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const onChange = (): void => {};
+  const { data, status } = useQuery('userInfo', getUserInfo);
 
   return (
-    <CardStyled className={className}>
+    <CardStyled className={className} isLoading={status === 'loading' && !data}>
       <CardHeader>
         <UserImageStyled src={UserIcon} />
         <ActionMenuStyled
@@ -87,9 +105,29 @@ const UserCard = ({ className }: Props): ReactElement => {
           onClick={() => setIsOpen(!isOpen)}
         />
       </CardHeader>
-      <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryDarker">
-        s
-      </H>
+      <CardBody>
+        <H level="2" fontSize="normal" fontWeight="semiBold" color="dashboardPrimary">
+          {data?.displayName || data?.email}
+        </H>
+        {data?.displayName && (
+          <Field>
+            <H level="3" fontSize="normal" fontWeight="semiBold" color="dashboardPrimary">
+              Email
+            </H>
+            <P fontSize="normal" fontWeight="regular" color="dashboardPrimary">
+              {data.email}
+            </P>
+          </Field>
+        )}
+        <Field>
+          <H level="3" fontSize="normal" fontWeight="semiBold" color="dashboardPrimary">
+            Joined in
+          </H>
+          <P fontSize="normal" fontWeight="regular" color="dashboardPrimary">
+            {data && moment(data.creationDate).format('YYYY-MM-DD')}
+          </P>
+        </Field>
+      </CardBody>
     </CardStyled>
   );
 };

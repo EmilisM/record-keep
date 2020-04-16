@@ -5,7 +5,6 @@ import Loader from 'Atoms/Loader/Loader';
 const CardStyled = styled.div`
   background: ${props => props.theme.colors.background.primary};
   border-radius: 4px;
-  padding: 20px;
 
   box-shadow: 0px 1px 2px 0 ${props => props.theme.colors.border.cardShadow};
   font-family: ${props => props.theme.font.fontFamily.primary};
@@ -13,9 +12,13 @@ const CardStyled = styled.div`
 `;
 
 const CardLoaderOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 4px;
+  box-shadow: 0px 1px 2px 0 ${props => props.theme.colors.border.cardShadow};
+  background-color: ${props => props.theme.colors.background.primaryLight};
 
   width: 100%;
   height: 100%;
@@ -30,11 +33,12 @@ type Props = {
 
 const Card = ({ className, children, isLoading, onClick }: Props): ReactElement => (
   <CardStyled className={className} onClick={onClick}>
-    {children}
-    {isLoading && (
+    {isLoading ? (
       <CardLoaderOverlay>
         <Loader />
       </CardLoaderOverlay>
+    ) : (
+      children
     )}
   </CardStyled>
 );

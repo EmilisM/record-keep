@@ -34,9 +34,9 @@ export const changePassword = async (oldPassword: string, password: string, repe
 };
 
 export const getUserInfo = async (): Promise<UserInfo> => {
-  const userInfo = await API.get<UserInfo>('/api/user/info');
+  const userInfoResponse = await API.get<UserInfo>('/api/user/info');
 
-  return userInfo.data;
+  return userInfoResponse.data;
 };
 
 export const updateUserInfo = async (email: string, password: string, repeatPassword: string): Promise<UserInfo> => {

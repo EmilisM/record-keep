@@ -63,7 +63,10 @@ const Container = styled.div`
   }
 `;
 
-const LoaderStyled = styled(Loader)``;
+const LoaderStyled = styled(Loader)`
+  width: 50px;
+  height: 50px;
+`;
 
 export const PageLoader = ({ className, isLoading, children }: Props): ReactElement => (
   <>

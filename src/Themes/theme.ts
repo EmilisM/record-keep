@@ -21,6 +21,7 @@ const theme: DefaultTheme = {
       primaryDark: '#2F3043',
       primaryDarker: '#303030',
       error: '#ff3333',
+      dashboardPrimary: '#424242',
     },
     border: {
       primary: '#F3F1F4',

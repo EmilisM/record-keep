@@ -1,20 +1,27 @@
 import React, { ReactElement } from 'react';
-import Card from 'Atoms/Card/Card';
 import styled from 'styled-components/macro';
 import UserCard from 'Molecules/UserCard';
 
 const HomeContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  height: 100%;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     flex-direction: column;
   }
 `;
 
-const CardStyled = styled(Card)`
-  width: 50%;
-  height: 450px;
+const FirstColumn = styled.div`
+  width: 70%;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    width: 100%;
+  }
+`;
+
+const SecondColumn = styled.div`
+  width: 30%;
 
   &:not(:first-child) {
     margin-left: 20px;
@@ -31,8 +38,10 @@ const CardStyled = styled(Card)`
 
 const Home = (): ReactElement => (
   <HomeContainer>
-    <CardStyled>Home</CardStyled>
-    <UserCard />
+    <FirstColumn></FirstColumn>
+    <SecondColumn>
+      <UserCard />
+    </SecondColumn>
   </HomeContainer>
 );
 

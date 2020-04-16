@@ -22,6 +22,7 @@ declare module 'styled-components' {
         primaryDark: string;
         primaryDarker: string;
         error: string;
+        dashboardPrimary: string;
       };
       border: {
         primary: string;
