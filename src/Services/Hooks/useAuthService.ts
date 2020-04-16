@@ -23,6 +23,7 @@ const useAuthService = (): AuthService => {
   const { refetch } = useQuery('userInfo', getUserInfo, { manual: true });
 
   const logout = useCallback((): void => {
+    setIsAuth(false);
     removeAccessToken();
     push(RouteConfig.Login);
   }, [push, removeAccessToken]);
@@ -34,9 +35,9 @@ const useAuthService = (): AuthService => {
         setIsAuth(true);
         setIsLoading(false);
       });
+    } else {
+      setIsAuth(false);
     }
-
-    setIsAuth(false);
   }, [accessToken, refetch]);
 
   return {

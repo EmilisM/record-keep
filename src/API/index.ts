@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Headers } from 'Types/API';
 import { RouteConfig } from 'Routes/RouteConfig';
 
@@ -41,13 +41,13 @@ const getAPIInstance = (): AxiosInstance => {
 
   API.interceptors.response.use(
     config => config,
-    (error: AxiosError) => {
+    error => {
       if (error.response?.status === 401) {
         removeAccessToken();
         window.location.replace(RouteConfig.Login);
       }
 
-      return error;
+      return Promise.reject(error);
     },
   );
 
