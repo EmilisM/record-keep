@@ -1,47 +1,40 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import UserCard from 'Molecules/UserCard';
+import Card from 'Atoms/Card/Card';
 
 const HomeContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+  width: 100%;
   height: 100%;
+  display: grid;
+
+  grid-template-columns: auto 300px;
+  grid-template-rows: auto 1fr;
+  grid-gap: 20px;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    display: flex;
     flex-direction: column;
   }
 `;
 
-const FirstColumn = styled.div`
-  width: 70%;
-
-  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
-    width: 100%;
-  }
+const UserCardStyled = styled(UserCard)`
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
 `;
 
-const SecondColumn = styled.div`
-  width: 30%;
+const GridStyled = styled(Card)`
+  grid-column: 0 / 1;
+  grid-row: 0 / 1;
 
-  &:not(:first-child) {
-    margin-left: 20px;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
-    width: 100%;
-
-    &:not(:first-child) {
-      margin-top: 20px;
-    }
-  }
+  width: 100%;
+  height: 100%;
 `;
 
 const Home = (): ReactElement => (
   <HomeContainer>
-    <FirstColumn></FirstColumn>
-    <SecondColumn>
-      <UserCard />
-    </SecondColumn>
+    <GridStyled />
+    <UserCardStyled />
   </HomeContainer>
 );
 

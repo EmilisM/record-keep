@@ -17,6 +17,8 @@ type Props = {
 
 const CardStyled = styled(Card)`
   width: 100%;
+  min-width: 300px;
+  max-height: 400px;
 
   display: flex;
   flex-direction: column;
@@ -72,7 +74,6 @@ const CardBody = styled.div`
   padding: 10px;
 
   width: 100%;
-  height: 100%;
 `;
 
 const Field = styled.div`
