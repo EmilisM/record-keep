@@ -37,7 +37,7 @@ const CollectionsFilterCard = ({ className }: Props): ReactElement => (
       <InputLabel color="primaryDarker" fontSize="big" fontWeight="semiBold">
         Search
       </InputLabel>
-      <InputDashboardStyled placeholder="Record name" color="primaryDarker" fontWeight="regular" fontSize="regular" />
+      <InputDashboardStyled placeholder="Record name" color="primaryDarker" fontWeight="regular" fontSize="normal" />
     </Column>
   </CardStyled>
 );

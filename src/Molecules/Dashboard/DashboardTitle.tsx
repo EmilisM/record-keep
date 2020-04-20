@@ -18,7 +18,7 @@ const HStyled = styled(H)`
 
 const DashboardTitle = ({ className, children }: Props): ReactElement => (
   <DashboardTitleStyled className={className}>
-    <HStyled fontSize="medium" level="1" color="primaryLight" fontWeight="semiBold">
+    <HStyled fontSize="dashboardTitle" level="1" color="primaryLight" fontWeight="semiBold">
       {children}
     </HStyled>
   </DashboardTitleStyled>

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
-import UserCard from 'Molecules/UserCard';
+import UserCard from 'Organisms/UserCard';
 import Card from 'Atoms/Card/Card';
 
 const HomeContainer = styled.div`
@@ -8,7 +8,7 @@ const HomeContainer = styled.div`
   height: 100%;
   display: grid;
 
-  grid-template-columns: auto 300px;
+  grid-template-columns: auto 400px;
   grid-template-rows: auto 1fr;
   grid-gap: 20px;
 

@@ -1,18 +1,18 @@
-import React, { ReactElement, ChangeEvent, RefObject, KeyboardEvent } from 'react';
+import React, { ReactElement, ChangeEvent, KeyboardEvent, RefObject } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'medium' | 'regular';
+type Sizes = 'medium' | 'normal';
 const fontSizes: FontSizes<Sizes> = {
   medium: {
     desktop: 20,
     tablet: 20,
     mobile: 20,
   },
-  regular: {
-    desktop: 25,
-    tablet: 22,
-    mobile: 20,
+  normal: {
+    desktop: 20,
+    tablet: 18,
+    mobile: 16,
   },
 };
 
@@ -31,6 +31,7 @@ type Props = {
   autoFocus?: boolean;
   onKeyPress?: (event: KeyboardEvent<HTMLInputElement>) => void;
   required?: boolean;
+  accept?: string;
 };
 
 const InputBase = ({
@@ -45,6 +46,7 @@ const InputBase = ({
   autoFocus,
   onKeyPress,
   required,
+  accept,
 }: Props): ReactElement => (
   <input
     type={type}
@@ -58,6 +60,7 @@ const InputBase = ({
     autoFocus={autoFocus}
     onKeyPress={onKeyPress}
     required={required}
+    accept={accept}
   />
 );
 

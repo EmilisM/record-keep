@@ -19,6 +19,7 @@ type Props = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: Sizes;
   color?: keyof DefaultTheme['colors']['text'];
+  type?: 'button' | 'submit' | 'reset';
 };
 
 const Button = styled.button<Props>`
@@ -28,6 +29,8 @@ const Button = styled.button<Props>`
   color: ${props => props.theme.colors.text[props.color || 'primaryDark']};
   cursor: pointer;
   border: unset;
+  background: inherit;
+  padding: 0;
   
   @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
   props.theme.breakpoints.desktop})) {
@@ -39,8 +42,8 @@ const Button = styled.button<Props>`
   }
 `;
 
-const InvisibleButton = ({ className, name, onClick, children }: Props): ReactElement => (
-  <Button className={className} onClick={onClick} name={name}>
+const InvisibleButton = ({ className, name, onClick, children, type }: Props): ReactElement => (
+  <Button className={className} onClick={onClick} name={name} type={type || 'button'}>
     {children}
   </Button>
 );

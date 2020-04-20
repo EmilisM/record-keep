@@ -1,48 +1,47 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, ButtonHTMLAttributes } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'small' | 'medium' | 'big';
+type Sizes = 'medium';
 const fontSizes: FontSizes<Sizes> = {
-  small: {
-    desktop: 18,
-    tablet: 16,
-    mobile: 15,
-  },
   medium: {
     desktop: 20,
     tablet: 19,
     mobile: 18,
   },
-  big: {
-    desktop: 25,
-    tablet: 22,
-    mobile: 20,
-  },
 };
 
 type Props = {
   className?: string;
-  children?: ReactNode;
-  htmlFor?: string;
-  fontSize?: Sizes;
+  onClick?: () => void;
+  children: ReactNode;
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
+  fontSize?: Sizes;
   color?: keyof DefaultTheme['colors']['text'];
+  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 };
 
-const InputLabelBase = ({ className, children, htmlFor }: Props): ReactElement => (
-  <label className={className} htmlFor={htmlFor}>
+const ButtonBase = ({ className, children, onClick, type }: Props): ReactElement => (
+  <button onClick={onClick} className={className} type={type}>
     {children}
-  </label>
+  </button>
 );
 
-const InputLabel = styled(InputLabelBase)`
+const ButtonDashboard = styled(ButtonBase)`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => fontSizes[props.fontSize || 'medium'].desktop}px;
-  background-color: transparent;
-
   color: ${props => props.theme.colors.text[props.color || 'primaryLight']};
+  background-color: ${props => props.theme.colors.background.secondaryDark};
+  outline: none;
+  border: none;
+
+  display: flex;
+  justify-content: flex-start;
+
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
 
   @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
   props.theme.breakpoints.desktop})) {
@@ -54,4 +53,4 @@ const InputLabel = styled(InputLabelBase)`
   }
 `;
 
-export default InputLabel;
+export default ButtonDashboard;

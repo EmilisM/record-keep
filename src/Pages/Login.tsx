@@ -28,6 +28,11 @@ const RadioContainer = styled.div`
   }
 `;
 
+const LoaderStyled = styled(Loader)`
+  width: 36px;
+  height: 36px;
+`;
+
 type LoginFormType = 'login' | 'signup';
 
 const loginFormOptions: RadioOptionType<LoginFormType>[] = [
@@ -112,7 +117,7 @@ const Login = (): ReactElement => {
             onClearFormError();
           }}
         />
-        {isLoading && <Loader />}
+        {isLoading && <LoaderStyled />}
       </RadioContainer>
       <LoginFormStyled
         type={activeForm.value}

@@ -76,7 +76,7 @@ type Props = {
 const DashboardMenuMobile = ({ className, isOpen, onClick, onClickLogout }: Props): ReactElement => (
   <MobileMenuStyled isOpen={isOpen} className={className}>
     <HeaderContainer>
-      <TitleStyled fontWeight="semiBold" fontSize="medium" level="1">
+      <TitleStyled fontWeight="semiBold" fontSize="dashboardTitle" level="1">
         <LinkStyled to={RouteConfig.Dashboard.Home} onClick={onClick}>
           Record keep
         </LinkStyled>

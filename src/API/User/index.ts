@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import API, { authServer } from 'API';
 import { TokenResponse, UserInfo } from 'Types/User';
+import { ImageOptionsRequest } from 'Types/Image';
 
 export const getAccessToken = async (email: string, password: string): Promise<TokenResponse> => {
   const params = new URLSearchParams([
@@ -39,12 +40,9 @@ export const getUserInfo = async (): Promise<UserInfo> => {
   return userInfoResponse.data;
 };
 
-export const updateUserInfo = async (email: string, password: string, repeatPassword: string): Promise<UserInfo> => {
-  const createUser = await API.put<UserInfo>('/api/user/info', {
-    email,
-    password,
-    repeatPassword,
+export const updateUserInfo = async (displayName?: string, imageOptions?: ImageOptionsRequest): Promise<void> => {
+  await API.patch('/api/user/info', {
+    displayName,
+    imageOptions,
   });
-
-  return createUser.data;
 };

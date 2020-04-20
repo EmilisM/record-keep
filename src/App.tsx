@@ -6,6 +6,9 @@ import BaseRoute from 'Routes/BaseRoute';
 import { AuthServiceContext } from 'Services/Hooks/useAuthService';
 import useAuthService from 'Services/Hooks/useAuthService';
 import { PageLoader } from 'Atoms/Loader/PageLoader';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const App = (): ReactElement => {
   const authServiceStorage = useAuthService();

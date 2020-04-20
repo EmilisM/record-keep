@@ -100,7 +100,7 @@ const NewCollectionItem = ({ className, onClick, onSubmit, isEditable, value, on
             <InputDashboardStyled
               color="primaryDarker"
               placeholder="Collection name"
-              fontSize="regular"
+              fontSize="normal"
               fontWeight="semiBold"
               autoFocus
               onKeyPress={onKeyPressInput}

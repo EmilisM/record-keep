@@ -1,5 +1,5 @@
 import { ErrorResponse, ErrorsBase } from 'Types/Error';
-import { Moment } from 'moment';
+import { Image } from './Image';
 
 export interface TokenResponse {
   access_token: string;
@@ -14,6 +14,7 @@ export interface UserInfo {
   email: string;
   displayName: string | null;
   creationDate: Date;
+  image: Image | null;
 }
 
 export interface CreateUserErrors extends ErrorsBase {

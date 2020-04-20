@@ -2,29 +2,34 @@ import React, { ReactElement, ReactNode } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'medium' | 'normal' | 'regular' | 'big' | 'veryBig';
+type Sizes = 'normal' | 'regular' | 'big' | 'dashboardTitle' | 'landingSubTitle' | 'landingTitle';
 const fontSizes: FontSizes<Sizes> = {
-  medium: {
-    desktop: 40,
-    tablet: 30,
-    mobile: 30,
-  },
   normal: {
     desktop: 20,
     tablet: 18,
     mobile: 16,
   },
   regular: {
-    desktop: 25,
-    tablet: 22,
-    mobile: 20,
+    desktop: 22,
+    tablet: 20,
+    mobile: 18,
   },
   big: {
+    desktop: 26,
+    tablet: 24,
+    mobile: 22,
+  },
+  dashboardTitle: {
+    desktop: 40,
+    tablet: 30,
+    mobile: 30,
+  },
+  landingSubTitle: {
     desktop: 60,
     tablet: 40,
     mobile: 25,
   },
-  veryBig: {
+  landingTitle: {
     desktop: 80,
     tablet: 80,
     mobile: 50,

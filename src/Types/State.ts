@@ -1,13 +1,13 @@
-interface ActionWithPayload<ActionType, PayloadType> {
+export interface ActionWithPayload<ActionType, PayloadType> {
   type: ActionType;
   payload: PayloadType;
 }
 
-interface Action<ActionType> {
+export interface Action<ActionType> {
   type: ActionType;
 }
 
-interface ActionLoading<ActionType> {
+export interface ActionLoading<ActionType> {
   type: ActionType;
   payload: 'Loading';
 }

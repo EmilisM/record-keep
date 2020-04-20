@@ -1,5 +1,5 @@
-import React, { ReactElement, useState } from 'react';
-import UserIcon from 'Assets/User.png';
+import React, { ReactElement, useState, useReducer } from 'react';
+import User from 'Assets/User.png';
 import Card from 'Atoms/Card/Card';
 import styled from 'styled-components/macro';
 import ActionMenu from 'Organisms/ActionMenu';
@@ -10,10 +10,10 @@ import { useQuery } from 'react-query';
 import { getUserInfo } from 'API/User';
 import P from 'Atoms/Text/P';
 import moment from 'moment';
-
-type Props = {
-  className?: string;
-};
+import EditUserInfoModal from 'Molecules/Modal/EditUserInfoModal';
+import { reducer, stateInit } from 'State/UserData/UserData';
+import { Actions } from 'Types/UserDataState';
+import UserImage from 'Atoms/UserImage';
 
 const CardStyled = styled(Card)`
   width: 100%;
@@ -43,20 +43,10 @@ const CardHeader = styled.div`
   );
 `;
 
-const UserImageStyled = styled.img`
-  width: 128px;
-  height: 128px;
-
-  border-radius: 50%;
-  border: 2px solid ${props => props.theme.colors.border.primary};
-`;
-
-const ActionMenuStyled = styled(ActionMenu)<{ isOpen: boolean }>`
+const ActionMenuStyled = styled(ActionMenu)`
   position: absolute;
   top: 20px;
   right: 20px;
-
-  background-color: ${props => props.isOpen && props.theme.colors.background.secondaryDarkLighter};
 
   &:hover {
     background-color: ${props => props.theme.colors.background.secondaryDarkLighter};
@@ -71,7 +61,7 @@ const CardBody = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 10px;
+  padding: 20px;
 
   width: 100%;
 `;
@@ -90,45 +80,66 @@ const actionMenuOptions: ActionMenuOption[] = [
   },
 ];
 
+type Props = {
+  className?: string;
+};
+
 const UserCard = ({ className }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
-  const onChange = (): void => {};
   const { data, status } = useQuery('userInfo', getUserInfo);
+  const [state, dispatch] = useReducer(reducer, data, stateInit);
+
+  const onChangeActionMenu = (option: ActionMenuOption): void => {
+    if (option.value === 'edit') {
+      setIsOpen(true);
+    }
+  };
+
+  const onSubmitProfileData = (): void => {};
+
+  const onSubmitPasswordChange = (): void => {};
+
+  const onInputChange = (value: string, type: Actions['type']): void => {
+    dispatch({ type: type, payload: value });
+  };
 
   return (
     <CardStyled className={className} isLoading={status === 'loading' && !data}>
       <CardHeader>
-        <UserImageStyled src={UserIcon} />
-        <ActionMenuStyled
-          options={actionMenuOptions}
-          onChange={onChange}
-          isOpen={isOpen}
-          onClick={() => setIsOpen(!isOpen)}
-        />
+        <UserImage src={User} />
+        <ActionMenuStyled options={actionMenuOptions} onChange={onChangeActionMenu} />
       </CardHeader>
       <CardBody>
-        <H level="2" fontSize="normal" fontWeight="semiBold" color="dashboardPrimary">
+        <H level="2" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
           {data?.displayName || data?.email}
         </H>
         {data?.displayName && (
           <Field>
-            <H level="3" fontSize="normal" fontWeight="semiBold" color="dashboardPrimary">
+            <H level="3" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
               Email
             </H>
-            <P fontSize="normal" fontWeight="regular" color="dashboardPrimary">
+            <P fontSize="normal" fontWeight="regular" color="primaryDarker">
               {data.email}
             </P>
           </Field>
         )}
         <Field>
-          <H level="3" fontSize="normal" fontWeight="semiBold" color="dashboardPrimary">
+          <H level="3" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
             Joined in
           </H>
-          <P fontSize="normal" fontWeight="regular" color="dashboardPrimary">
+          <P fontSize="normal" fontWeight="regular" color="primaryDarker">
             {data && moment(data.creationDate).format('YYYY-MM-DD')}
           </P>
         </Field>
       </CardBody>
+      <EditUserInfoModal
+        state={state}
+        onSubmitProfile={onSubmitProfileData}
+        onSubmitPasswordChange={onSubmitPasswordChange}
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+        onChange={onInputChange}
+      />
     </CardStyled>
   );
 };

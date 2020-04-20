@@ -11,7 +11,7 @@ type Props = {
 
 const ActionMenuItemStyled = styled.li`
   width: 100%;
-  height: 48px;
+  height: 40px;
   display: flex;
   align-items: center;
   flex-direction: row;

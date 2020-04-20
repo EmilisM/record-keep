@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, MouseEvent, KeyboardEvent, ChangeEvent } from 'react';
+import React, { ReactElement, MouseEvent, KeyboardEvent, ChangeEvent } from 'react';
 import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
 import Image from 'Atoms/Image';
@@ -104,14 +104,6 @@ const CollectionItem = ({
   accountMenuOnChange,
   onClick,
 }: Props): ReactElement => {
-  const [actionMenuOpen, setActionMenuOpen] = useState(false);
-
-  const onClickActionMenu = (event: MouseEvent<HTMLDivElement>): void => {
-    event.preventDefault();
-    event.stopPropagation();
-    setActionMenuOpen(!actionMenuOpen);
-  };
-
   const onKeyPressInput = (event: KeyboardEvent<HTMLInputElement>): void => {
     event.preventDefault();
     if (event.key === 'Enter') {
@@ -129,7 +121,7 @@ const CollectionItem = ({
           <InputDashboardStyled
             color="primaryDarker"
             placeholder="Collection name"
-            fontSize="regular"
+            fontSize="normal"
             fontWeight="semiBold"
             onKeyPress={onKeyPressInput}
             onChange={onEditChange}
@@ -137,20 +129,15 @@ const CollectionItem = ({
             autoFocus
           />
         ) : (
-          <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryDarker">
+          <H level="2" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
             {title}
           </H>
         )}
-        <H level="3" fontSize="regular" fontWeight="light" color="primaryDarker">
+        <H level="3" fontSize="normal" fontWeight="light" color="primaryDarker">
           {subTitle}
         </H>
       </TitleContainer>
-      <ActionMenuStyled
-        options={accountMenuOptions}
-        isOpen={actionMenuOpen}
-        onClick={onClickActionMenu}
-        onChange={accountMenuOnChange}
-      />
+      <ActionMenuStyled options={accountMenuOptions} onChange={accountMenuOnChange} />
       <ArrowStyled />
     </CollectionItemStyled>
   );

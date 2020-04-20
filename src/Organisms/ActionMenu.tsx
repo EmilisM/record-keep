@@ -1,16 +1,8 @@
-import React, { ReactElement, MouseEvent } from 'react';
+import React, { ReactElement, useState, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 import ActionMenuItem from 'Molecules/ActionMenuItem';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Dots } from 'Assets/Dots.svg';
-
-type Props = {
-  className?: string;
-  onChange: (option: ActionMenuOption) => void;
-  options: ActionMenuOption[];
-  onClick: (event: MouseEvent<HTMLDivElement>) => void;
-  isOpen: boolean;
-};
 
 const DotsStyled = styled(Dots)`
   width: 100%;
@@ -19,7 +11,7 @@ const DotsStyled = styled(Dots)`
   fill: ${props => props.theme.colors.text.primaryDarker};
 `;
 
-const ActionMenuIconContainer = styled.div<Pick<Props, 'isOpen'>>`
+const ActionMenuIconContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -34,7 +26,9 @@ const ActionMenuIconContainer = styled.div<Pick<Props, 'isOpen'>>`
     padding: 0 5px;
   }
 
-  background-color: ${props => props.isOpen && props.theme.colors.border.cardShadow};
+  &[data-open='true'] {
+    background-color: ${props => props.theme.colors.border.cardShadow};
+  }
 
   &:hover {
     background-color: ${props => props.theme.colors.border.cardShadow};
@@ -53,7 +47,7 @@ const ActionMenuStyled = styled.div`
   box-shadow: 0px 1px 2px 0 ${props => props.theme.colors.border.cardShadow};
   z-index: 100;
 
-  min-width: 200px;
+  min-width: 150px;
 `;
 
 const ActionMenuItems = styled.ul`
@@ -66,19 +60,41 @@ const ActionMenuItems = styled.ul`
   padding: 0;
 `;
 
-const ActionMenu = ({ className, options, onChange, isOpen, onClick }: Props): ReactElement => (
-  <ActionMenuIconContainer className={className} onClick={onClick} isOpen={isOpen}>
-    <DotsStyled className="action-menu__icon" />
-    {isOpen && (
-      <ActionMenuStyled>
-        <ActionMenuItems>
-          {options.map(option => (
-            <ActionMenuItem key={option.value} onClick={() => onChange(option)} option={option} />
-          ))}
-        </ActionMenuItems>
-      </ActionMenuStyled>
-    )}
-  </ActionMenuIconContainer>
-);
+type Props = {
+  className?: string;
+  onChange: (option: ActionMenuOption) => void;
+  options: ActionMenuOption[];
+};
+
+const ActionMenu = ({ className, options, onChange }: Props): ReactElement => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onChangeWrapper = (option: ActionMenuOption): void => {
+    onChange(option);
+    setIsOpen(false);
+  };
+
+  const onClick = (event: MouseEvent<HTMLDivElement>): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <ActionMenuIconContainer className={className} onClick={onClick} data-open={isOpen}>
+      <DotsStyled className="action-menu__icon" />
+      {isOpen && (
+        <ActionMenuStyled>
+          <ActionMenuItems>
+            {options.map(option => (
+              <ActionMenuItem key={option.value} onClick={() => onChangeWrapper(option)} option={option} />
+            ))}
+          </ActionMenuItems>
+        </ActionMenuStyled>
+      )}
+    </ActionMenuIconContainer>
+  );
+};
 
 export default ActionMenu;
