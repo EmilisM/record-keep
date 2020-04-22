@@ -1,11 +1,26 @@
 export interface Image {
-  url: string;
+  id: string;
+  data: string;
 }
 
-export interface ImageOptionsRequest {
-  image: string;
-  x: string;
-  y: string;
-  width: string;
-  height: string;
+export interface ImageCreateModel {
+  data: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface ImageUpdateModel {
+  id: string;
+  data: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface ImageResponse {
+  id: number;
+  data: string;
 }

@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
+import User from 'Assets/User.png';
 
 const UserImageStyled = styled.img`
   width: 128px;
@@ -11,9 +12,11 @@ const UserImageStyled = styled.img`
 
 type Props = {
   className?: string;
-  src: string;
+  src?: string;
 };
 
-const UserImage = ({ className, src }: Props): ReactElement => <UserImageStyled className={className} src={src} />;
+const UserImage = ({ className, src }: Props): ReactElement => (
+  <UserImageStyled className={className} src={src ? `data:image;base64,${src}` : User} />
+);
 
 export default UserImage;

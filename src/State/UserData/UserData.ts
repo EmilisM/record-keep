@@ -1,5 +1,5 @@
-import { State, Actions } from 'Types/UserDataState';
-import { UserInfo } from 'Types/User';
+import { State, Actions } from 'Types/User/UserDataState';
+import { UserInfo } from 'Types/User/User';
 
 export const stateInit = (userInfo: UserInfo | undefined): State => {
   return {
@@ -7,7 +7,8 @@ export const stateInit = (userInfo: UserInfo | undefined): State => {
     newPassword: '',
     oldPassword: '',
     repeatNewPassword: '',
-    imageUrl: userInfo && userInfo.image?.url ? userInfo.image.url : null,
+    image: null,
+    crop: { unit: '%', aspect: 1, x: 0, y: 0, width: 25, height: 25 },
   };
 };
 
@@ -33,10 +34,18 @@ export const reducer = (state: State, action: Actions): State => {
         ...state,
         repeatNewPassword: action.payload,
       };
-    case 'UserData/ImageUrl':
+    case 'UserData/Image':
       return {
         ...state,
-        imageUrl: action.payload,
+        image: action.payload,
+      };
+    case 'UserData/Crop':
+      return {
+        ...state,
+        crop: {
+          ...state.crop,
+          ...action.payload,
+        },
       };
     default: {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

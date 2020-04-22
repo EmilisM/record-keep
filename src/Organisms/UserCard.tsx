@@ -1,19 +1,19 @@
-import React, { ReactElement, useState, useReducer } from 'react';
-import User from 'Assets/User.png';
+import React, { ReactElement, useState, useReducer, FormEvent } from 'react';
 import Card from 'Atoms/Card/Card';
 import styled from 'styled-components/macro';
 import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import H from 'Atoms/Text/H';
-import { useQuery } from 'react-query';
-import { getUserInfo } from 'API/User';
+import { useQuery, useMutation } from 'react-query';
+import { getUserInfo, updateUserInfo } from 'API/User';
 import P from 'Atoms/Text/P';
 import moment from 'moment';
 import EditUserInfoModal from 'Molecules/Modal/EditUserInfoModal';
 import { reducer, stateInit } from 'State/UserData/UserData';
-import { Actions } from 'Types/UserDataState';
 import UserImage from 'Atoms/UserImage';
+import { UpdateUserInfo } from 'Types/User/User';
+import { updateImage, createImage } from 'API/Image';
 
 const CardStyled = styled(Card)`
   width: 100%;
@@ -86,8 +86,11 @@ type Props = {
 
 const UserCard = ({ className }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data, status } = useQuery('userInfo', getUserInfo);
+  const { data, status, refetch } = useQuery('userInfo', getUserInfo);
   const [state, dispatch] = useReducer(reducer, data, stateInit);
+  const [mutateUserInfo, { status: userInfoStatus }] = useMutation(updateUserInfo);
+  const [mutateUpdateImage, { status: updateImageStatus }] = useMutation(updateImage);
+  const [mutateCreateImage, { status: createImageStatus }] = useMutation(createImage);
 
   const onChangeActionMenu = (option: ActionMenuOption): void => {
     if (option.value === 'edit') {
@@ -95,18 +98,52 @@ const UserCard = ({ className }: Props): ReactElement => {
     }
   };
 
-  const onSubmitProfileData = (): void => {};
+  const onSubmitImageData = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const { crop } = state;
+
+    if (state.image) {
+      const dataReq = {
+        height: crop.height || 25,
+        width: crop.width || 25,
+        x: crop.x || 0,
+        y: crop.y || 0,
+        data: state.image.split(',')[1],
+      };
+
+      if (data?.profileImage?.id) {
+        mutateUpdateImage({ ...dataReq, id: data.profileImage.id }).then(() => refetch());
+      } else {
+        mutateCreateImage(dataReq)
+          .then(image => mutateUserInfo([{ op: 'add', path: '/imageId', value: image.id }]))
+          .then(() => refetch());
+      }
+
+      dispatch({ type: 'UserData/Image', payload: null });
+      dispatch({ type: 'UserData/Crop', payload: { x: 0, y: 0 } });
+    }
+  };
+
+  const onSubmitProfileData = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+
+    const updateRequest: UpdateUserInfo[] = [
+      {
+        op: 'add',
+        path: '/displayName',
+        value: state.displayName,
+      },
+    ];
+
+    mutateUserInfo(updateRequest).then(() => refetch());
+  };
 
   const onSubmitPasswordChange = (): void => {};
-
-  const onInputChange = (value: string, type: Actions['type']): void => {
-    dispatch({ type: type, payload: value });
-  };
 
   return (
     <CardStyled className={className} isLoading={status === 'loading' && !data}>
       <CardHeader>
-        <UserImage src={User} />
+        <UserImage src={data?.profileImage?.data} />
         <ActionMenuStyled options={actionMenuOptions} onChange={onChangeActionMenu} />
       </CardHeader>
       <CardBody>
@@ -133,12 +170,14 @@ const UserCard = ({ className }: Props): ReactElement => {
         </Field>
       </CardBody>
       <EditUserInfoModal
+        isLoading={userInfoStatus === 'loading' || updateImageStatus === 'loading' || createImageStatus === 'loading'}
         state={state}
+        dispatch={dispatch}
         onSubmitProfile={onSubmitProfileData}
+        onSubmitImageData={onSubmitImageData}
         onSubmitPasswordChange={onSubmitPasswordChange}
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
-        onChange={onInputChange}
       />
     </CardStyled>
   );

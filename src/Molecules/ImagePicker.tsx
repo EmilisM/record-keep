@@ -1,9 +1,11 @@
-import React, { ReactElement, ReactNode, useState, ChangeEvent } from 'react';
+import React, { ReactElement, ReactNode, ChangeEvent } from 'react';
 import styled from 'styled-components/macro';
 import Input from 'Atoms/Input/Input';
 import InputLabel from 'Atoms/Input/InputLabel';
-import ReactCrop, { Crop } from 'react-image-crop';
+import ReactCrop, { Crop, PercentCrop } from 'react-image-crop';
+import { ReactComponent as Close } from 'Assets/Close.svg';
 import 'react-image-crop/dist/ReactCrop.css';
+import InvisibleButton from 'Atoms/Button/InvisibleButton';
 
 const ImagePickerStyled = styled.div`
   display: flex;
@@ -25,6 +27,9 @@ const InputStyled = styled(Input)`
 `;
 
 const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   width: 300px;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
@@ -45,16 +50,39 @@ const ReactCropStyled = styled(ReactCrop)`
   }
 `;
 
+const CloseStyled = styled(Close)`
+  width: 30px;
+  height: 30px;
+
+  fill: ${props => props.theme.colors.text.primaryDarker};
+`;
+
+const InvisibleButtonStyled = styled(InvisibleButton)`
+  display: flex;
+  margin-left: 20px;
+`;
+
 type Props = {
   className?: string;
   onCropComplete?: () => void;
-  children: ReactNode;
+  children?: ReactNode;
+  crop: Crop;
+  image?: string | null;
+  onCropChange: (crop: Crop, percentCrop: PercentCrop) => void;
+  onImageChange: (image: string) => void;
+  onImageClear?: () => void;
 };
 
-const ImagePicker = ({ className, children, onCropComplete }: Props): ReactElement => {
-  const [image, setImage] = useState<string>();
-  const [crop, setCrop] = useState<Crop>({ aspect: 1, x: 0, y: 0, width: 128, height: 128 });
-
+const ImagePicker = ({
+  className,
+  children,
+  onCropComplete,
+  crop,
+  image,
+  onCropChange,
+  onImageChange,
+  onImageClear,
+}: Props): ReactElement => {
   const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (!event.target.files || event.target.files.length <= 0) {
       return;
@@ -65,16 +93,12 @@ const ImagePicker = ({ className, children, onCropComplete }: Props): ReactEleme
       'load',
       () => {
         if (typeof reader.result === 'string') {
-          setImage(reader.result);
+          onImageChange(reader.result);
         }
       },
       false,
     );
     reader.readAsDataURL(event.target.files[0]);
-  };
-
-  const onCropChange = (newCrop: Crop): void => {
-    setCrop(newCrop);
   };
 
   return (
@@ -86,7 +110,7 @@ const ImagePicker = ({ className, children, onCropComplete }: Props): ReactEleme
           minWidth={128}
           minHeight={128}
           crop={crop}
-          src={image}
+          src={image || ''}
           onChange={onCropChange}
           onComplete={onCropComplete}
         />
@@ -95,6 +119,11 @@ const ImagePicker = ({ className, children, onCropComplete }: Props): ReactEleme
         <InputLabelStyled htmlFor="image-picker" color="primaryLight" fontWeight="light">
           {children}
         </InputLabelStyled>
+        {onImageClear && image && (
+          <InvisibleButtonStyled onClick={onImageClear}>
+            <CloseStyled />
+          </InvisibleButtonStyled>
+        )}
         <InputStyled id="image-picker" type="file" accept="image/*" onChange={onChange} />
       </ButtonContainer>
     </ImagePickerStyled>

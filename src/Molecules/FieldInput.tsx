@@ -4,6 +4,7 @@ import Input from 'Atoms/Input/Input';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { ReactComponent as Checkmark } from 'Assets/Checkmark.svg';
 import InvisibleButton from 'Atoms/Button/InvisibleButton';
+import useClickOutside from 'Services/Hooks/useClickOutside';
 
 type StyleProps = {
   isEditMode: boolean;
@@ -63,6 +64,7 @@ type Props = {
 const FieldInput = ({ className, value, onChange, placeholder }: Props): ReactElement => {
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const ref = useClickOutside<HTMLDivElement>(() => setIsEditMode(false));
 
   const onClick = (): void => {
     if (isEditMode) {
@@ -84,7 +86,12 @@ const FieldInput = ({ className, value, onChange, placeholder }: Props): ReactEl
   };
 
   return (
-    <ContainerStyled className={className} onClick={() => !isEditMode && setIsEditMode(true)} isEditMode={isEditMode}>
+    <ContainerStyled
+      ref={ref}
+      className={className}
+      onClick={() => !isEditMode && setIsEditMode(true)}
+      isEditMode={isEditMode}
+    >
       <InputStyled
         fontSize="normal"
         color="primaryDarker"

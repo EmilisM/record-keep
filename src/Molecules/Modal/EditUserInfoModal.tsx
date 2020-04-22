@@ -1,12 +1,12 @@
-import React, { ReactElement, FormEvent } from 'react';
+import React, { Dispatch, ReactElement, FormEvent } from 'react';
 import Modal from 'Atoms/Modal';
 import styled from 'styled-components/macro';
 import Input from 'Atoms/Input/Input';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import H from 'Atoms/Text/H';
-import EditableP from 'Molecules/FieldInput';
+import FieldInput from 'Molecules/FieldInput';
 import Label from 'Atoms/Input/InputLabel';
-import { State, Actions } from 'Types/UserDataState';
+import { State, Actions } from 'Types/User/UserDataState';
 import ImagePicker from 'Molecules/ImagePicker';
 
 const ModalStyled = styled(Modal)``;
@@ -37,16 +37,7 @@ const ButtonStyled = styled(ButtonDashboard)`
   }
 `;
 
-const Field = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  &:not(:first-child) {
-    margin-top: 20px;
-  }
-`;
-
-const EditablePStyled = styled(EditableP)`
+const FieldInputStyled = styled(FieldInput)`
   width: 300px;
 
   margin-top: 10px;
@@ -68,12 +59,14 @@ const ImagePickerStyled = styled(ImagePicker)`
 
 type Props = {
   className?: string;
+  isLoading?: boolean;
   isOpen: boolean;
   onRequestClose: () => void;
   onSubmitProfile: (event: FormEvent<HTMLFormElement>) => void;
+  onSubmitImageData: (event: FormEvent<HTMLFormElement>) => void;
   onSubmitPasswordChange: (event: FormEvent<HTMLFormElement>) => void;
   state: State;
-  onChange: (value: string, type: Actions['type']) => void;
+  dispatch: Dispatch<Actions>;
 };
 
 const EditUserInfoModal = ({
@@ -81,28 +74,45 @@ const EditUserInfoModal = ({
   isOpen,
   onRequestClose,
   onSubmitProfile,
+  onSubmitImageData,
   onSubmitPasswordChange,
   state,
-  onChange,
+  dispatch,
+  isLoading,
 }: Props): ReactElement => (
-  <ModalStyled className={className} isOpen={isOpen} onRequestClose={onRequestClose} title="Edit user info">
+  <ModalStyled
+    className={className}
+    isOpen={isOpen}
+    onRequestClose={onRequestClose}
+    title="Edit user info"
+    isLoading={isLoading}
+  >
+    <FormContent onSubmit={onSubmitImageData}>
+      <Label color="primaryDarker" fontWeight="semiBold" fontSize="small">
+        Profile image
+      </Label>
+      <ImagePickerStyled
+        crop={state.crop}
+        image={state.image}
+        onCropChange={(crop, percentCrop) => dispatch({ type: 'UserData/Crop', payload: percentCrop })}
+        onImageChange={image => dispatch({ type: 'UserData/Image', payload: image })}
+        onImageClear={() => dispatch({ type: 'UserData/Image', payload: null })}
+      >
+        Choose your image
+      </ImagePickerStyled>
+      <ButtonStyled type="submit" fontWeight="light">
+        Submit
+      </ButtonStyled>
+    </FormContent>
     <FormContent onSubmit={onSubmitProfile}>
-      <Field>
-        <Label color="primaryDarker" fontWeight="semiBold" fontSize="small">
-          Profile image
-        </Label>
-        <ImagePickerStyled>Choose your image</ImagePickerStyled>
-      </Field>
-      <Field>
-        <Label color="primaryDarker" fontWeight="semiBold" fontSize="small">
-          Display name
-        </Label>
-        <EditablePStyled
-          placeholder="Display name"
-          value={state.displayName}
-          onChange={event => onChange(event.target.value, 'UserData/DisplayName')}
-        />
-      </Field>
+      <Label color="primaryDarker" fontWeight="semiBold" fontSize="small">
+        Display name
+      </Label>
+      <FieldInputStyled
+        placeholder="Display name"
+        value={state.displayName}
+        onChange={event => dispatch({ type: 'UserData/DisplayName', payload: event.target.value })}
+      />
       <ButtonStyled type="submit" fontWeight="light">
         Submit
       </ButtonStyled>
@@ -117,21 +127,21 @@ const EditUserInfoModal = ({
         placeholder="Old password"
         fontSize="normal"
         type="password"
-        onChange={event => onChange(event.target.value, 'UserData/OldPassword')}
+        onChange={event => dispatch({ type: 'UserData/OldPassword', payload: event.target.value })}
       />
       <InputStyled
         color="primaryDarker"
         placeholder="New password"
         fontSize="normal"
         type="password"
-        onChange={event => onChange(event.target.value, 'UserData/NewPassword')}
+        onChange={event => dispatch({ type: 'UserData/NewPassword', payload: event.target.value })}
       />
       <InputStyled
         color="primaryDarker"
         placeholder="Repeat new password"
         fontSize="normal"
         type="password"
-        onChange={event => onChange(event.target.value, 'UserData/RepeatNewPassword')}
+        onChange={event => dispatch({ type: 'UserData/RepeatNewPassword', payload: event.target.value })}
       />
       <ButtonStyled type="submit" fontWeight="light">
         Submit

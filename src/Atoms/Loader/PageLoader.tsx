@@ -5,11 +5,12 @@ import { CSSTransition } from 'react-transition-group';
 
 type Props = {
   className?: string;
-  isLoading: boolean;
-  children: ReactNode;
+  isLoading?: boolean;
+  children?: ReactNode;
+  timeout?: number;
 };
 
-const Container = styled.div`
+const Container = styled.div<Pick<Props, 'timeout'>>`
   width: 100%;
   height: 100%;
 
@@ -31,7 +32,7 @@ const Container = styled.div`
 
   &.page-loader-appear-active {
     opacity: 1;
-    transition: opacity 500ms;
+    transition: opacity ${props => props.timeout}ms;
     display: flex;
   }
 
@@ -42,7 +43,7 @@ const Container = styled.div`
 
   &.page-loader-enter-active {
     opacity: 1;
-    transition: opacity 500ms;
+    transition: opacity ${props => props.timeout}ms;
     display: flex;
   }
 
@@ -53,7 +54,7 @@ const Container = styled.div`
 
   &.page-loader-exit-active {
     opacity: 0;
-    transition: opacity 500ms;
+    transition: opacity ${props => props.timeout}ms;
     display: flex;
   }
 
@@ -68,10 +69,10 @@ const LoaderStyled = styled(Loader)`
   height: 50px;
 `;
 
-export const PageLoader = ({ className, isLoading, children }: Props): ReactElement => (
+export const PageLoader = ({ className, isLoading, children, timeout = 300 }: Props): ReactElement => (
   <>
-    <CSSTransition in={isLoading} appear unmountOnExit timeout={500} classNames="page-loader">
-      <Container className={className}>
+    <CSSTransition in={isLoading} appear unmountOnExit timeout={timeout} classNames="page-loader">
+      <Container className={className} timeout={timeout}>
         <LoaderStyled />
       </Container>
     </CSSTransition>

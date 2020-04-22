@@ -9,7 +9,7 @@ import { getAccessToken, createUser } from 'API/User';
 import { useHistory, Redirect } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { AxiosError } from 'axios';
-import { ErrorTokenResponse, CreateUserErrorResponse } from 'Types/User';
+import { ErrorTokenResponse, CreateUserErrorResponse } from 'Types/User/User';
 import { LoginField } from 'Types/Login';
 import Loader from 'Atoms/Loader/Loader';
 
@@ -96,9 +96,9 @@ const Login = (): ReactElement => {
           setIsLoading(false);
 
           const errors = error.response?.data.errors;
-          setEmail({ ...email, error: errors?.Email });
-          setPassword({ ...password, error: errors?.Password });
-          setRepeatPassword({ ...repeatPassword, error: errors?.RepeatPassword });
+          setEmail({ ...email, error: errors?.email });
+          setPassword({ ...password, error: errors?.password });
+          setRepeatPassword({ ...repeatPassword, error: errors?.repeatPassword });
           setFormError(errors?.form);
         });
     }

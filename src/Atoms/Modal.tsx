@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
 import { ReactComponent as Close } from 'Assets/Close.svg';
 import InvisibleButton from './Button/InvisibleButton';
+import { PageLoader } from './Loader/PageLoader';
 
 const ModalStyled = styled(ReactModal)`
   position: absolute;
@@ -57,14 +58,16 @@ const InvisibleButtonStyled = styled(InvisibleButton)`
 
 type Props = {
   className?: string;
+  isLoading?: boolean;
   children: ReactNode;
   onRequestClose: () => void;
   isOpen: boolean;
   title: string;
 };
 
-const Modal = ({ className, children, onRequestClose, isOpen, title }: Props): ReactElement => (
+const Modal = ({ className, children, onRequestClose, isOpen, title, isLoading }: Props): ReactElement => (
   <ModalStyled className={className} onRequestClose={onRequestClose} isOpen={isOpen} closeTimeoutMS={200}>
+    <PageLoader isLoading={isLoading} />
     <HeaderContainer>
       <H level="2" color="primaryDarker" fontSize="big" fontWeight="semiBold">
         {title}
