@@ -89,7 +89,7 @@ const UserCard = ({ className }: Props): ReactElement => {
   const { data, status, refetch } = useQuery('userInfo', getUserInfo);
   const [state, dispatch] = useReducer(reducer, data, stateInit);
   const [mutateUserInfo, { status: userInfoStatus }] = useMutation(updateUserInfo);
-  const [mutateUpdateImage, { status: updateImageStatus }] = useMutation(updateImage);
+  const [mutateUpdateImage, { status: updateImageStatus }] = useMutation(updateImage, { useErrorBoundary: true });
   const [mutateCreateImage, { status: createImageStatus }] = useMutation(createImage);
 
   const onChangeActionMenu = (option: ActionMenuOption): void => {

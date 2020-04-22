@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import UserCard from 'Organisms/UserCard';
 import Card from 'Atoms/Card/Card';
+import ErrorBoundary from 'ErrorBoundary';
 
 const HomeContainer = styled.div`
   width: 100%;
@@ -34,7 +35,9 @@ const GridStyled = styled(Card)`
 const Home = (): ReactElement => (
   <HomeContainer>
     <GridStyled />
-    <UserCardStyled />
+    <ErrorBoundary error={error => <div>Custom error here</div>}>
+      <UserCardStyled />
+    </ErrorBoundary>
   </HomeContainer>
 );
 
