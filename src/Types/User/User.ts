@@ -41,7 +41,15 @@ export interface CreateUserErrors extends ErrorsBase {
   repeatPassword: string[];
 }
 
+export interface ErrorChangePassword extends ErrorsBase {
+  oldPassword: string[];
+  password: string[];
+  repeatPassword: string[];
+}
+
 export type CreateUserErrorResponse = ErrorResponse<CreateUserErrors>;
+
+export type ChangePasswordErrorResponse = ErrorResponse<ErrorChangePassword>;
 
 export interface UpdateUserInfoDisplayName {
   op: PatchOperations;

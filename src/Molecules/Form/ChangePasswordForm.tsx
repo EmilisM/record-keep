@@ -5,6 +5,12 @@ import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { FormikErrors, Formik, Form, FormikHelpers } from 'formik';
 import FormInput from 'Atoms/Input/FormInput';
 import FormError from 'Atoms/Error/FormError';
+import { useMutation } from 'react-query';
+import { changePassword as changePasswordAPI } from 'API/User';
+import { ChangePasswordErrorResponse } from 'Types/User/User';
+import { AxiosError } from 'axios';
+import { getErrorMessage } from 'Types/Error';
+import GlobalFormError from 'Atoms/Error/GlobalFormError';
 
 type Props = {
   className?: string;
@@ -34,6 +40,10 @@ const FormErrorStyled = styled(FormError)`
   margin-top: 10px;
 `;
 
+const GlobalFormErrorStyled = styled(GlobalFormError)`
+  margin-top: 20px;
+`;
+
 interface ChangePasswordFields {
   existingPassword: string;
   newPassword: string;
@@ -60,6 +70,7 @@ const validate = (values: ChangePasswordFields): FormikErrors<ChangePasswordFiel
 };
 
 const ChangePasswordForm = ({ className }: Props): ReactElement => {
+  const [changePassword] = useMutation(changePasswordAPI, { throwOnError: true });
   const initialValues: ChangePasswordFields = {
     existingPassword: '',
     newPassword: '',
@@ -67,9 +78,24 @@ const ChangePasswordForm = ({ className }: Props): ReactElement => {
   };
 
   const onSubmit = (values: ChangePasswordFields, helpers: FormikHelpers<ChangePasswordFields>): void => {
-    console.log(values);
-
-    helpers.setSubmitting(false);
+    changePassword({
+      oldPassword: values.existingPassword,
+      password: values.newPassword,
+      repeatPassword: values.repeatNewPassword,
+    })
+      .then(() => {
+        helpers.resetForm();
+        helpers.setSubmitting(false);
+      })
+      .catch((err: AxiosError<ChangePasswordErrorResponse>) => {
+        helpers.setErrors({
+          existingPassword: getErrorMessage(err.response?.data.errors.oldPassword),
+          newPassword: getErrorMessage(err.response?.data.errors.password),
+          repeatNewPassword: getErrorMessage(err.response?.data.errors.repeatPassword),
+          form: getErrorMessage(err.response?.data.errors.form),
+        });
+        helpers.setSubmitting(false);
+      });
   };
 
   return (
@@ -103,6 +129,7 @@ const ChangePasswordForm = ({ className }: Props): ReactElement => {
             label="Repeat new password"
           />
           <FormErrorStyled name="repeatNewPassword" />
+          <GlobalFormErrorStyled />
           <ButtonStyled disabled={isSubmitting} type="submit" fontWeight="light">
             Change password
           </ButtonStyled>
