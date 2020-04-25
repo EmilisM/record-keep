@@ -6,8 +6,8 @@ type Sizes = 'medium';
 const fontSizes: FontSizes<Sizes> = {
   medium: {
     desktop: 20,
-    tablet: 20,
-    mobile: 20,
+    tablet: 18,
+    mobile: 16,
   },
 };
 
@@ -19,10 +19,11 @@ type Props = {
   fontSize?: Sizes;
   color?: keyof DefaultTheme['colors']['text'];
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  disabled?: boolean;
 };
 
-const ButtonBase = ({ className, children, onClick, type }: Props): ReactElement => (
-  <button onClick={onClick} className={className} type={type}>
+const ButtonBase = ({ className, children, onClick, type, disabled }: Props): ReactElement => (
+  <button onClick={onClick} className={className} type={type} disabled={disabled}>
     {children}
   </button>
 );
@@ -48,6 +49,10 @@ const Button = styled(ButtonBase)`
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile};
+  }
+
+  &:disabled {
+    opacity: 0.6;
   }
 `;
 

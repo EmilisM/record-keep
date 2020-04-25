@@ -1,13 +1,20 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import API, { authServer } from 'API';
-import { TokenResponse, UserInfo, UpdateUserInfo } from 'Types/User/User';
+import {
+  TokenResponse,
+  UserInfo,
+  UpdateUserInfo,
+  TokenRequest,
+  CreateUserRequest,
+  ChangePasswordRequest,
+} from 'Types/User/User';
 
-export const getAccessToken = async (email: string, password: string): Promise<TokenResponse> => {
+export const getAccessToken = async (request: TokenRequest): Promise<TokenResponse> => {
   const params = new URLSearchParams([
     ['client_id', 'record-keep'],
     ['grant_type', 'password'],
-    ['username', email],
-    ['password', password],
+    ['username', request.email],
+    ['password', request.password],
   ]);
 
   const accessTokenResponse = await authServer.post<TokenResponse>('/auth/connect/token', params);
@@ -15,22 +22,14 @@ export const getAccessToken = async (email: string, password: string): Promise<T
   return accessTokenResponse.data;
 };
 
-export const createUser = async (email: string, password: string, repeatPassword: string): Promise<UserInfo> => {
-  const createUser = await API.post<UserInfo>('/api/user', {
-    email,
-    password,
-    repeatPassword,
-  });
+export const createUser = async (request: CreateUserRequest): Promise<UserInfo> => {
+  const createUser = await API.post<UserInfo>('/api/user', request);
 
   return createUser.data;
 };
 
-export const changePassword = async (oldPassword: string, password: string, repeatPassword: string): Promise<void> => {
-  return await API.post('/api/user/password', {
-    oldPassword,
-    password,
-    repeatPassword,
-  });
+export const changePassword = async (request: ChangePasswordRequest): Promise<void> => {
+  return await API.post('/api/user/password', request);
 };
 
 export const getUserInfo = async (): Promise<UserInfo> => {

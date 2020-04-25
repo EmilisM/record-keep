@@ -2,8 +2,25 @@ import { ErrorResponse, ErrorsBase } from 'Types/Error';
 import { Image } from 'Types/Image';
 import { PatchOperations } from 'Types/API';
 
+export interface TokenRequest {
+  email: string;
+  password: string;
+}
+
 export interface TokenResponse {
   access_token: string;
+}
+
+export interface CreateUserRequest {
+  email: string;
+  password: string;
+  repeatPassword: string;
+}
+
+export interface ChangePasswordRequest {
+  oldPassword: string;
+  password: string;
+  repeatPassword: string;
 }
 
 export interface ErrorTokenResponse {

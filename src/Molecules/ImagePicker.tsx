@@ -124,7 +124,7 @@ const ImagePicker = ({
             <CloseStyled />
           </InvisibleButtonStyled>
         )}
-        <InputStyled id="image-picker" type="file" accept="image/*" onChange={onChange} />
+        <InputStyled name="image-picker" id="image-picker" type="file" accept="image/*" onChange={onChange} />
       </ButtonContainer>
     </ImagePickerStyled>
   );

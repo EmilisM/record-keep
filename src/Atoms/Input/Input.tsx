@@ -1,14 +1,9 @@
-import React, { ReactElement, ChangeEvent, KeyboardEvent, RefObject } from 'react';
+import React, { ReactElement, ChangeEvent, KeyboardEvent, RefObject, FocusEvent } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'medium' | 'normal';
+type Sizes = 'normal';
 const fontSizes: FontSizes<Sizes> = {
-  medium: {
-    desktop: 20,
-    tablet: 20,
-    mobile: 20,
-  },
   normal: {
     desktop: 20,
     tablet: 18,
@@ -16,11 +11,12 @@ const fontSizes: FontSizes<Sizes> = {
   },
 };
 
-type Props = {
+export type Props = {
   className?: string;
-  name?: string;
   id?: string;
-  onChange?(e: ChangeEvent<HTMLInputElement>): void;
+  name: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   value?: string;
   placeholder?: string;
   fontSize?: Sizes;
@@ -47,6 +43,7 @@ const InputBase = ({
   onKeyPress,
   required,
   accept,
+  onBlur,
 }: Props): ReactElement => (
   <input
     type={type}
@@ -61,13 +58,14 @@ const InputBase = ({
     onKeyPress={onKeyPress}
     required={required}
     accept={accept}
+    onBlur={onBlur}
   />
 );
 
 const Input = styled(InputBase)`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
-  font-size: ${props => fontSizes[props.fontSize || 'medium'].desktop}px;
+  font-size: ${props => fontSizes[props.fontSize || 'normal'].desktop}px;
   border-radius: 8px;
   border: 1px solid ${props => props.theme.colors.border.primary};
   padding: 6px 10px;
@@ -77,11 +75,11 @@ const Input = styled(InputBase)`
 
   @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
   props.theme.breakpoints.desktop})) {
-    font-size: ${props => fontSizes[props.fontSize || 'medium'].tablet}px;
+    font-size: ${props => fontSizes[props.fontSize || 'normal'].tablet}px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile}px;
+    font-size: ${props => fontSizes[props.fontSize || 'normal'].mobile}px;
   }
 `;
 

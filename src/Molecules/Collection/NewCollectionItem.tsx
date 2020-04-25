@@ -98,6 +98,8 @@ const NewCollectionItem = ({ className, onClick, onSubmit, isEditable, value, on
         {isEditable ? (
           <>
             <InputDashboardStyled
+              id="input"
+              name="input"
               color="primaryDarker"
               placeholder="Collection name"
               fontSize="normal"

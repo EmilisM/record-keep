@@ -1,17 +1,20 @@
-import React, { ReactElement, useState, FormEvent } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import RadioButton from 'Atoms/Radio';
-import LoginForm from 'Molecules/LoginForm';
+import LoginForm from 'Molecules/Form/LoginForm';
 import styled from 'styled-components/macro';
 import { RadioOptionType } from 'Types/Radio';
 import { useAuthServiceContext } from 'Services/Hooks/useAuthService';
-import { getAccessToken, createUser } from 'API/User';
+import { getAccessToken as getAccessTokenAPI, createUser as createUserAPI } from 'API/User';
 import { useHistory, Redirect } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { AxiosError } from 'axios';
 import { ErrorTokenResponse, CreateUserErrorResponse } from 'Types/User/User';
-import { LoginField } from 'Types/Login';
 import Loader from 'Atoms/Loader/Loader';
+import { LoginFormFields } from 'Types/Login';
+import { FormikErrors, FormikHelpers } from 'formik';
+import { getErrorMessage } from 'Types/Error';
+import { useMutation } from 'react-query';
 
 const LoginFormStyled = styled(LoginForm)`
   margin-top: 20px;
@@ -48,58 +51,66 @@ const loginFormOptions: RadioOptionType<LoginFormType>[] = [
 
 const Login = (): ReactElement => {
   const [activeForm, setActiveForm] = useState<RadioOptionType<LoginFormType>>(loginFormOptions[0]);
-  const [email, setEmail] = useState<LoginField>({ value: '' });
-  const [password, setPassword] = useState<LoginField>({ value: '' });
-  const [repeatPassword, setRepeatPassword] = useState<LoginField>({ value: '' });
-  const [formError, setFormError] = useState<string[]>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const { setAccessToken, isAuth } = useAuthServiceContext();
+  const [getAccessToken, { status: tokenStatus }] = useMutation(getAccessTokenAPI, { throwOnError: true });
+  const [createUser, { status: createUserStatus }] = useMutation(createUserAPI, { throwOnError: true });
   const { push } = useHistory();
 
   if (isAuth) {
     return <Redirect to={RouteConfig.Dashboard.Root} />;
   }
 
-  const onClearFormError = (): void => {
-    setFormError(undefined);
+  const initialValue: LoginFormFields = {
+    email: '',
+    password: '',
+    repeatPassword: '',
   };
 
-  const logUserIn = (): Promise<void> =>
-    getAccessToken(email.value, password.value)
-      .then(token => {
-        setAccessToken(token.access_token);
-        setIsLoading(false);
-        push(RouteConfig.Dashboard.Root);
-      })
-      .catch((error: AxiosError<ErrorTokenResponse>) => {
-        setIsLoading(false);
-        if (error.response) {
-          setFormError([error.response.data.error_description]);
-        }
-      });
+  const validate = (values: LoginFormFields): FormikErrors<LoginFormFields> => {
+    const errors: FormikErrors<LoginFormFields> = {};
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-
-    if (isLoading) {
-      return;
+    if (!values.email) {
+      errors.email = 'Email is required';
     }
 
-    setIsLoading(true);
-    if (activeForm.value === 'login') {
-      logUserIn();
-    } else if (activeForm.value === 'signup') {
-      createUser(email.value, password.value, repeatPassword.value)
-        .then(() => logUserIn())
-        .catch((error: AxiosError<CreateUserErrorResponse>) => {
-          setIsLoading(false);
+    if (!values.password) {
+      errors.password = 'Password is required';
+    }
 
-          const errors = error.response?.data.errors;
-          setEmail({ ...email, error: errors?.email });
-          setPassword({ ...password, error: errors?.password });
-          setRepeatPassword({ ...repeatPassword, error: errors?.repeatPassword });
-          setFormError(errors?.form);
+    if (!values.repeatPassword && activeForm.value === 'signup') {
+      errors.repeatPassword = 'Repeat password is required';
+    }
+
+    return errors;
+  };
+
+  const logUserIn = (accessToken: string): void => {
+    setAccessToken(accessToken);
+    push(RouteConfig.Dashboard.Root);
+  };
+
+  const onSubmit = (values: LoginFormFields, helpers: FormikHelpers<LoginFormFields>): void => {
+    if (activeForm.value === 'login') {
+      getAccessToken({ email: values.email, password: values.password })
+        .then(token => {
+          logUserIn(token.access_token);
+        })
+        .catch((error: AxiosError<ErrorTokenResponse>) => {
+          helpers.setErrors({
+            form: error.response?.data.error_description,
+          });
+        });
+    } else if (activeForm.value === 'signup') {
+      createUser({ email: values.email, password: values.password, repeatPassword: values.repeatPassword })
+        .then(() => getAccessToken({ email: values.email, password: values.password }))
+        .then(token => logUserIn(token.access_token))
+        .catch((err: AxiosError<CreateUserErrorResponse>) => {
+          helpers.setErrors({
+            email: getErrorMessage(err.response?.data.errors.email),
+            password: getErrorMessage(err.response?.data.errors.password),
+            repeatPassword: getErrorMessage(err.response?.data.errors.repeatPassword),
+            form: getErrorMessage(err.response?.data.errors.form),
+          });
         });
     }
   };
@@ -112,24 +123,11 @@ const Login = (): ReactElement => {
           name="login-switcher"
           fontWeight="light"
           value={activeForm}
-          onChange={(e, value) => {
-            setActiveForm(value);
-            onClearFormError();
-          }}
+          onChange={(e, value) => setActiveForm(value)}
         />
-        {isLoading && <LoaderStyled />}
+        {tokenStatus === 'loading' || createUserStatus === 'loading' ? <LoaderStyled /> : null}
       </RadioContainer>
-      <LoginFormStyled
-        type={activeForm.value}
-        onSubmit={onSubmit}
-        email={email}
-        setEmail={value => setEmail({ ...email, value })}
-        password={password}
-        setPassword={value => setPassword({ ...password, value })}
-        repeatPassword={repeatPassword}
-        setRepeatPassword={value => setRepeatPassword({ ...repeatPassword, value })}
-        formError={formError}
-      />
+      <LoginFormStyled type={activeForm.value} initialValue={initialValue} onSubmit={onSubmit} validate={validate} />
     </>
   );
 };

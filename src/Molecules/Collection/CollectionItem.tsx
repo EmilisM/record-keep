@@ -119,6 +119,8 @@ const CollectionItem = ({
       <TitleContainer>
         {isEditable ? (
           <InputDashboardStyled
+            id="input"
+            name="input"
             color="primaryDarker"
             placeholder="Collection name"
             fontSize="normal"

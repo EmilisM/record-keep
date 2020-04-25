@@ -1,14 +1,13 @@
 import React, { Dispatch, ReactElement, FormEvent } from 'react';
 import Modal from 'Atoms/Modal';
 import styled from 'styled-components/macro';
-import Input from 'Atoms/Input/Input';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
-import H from 'Atoms/Text/H';
 import FieldInput from 'Molecules/FieldInput';
 import Label from 'Atoms/Input/InputLabel';
 import { State, Actions } from 'Types/User/UserDataState';
 import ImagePicker from 'Molecules/ImagePicker';
 import FormError from 'Atoms/Error/FormError';
+import ChangePasswordForm from 'Molecules/Form/ChangePasswordForm';
 
 const ModalStyled = styled(Modal)``;
 
@@ -17,16 +16,6 @@ const FormContent = styled.form`
   flex-direction: column;
 
   margin: 20px 0;
-`;
-
-const InputStyled = styled(Input)`
-  border: 1px solid ${props => props.theme.colors.text.primaryDarker};
-  width: 300px;
-  margin-top: 10px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
 `;
 
 const ButtonStyled = styled(ButtonDashboard)`
@@ -66,7 +55,6 @@ type Props = {
   onRequestClose: () => void;
   onSubmitProfile: (event: FormEvent<HTMLFormElement>) => void;
   onSubmitImageData: (event: FormEvent<HTMLFormElement>) => void;
-  onSubmitPasswordChange: (event: FormEvent<HTMLFormElement>) => void;
   state: State;
   dispatch: Dispatch<Actions>;
 };
@@ -77,7 +65,6 @@ const EditUserInfoModal = ({
   onRequestClose,
   onSubmitProfile,
   onSubmitImageData,
-  onSubmitPasswordChange,
   state,
   dispatch,
   isLoading,
@@ -91,7 +78,7 @@ const EditUserInfoModal = ({
     isLoading={isLoading}
   >
     <FormContent onSubmit={onSubmitImageData}>
-      <Label color="primaryDarker" fontWeight="semiBold" fontSize="small">
+      <Label color="primaryDarker" fontWeight="semiBold" fontSize="normal">
         Profile image
       </Label>
       <ImagePickerStyled
@@ -109,7 +96,7 @@ const EditUserInfoModal = ({
       </ButtonStyled>
     </FormContent>
     <FormContent onSubmit={onSubmitProfile}>
-      <Label color="primaryDarker" fontWeight="semiBold" fontSize="small">
+      <Label color="primaryDarker" fontWeight="semiBold" fontSize="normal">
         Display name
       </Label>
       <FieldInputStyled
@@ -122,35 +109,7 @@ const EditUserInfoModal = ({
       </ButtonStyled>
     </FormContent>
     <FormSeparator />
-    <FormContent onSubmit={onSubmitPasswordChange}>
-      <H color="primaryDarker" fontSize="regular" fontWeight="semiBold" level="3">
-        Change your password
-      </H>
-      <InputStyled
-        color="primaryDarker"
-        placeholder="Old password"
-        fontSize="normal"
-        type="password"
-        onChange={event => dispatch({ type: 'UserData/OldPassword', payload: event.target.value })}
-      />
-      <InputStyled
-        color="primaryDarker"
-        placeholder="New password"
-        fontSize="normal"
-        type="password"
-        onChange={event => dispatch({ type: 'UserData/NewPassword', payload: event.target.value })}
-      />
-      <InputStyled
-        color="primaryDarker"
-        placeholder="Repeat new password"
-        fontSize="normal"
-        type="password"
-        onChange={event => dispatch({ type: 'UserData/RepeatNewPassword', payload: event.target.value })}
-      />
-      <ButtonStyled type="submit" fontWeight="light">
-        Submit
-      </ButtonStyled>
-    </FormContent>
+    <ChangePasswordForm />
   </ModalStyled>
 );
 

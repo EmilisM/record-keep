@@ -2,22 +2,12 @@ import React, { ReactElement, ReactNode } from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'small' | 'medium' | 'big';
+type Sizes = 'normal';
 const fontSizes: FontSizes<Sizes> = {
-  small: {
-    desktop: 18,
-    tablet: 16,
-    mobile: 15,
-  },
-  medium: {
+  normal: {
     desktop: 20,
-    tablet: 19,
-    mobile: 18,
-  },
-  big: {
-    desktop: 25,
-    tablet: 22,
-    mobile: 20,
+    tablet: 18,
+    mobile: 16,
   },
 };
 
@@ -39,18 +29,18 @@ const InputLabelBase = ({ className, children, htmlFor }: Props): ReactElement =
 const InputLabel = styled(InputLabelBase)`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
-  font-size: ${props => fontSizes[props.fontSize || 'medium'].desktop}px;
+  font-size: ${props => fontSizes[props.fontSize || 'normal'].desktop}px;
   background-color: transparent;
 
   color: ${props => props.theme.colors.text[props.color || 'primaryLight']};
 
   @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
   props.theme.breakpoints.desktop})) {
-    font-size: ${props => fontSizes[props.fontSize || 'medium'].tablet}px;
+    font-size: ${props => fontSizes[props.fontSize || 'normal'].tablet}px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile}px;
+    font-size: ${props => fontSizes[props.fontSize || 'normal'].mobile}px;
   }
 `;
 

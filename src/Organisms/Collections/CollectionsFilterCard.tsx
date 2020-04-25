@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import InputDashboard from 'Atoms/Input/InputDashboard';
 import Card from 'Atoms/Card/Card';
-import InputLabel from 'Atoms/Input/InputLabel';
 
 type Props = {
   className?: string;
@@ -34,10 +33,14 @@ const InputDashboardStyled = styled(InputDashboard)`
 const CollectionsFilterCard = ({ className }: Props): ReactElement => (
   <CardStyled className={className}>
     <Column>
-      <InputLabel color="primaryDarker" fontSize="big" fontWeight="semiBold">
-        Search
-      </InputLabel>
-      <InputDashboardStyled placeholder="Record name" color="primaryDarker" fontWeight="regular" fontSize="normal" />
+      <InputDashboardStyled
+        id="input"
+        name="input"
+        placeholder="Record name"
+        color="primaryDarker"
+        fontWeight="regular"
+        fontSize="normal"
+      />
     </Column>
   </CardStyled>
 );

@@ -19,10 +19,11 @@ type Props = {
   fontSize?: Sizes;
   color?: keyof DefaultTheme['colors']['text'];
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  disabled?: boolean;
 };
 
-const ButtonBase = ({ className, children, onClick, type }: Props): ReactElement => (
-  <button onClick={onClick} className={className} type={type}>
+const ButtonBase = ({ className, children, onClick, type, disabled }: Props): ReactElement => (
+  <button onClick={onClick} className={className} type={type} disabled={disabled}>
     {children}
   </button>
 );

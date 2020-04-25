@@ -93,6 +93,8 @@ const FieldInput = ({ className, value, onChange, placeholder }: Props): ReactEl
       isEditMode={isEditMode}
     >
       <InputStyled
+        id="input"
+        name="input"
         fontSize="normal"
         color="primaryDarker"
         value={value || ''}

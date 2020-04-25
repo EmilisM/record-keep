@@ -139,8 +139,6 @@ const UserCard = ({ className }: Props): ReactElement => {
     mutateUserInfo(updateRequest).then(() => refetch());
   };
 
-  const onSubmitPasswordChange = (): void => {};
-
   return (
     <CardStyled className={className} isLoading={status === 'loading' && !data}>
       <CardHeader>
@@ -176,7 +174,6 @@ const UserCard = ({ className }: Props): ReactElement => {
         dispatch={dispatch}
         onSubmitProfile={onSubmitProfileData}
         onSubmitImageData={onSubmitImageData}
-        onSubmitPasswordChange={onSubmitPasswordChange}
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
         imageError={updateImageError as Error}
