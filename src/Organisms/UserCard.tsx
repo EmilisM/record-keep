@@ -88,8 +88,9 @@ const UserCard = ({ className }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const { data, status, refetch } = useQuery('userInfo', getUserInfo);
   const [state, dispatch] = useReducer(reducer, data, stateInit);
+
   const [mutateUserInfo, { status: userInfoStatus }] = useMutation(updateUserInfo);
-  const [mutateUpdateImage, { status: updateImageStatus }] = useMutation(updateImage, { useErrorBoundary: true });
+  const [mutateUpdateImage, { status: updateImageStatus, error: updateImageError }] = useMutation(updateImage);
   const [mutateCreateImage, { status: createImageStatus }] = useMutation(createImage);
 
   const onChangeActionMenu = (option: ActionMenuOption): void => {
@@ -178,6 +179,7 @@ const UserCard = ({ className }: Props): ReactElement => {
         onSubmitPasswordChange={onSubmitPasswordChange}
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
+        imageError={updateImageError as Error}
       />
     </CardStyled>
   );

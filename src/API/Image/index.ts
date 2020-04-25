@@ -2,7 +2,9 @@ import { ImageCreateModel, ImageUpdateModel, ImageResponse } from 'Types/Image';
 import API from 'API';
 
 export const createImage = async (data: ImageCreateModel): Promise<ImageResponse> => {
-  return await API.post('/api/image', data);
+  const imageResponse = await API.post<ImageResponse>('/api/image', data);
+
+  return imageResponse.data;
 };
 
 export const updateImage = async ({ id, ...rest }: ImageUpdateModel): Promise<void> => {

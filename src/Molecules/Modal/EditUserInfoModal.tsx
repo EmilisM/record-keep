@@ -8,6 +8,7 @@ import FieldInput from 'Molecules/FieldInput';
 import Label from 'Atoms/Input/InputLabel';
 import { State, Actions } from 'Types/User/UserDataState';
 import ImagePicker from 'Molecules/ImagePicker';
+import FormError from 'Atoms/Error/FormError';
 
 const ModalStyled = styled(Modal)``;
 
@@ -60,6 +61,7 @@ const ImagePickerStyled = styled(ImagePicker)`
 type Props = {
   className?: string;
   isLoading?: boolean;
+  imageError?: Error;
   isOpen: boolean;
   onRequestClose: () => void;
   onSubmitProfile: (event: FormEvent<HTMLFormElement>) => void;
@@ -79,6 +81,7 @@ const EditUserInfoModal = ({
   state,
   dispatch,
   isLoading,
+  imageError,
 }: Props): ReactElement => (
   <ModalStyled
     className={className}
@@ -100,6 +103,7 @@ const EditUserInfoModal = ({
       >
         Choose your image
       </ImagePickerStyled>
+      {imageError && <FormError>Error uploading images to server</FormError>}
       <ButtonStyled type="submit" fontWeight="light">
         Submit
       </ButtonStyled>
