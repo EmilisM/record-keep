@@ -6,8 +6,9 @@ import Button from 'Atoms/Button/Button';
 import LoginCard from 'Atoms/Card/LoginCard';
 import { LoginFormType, LoginFormFields } from 'Types/Login';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
-import FormError from 'Atoms/Error/FormError';
 import { Formik, FormikHelpers, FormikErrors } from 'formik';
+import FormError from 'Atoms/Error/FormError';
+import GlobalFormError from 'Atoms/Error/GlobalFormError';
 
 type StyledProps = {
   type?: LoginFormType;
@@ -53,7 +54,7 @@ const FieldErrorStyled = styled(FormError)`
   margin-top: 10px;
 `;
 
-const FormErrorStyled = styled(FormError)`
+const FormErrorMessage = styled(GlobalFormError)`
   margin-top: 20px;
 `;
 
@@ -68,17 +69,17 @@ type Props = {
 const LoginForm = ({ className, type, onSubmit, validate, initialValue }: Props): ReactElement => (
   <LoginCard className={className}>
     <Formik initialValues={initialValue} validate={validate} onSubmit={onSubmit}>
-      {({ getFieldProps, errors, touched, handleSubmit, isSubmitting }) => (
+      {({ getFieldProps, handleSubmit, isSubmitting }) => (
         <form onSubmit={handleSubmit}>
           <BaseInputContainer>
             <InputLabelStyled htmlFor="email">Email</InputLabelStyled>
             <Input fontWeight="light" type="email" placeholder="Email" {...getFieldProps('email')} />
-            {touched.email && errors.email && <FieldErrorStyled>{errors.email}</FieldErrorStyled>}
+            <FieldErrorStyled name="email" />
           </BaseInputContainer>
           <MiddleInputContainer>
             <InputLabelStyled htmlFor="password">Password</InputLabelStyled>
             <Input fontWeight="light" type="password" placeholder="Password" {...getFieldProps('password')} />
-            {touched.password && errors.password && <FieldErrorStyled>{errors.password}</FieldErrorStyled>}
+            <FieldErrorStyled name="password" />
           </MiddleInputContainer>
           <AnimatedInputContainer type={type}>
             <InputLabelStyled htmlFor="repeatPassword">Repeat password</InputLabelStyled>
@@ -88,11 +89,9 @@ const LoginForm = ({ className, type, onSubmit, validate, initialValue }: Props)
               placeholder="Repeat password"
               {...getFieldProps('repeatPassword')}
             />
-            {touched.repeatPassword && errors.repeatPassword && (
-              <FieldErrorStyled>{errors.repeatPassword}</FieldErrorStyled>
-            )}
+            <FieldErrorStyled name="repeatPassword" />
           </AnimatedInputContainer>
-          {errors.form && <FormErrorStyled>{errors.form}</FormErrorStyled>}
+          <FormErrorMessage />
           <ButtonStyled fontWeight="light" type="submit" disabled={isSubmitting}>
             {type === 'login' ? 'Log in' : 'Sign up'}
             <ArrowStyled />

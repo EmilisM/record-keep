@@ -2,14 +2,15 @@ import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
-import { FormikErrors, Formik } from 'formik';
+import { FormikErrors, Formik, Form, FormikHelpers } from 'formik';
 import FormInput from 'Atoms/Input/FormInput';
+import FormError from 'Atoms/Error/FormError';
 
 type Props = {
   className?: string;
 };
 
-const FormContent = styled.form`
+const FormContent = styled(Form)`
   display: flex;
   flex-direction: column;
 
@@ -29,14 +30,19 @@ const FormInputStyled = styled(FormInput)`
   margin-top: 20px;
 `;
 
-interface Form {
+const FormErrorStyled = styled(FormError)`
+  margin-top: 10px;
+`;
+
+interface ChangePasswordFields {
   existingPassword: string;
   newPassword: string;
   repeatNewPassword: string;
+  form?: string;
 }
 
-const validate = (values: Form): FormikErrors<Form> => {
-  const errors: FormikErrors<Form> = {};
+const validate = (values: ChangePasswordFields): FormikErrors<ChangePasswordFields> => {
+  const errors: FormikErrors<ChangePasswordFields> = {};
 
   if (!values.existingPassword) {
     errors.existingPassword = 'Existing password is required';
@@ -54,29 +60,54 @@ const validate = (values: Form): FormikErrors<Form> => {
 };
 
 const ChangePasswordForm = ({ className }: Props): ReactElement => {
-  const initialValues: Form = {
+  const initialValues: ChangePasswordFields = {
     existingPassword: '',
     newPassword: '',
     repeatNewPassword: '',
   };
 
-  const onSubmit = (values: Form): void => {
+  const onSubmit = (values: ChangePasswordFields, helpers: FormikHelpers<ChangePasswordFields>): void => {
     console.log(values);
+
+    helpers.setSubmitting(false);
   };
 
   return (
     <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
-      <FormContent className={className}>
-        <H color="primaryDarker" fontSize="regular" fontWeight="semiBold" level="3">
-          Change your password
-        </H>
-        <FormInputStyled id="existingPassword" name="existingPassword" type="password" label="Existing password" />
-        <FormInputStyled id="newPassword" name="newPassword" type="password" label="New password" />
-        <FormInputStyled id="repeatNewPassword" name="repeatNewPassword" type="password" label="Repeat new password" />
-        <ButtonStyled type="submit" fontWeight="light">
-          Change password
-        </ButtonStyled>
-      </FormContent>
+      {({ isSubmitting }) => (
+        <FormContent className={className}>
+          <H color="primaryDarker" fontSize="regular" fontWeight="semiBold" level="3">
+            Change your password
+          </H>
+          <FormInputStyled
+            id="existingPassword"
+            placeholder="Existing password"
+            name="existingPassword"
+            type="password"
+            label="Existing password"
+          />
+          <FormErrorStyled name="existingPassword" />
+          <FormInputStyled
+            id="newPassword"
+            placeholder="New password"
+            name="newPassword"
+            type="password"
+            label="New password"
+          />
+          <FormErrorStyled name="newPassword" />
+          <FormInputStyled
+            id="repeatNewPassword"
+            placeholder="Repeat new password"
+            name="repeatNewPassword"
+            type="password"
+            label="Repeat new password"
+          />
+          <FormErrorStyled name="repeatNewPassword" />
+          <ButtonStyled disabled={isSubmitting} type="submit" fontWeight="light">
+            Change password
+          </ButtonStyled>
+        </FormContent>
+      )}
     </Formik>
   );
 };

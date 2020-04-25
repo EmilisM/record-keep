@@ -14,12 +14,12 @@ const fontSizes: FontSizes<Sizes> = {
 type Props = {
   className?: string;
   onClick?: () => void;
-  children: ReactNode;
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
   fontSize?: Sizes;
   color?: keyof DefaultTheme['colors']['text'];
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
   disabled?: boolean;
+  children: ReactNode;
 };
 
 const ButtonBase = ({ className, children, onClick, type, disabled }: Props): ReactElement => (
@@ -51,6 +51,10 @@ const ButtonDashboard = styled(ButtonBase)`
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].mobile}px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
   }
 `;
 

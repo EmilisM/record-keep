@@ -1,40 +1,18 @@
-import React, { ReactElement, ReactNode } from 'react';
-import styled, { DefaultTheme } from 'styled-components/macro';
-import { FontSizes } from 'Types/Style';
-
-type Sizes = 'normal';
-const fontSizes: FontSizes<Sizes> = {
-  normal: {
-    desktop: 19,
-    tablet: 17,
-    mobile: 15,
-  },
-};
+import React, { ReactElement } from 'react';
+import CustomErrorMessage from './ErrorMessage';
+import { ErrorMessage } from 'formik';
 
 type Props = {
   className?: string;
-  children: ReactNode;
-  fontSize?: Sizes;
-  fontWeight?: keyof DefaultTheme['font']['fontWeight'];
+  name: string;
 };
 
-const FormErrorBase = (props: Props): ReactElement => <div {...props} />;
-
-const FormError = styled(FormErrorBase)`
-  font-family: ${props => props.theme.font.fontFamily.primary};
-  font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
-  font-size: ${props => fontSizes[props.fontSize || 'normal'].desktop}px;
-  background-color: transparent;
-
-  color: ${props => props.theme.colors.text.error};
-
-  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
-    font-size: ${props => fontSizes[props.fontSize || 'normal'].tablet}px;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    font-size: ${props => fontSizes[props.fontSize || 'normal'].mobile}px;
-  }
-`;
+const FormError = ({ className, name }: Props): ReactElement => {
+  return (
+    <ErrorMessage name={name}>
+      {message => <CustomErrorMessage className={className}>{message}</CustomErrorMessage>}
+    </ErrorMessage>
+  );
+};
 
 export default FormError;

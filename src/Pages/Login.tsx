@@ -99,6 +99,7 @@ const Login = (): ReactElement => {
           helpers.setErrors({
             form: error.response?.data.error_description,
           });
+          helpers.setSubmitting(false);
         });
     } else if (activeForm.value === 'signup') {
       createUser({ email: values.email, password: values.password, repeatPassword: values.repeatPassword })
@@ -111,6 +112,7 @@ const Login = (): ReactElement => {
             repeatPassword: getErrorMessage(err.response?.data.errors.repeatPassword),
             form: getErrorMessage(err.response?.data.errors.form),
           });
+          helpers.setSubmitting(false);
         });
     }
   };

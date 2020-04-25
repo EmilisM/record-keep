@@ -6,7 +6,7 @@ import FieldInput from 'Molecules/FieldInput';
 import Label from 'Atoms/Input/InputLabel';
 import { State, Actions } from 'Types/User/UserDataState';
 import ImagePicker from 'Molecules/ImagePicker';
-import FormError from 'Atoms/Error/FormError';
+import ErrorMessage from 'Atoms/Error/ErrorMessage';
 import ChangePasswordForm from 'Molecules/Form/ChangePasswordForm';
 
 const ModalStyled = styled(Modal)``;
@@ -90,7 +90,7 @@ const EditUserInfoModal = ({
       >
         Choose your image
       </ImagePickerStyled>
-      {imageError && <FormError>Error uploading images to server</FormError>}
+      {imageError && <ErrorMessage>Error uploading images to server</ErrorMessage>}
       <ButtonStyled type="submit" fontWeight="light">
         Submit
       </ButtonStyled>
