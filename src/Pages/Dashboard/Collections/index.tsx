@@ -178,11 +178,17 @@ const Collections = (): ReactElement => {
           ))
         )}
       </SecondRow>
-      <EditCollectionModal
-        onImageSubmit={onImageSubmit}
-        isOpen={editModalOpen}
-        onRequestClose={() => setEditModalOpen(false)}
-      />
+      {data && itemIndex !== undefined ? (
+        <EditCollectionModal
+          onImageSubmit={onImageSubmit}
+          isOpen={editModalOpen}
+          onRequestClose={() => setEditModalOpen(false)}
+          collectionsRefetch={refetch}
+          name={data[itemIndex].name}
+          description={data[itemIndex].description}
+          id={data[itemIndex].id}
+        />
+      ) : null}
     </CollectionsStyled>
   );
 };
