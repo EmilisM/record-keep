@@ -3,17 +3,9 @@ import styled from 'styled-components/macro';
 import Card from 'Atoms/Card/Card';
 import { ReactComponent as Add } from 'Assets/Add.svg';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
+import { ReactComponent as Close } from 'Assets/Close.svg';
 import H from 'Atoms/Text/H';
 import InputDashboard from 'Atoms/Input/InputDashboard';
-
-type Props = {
-  className?: string;
-  onClick: () => void;
-  onSubmit: () => void;
-  isEditable: boolean;
-  value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-};
 
 const NewCollectionItemStyled = styled(Card)`
   display: flex;
@@ -60,8 +52,16 @@ const AddStyled = styled(Add)`
 `;
 
 const ArrowStyled = styled(Arrow)`
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
+
+  fill: ${props => props.theme.colors.text.primaryDarker};
+  margin-left: 10px;
+`;
+
+const CloseStyled = styled(Close)`
+  width: 30px;
+  height: 30px;
 
   fill: ${props => props.theme.colors.text.primaryDarker};
   margin-left: 10px;
@@ -70,6 +70,8 @@ const ArrowStyled = styled(Arrow)`
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
   margin-left: 20px;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
@@ -85,7 +87,25 @@ const InputDashboardStyled = styled(InputDashboard)`
   }
 `;
 
-const NewCollectionItem = ({ className, onClick, onSubmit, isEditable, value, onChange }: Props): ReactElement => {
+type Props = {
+  className?: string;
+  onClick: () => void;
+  onSubmit: () => void;
+  isEditable: boolean;
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClear: () => void;
+};
+
+const NewCollectionItem = ({
+  className,
+  onClick,
+  onSubmit,
+  isEditable,
+  value,
+  onChange,
+  onClear,
+}: Props): ReactElement => {
   const onKeyPressInput = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
       onSubmit();
@@ -112,6 +132,7 @@ const NewCollectionItem = ({ className, onClick, onSubmit, isEditable, value, on
               value={value}
               onChange={onChange}
             />
+            <CloseStyled onClick={onClear} />
             <ArrowStyled onClick={onSubmit} />
           </>
         ) : (

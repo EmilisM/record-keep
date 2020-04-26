@@ -45,7 +45,7 @@ type Props = {
 };
 
 const EditUserInfoForm = ({ className, displayName, userInfoRefetch }: Props): ReactElement => {
-  const [updateUserInfo] = useMutation(updateUserInfoAPI);
+  const [updateUserInfo] = useMutation(updateUserInfoAPI, { throwOnError: true });
 
   const initialValues: UserInfoFields = {
     displayName: displayName || '',
@@ -60,11 +60,15 @@ const EditUserInfoForm = ({ className, displayName, userInfoRefetch }: Props): R
       },
     ];
 
-    updateUserInfo(updateRequest).then(() => {
-      userInfoRefetch();
-      helpers.setSubmitting(false);
-      toast.success('User info update complete');
-    });
+    updateUserInfo(updateRequest)
+      .then(() => {
+        userInfoRefetch();
+        helpers.setSubmitting(false);
+        toast.success('User info update complete');
+      })
+      .catch(() => {
+        helpers.setSubmitting(false);
+      });
   };
 
   return (

@@ -6,8 +6,14 @@ import NewCollectionItem from 'Molecules/Collection/NewCollectionItem';
 import { ReactComponent as Delete } from 'Assets/Add.svg';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { ActionMenuOption } from 'Types/ActionMenu';
-import { CollectionItemOption } from 'Types/Collection';
 import { RouteConfig } from 'Routes/RouteConfig';
+import { useQuery, useMutation } from 'react-query';
+import { getCollections, createCollection as createCollectionAPI, updateCollection } from 'API/Collection';
+import Loader from 'Atoms/Loader/Loader';
+import { toast } from 'react-toastify';
+import EditCollectionModal from 'Molecules/Modal/EditCollectionModal';
+import { ImageCreateModel } from 'Types/Image';
+import { updateImage, createImage } from 'API/Image';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -52,6 +58,14 @@ const DeleteStyled = styled(Delete)`
   transform: rotateZ(45deg);
 `;
 
+const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+`;
+
 const accountMenuOptions: ActionMenuOption[] = [
   {
     value: 'edit',
@@ -65,25 +79,18 @@ const accountMenuOptions: ActionMenuOption[] = [
   },
 ];
 
-const collectionItemsInit: CollectionItemOption[] = [
-  {
-    name: 'First',
-    value: 'first',
-    count: 56,
-    isEditable: true,
-  },
-  {
-    name: 'Second',
-    value: 'second',
-    count: 74,
-    isEditable: false,
-  },
-];
-
 const Collections = (): ReactElement => {
-  const [collectionItems, setCollectionItems] = useState<CollectionItemOption[]>(collectionItemsInit);
   const [isEditable, setIsEditable] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [itemIndex, setItemIndex] = useState<number>();
+
+  const { data, status, refetch } = useQuery('collections', getCollections);
+  const [createCollection] = useMutation(createCollectionAPI, { throwOnError: true });
+
+  const [mutateUpdateImage] = useMutation(updateImage);
+  const [mutateCreateImage] = useMutation(createImage);
+  const [mutateCollection] = useMutation(updateCollection);
 
   const onClickNewCollection = (): void => {
     if (!isEditable) {
@@ -92,12 +99,52 @@ const Collections = (): ReactElement => {
   };
 
   const onSubmitNewCollection = (): void => {
-    setCollectionItems([{ name: newCollectionName, count: 32, value: 'first', isEditable: false }, ...collectionItems]);
-    setNewCollectionName('');
+    if (newCollectionName) {
+      createCollection({ name: newCollectionName }).then(() => {
+        setNewCollectionName('');
+        setIsEditable(false);
+        toast.success('New collection created');
+        refetch();
+      });
+    }
+  };
+
+  const onClearNewCollection = (): void => {
     setIsEditable(false);
   };
 
-  const accountMenuOnChange = (): void => {};
+  const accountMenuOnChange = (option: ActionMenuOption, index: number): void => {
+    setItemIndex(index);
+
+    if (option.value === 'edit') {
+      setEditModalOpen(true);
+    }
+  };
+
+  const onImageSubmit = (imageData: ImageCreateModel): Promise<void> =>
+    new Promise<void>(resolve => {
+      if (!data || itemIndex === undefined) {
+        return resolve();
+      }
+
+      const collection = data[itemIndex];
+
+      if (collection.image?.id) {
+        mutateUpdateImage({ ...imageData, id: collection.image?.id }).then(() => {
+          refetch();
+          resolve();
+        });
+      } else {
+        mutateCreateImage(imageData)
+          .then(image =>
+            mutateCollection({ id: collection.id, operations: [{ op: 'add', path: '/imageId', value: image.id }] }),
+          )
+          .then(() => {
+            refetch();
+            resolve();
+          });
+      }
+    });
 
   return (
     <CollectionsStyled>
@@ -111,18 +158,31 @@ const Collections = (): ReactElement => {
           isEditable={isEditable}
           value={newCollectionName}
           onChange={event => setNewCollectionName(event.target.value)}
+          onClear={onClearNewCollection}
         />
-        {collectionItems.map((item, index) => (
-          <CollectionItemStyled
-            to={RouteConfig.Dashboard.Collections.Collection}
-            key={`${item.name}-${item.count}`}
-            title={item.name}
-            subTitle={`${item.count} ${item.count === 1 ? 'record' : 'records'}`}
-            accountMenuOptions={accountMenuOptions}
-            accountMenuOnChange={accountMenuOnChange}
-          />
-        ))}
+        {status === 'loading' || !data ? (
+          <LoaderContainer>
+            <Loader />
+          </LoaderContainer>
+        ) : (
+          data.map((item, index) => (
+            <CollectionItemStyled
+              to={RouteConfig.Dashboard.Collections.Collection}
+              key={item.id}
+              title={item.name}
+              subTitle={item.recordCount > 0 ? `${item.recordCount} record` : 'No records'}
+              accountMenuOptions={accountMenuOptions}
+              accountMenuOnChange={option => accountMenuOnChange(option, index)}
+              image={item.image?.data}
+            />
+          ))
+        )}
       </SecondRow>
+      <EditCollectionModal
+        onImageSubmit={onImageSubmit}
+        isOpen={editModalOpen}
+        onRequestClose={() => setEditModalOpen(false)}
+      />
     </CollectionsStyled>
   );
 };

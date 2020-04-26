@@ -30,7 +30,7 @@ export const RouteConfig: RouteType = {
     Analysis: '/dashboard/analysis',
     Collections: {
       Root: '/dashboard/collections',
-      Collection: '/dashboard/collections/:collectionName',
+      Collection: '/dashboard/collections/:collectionId',
     },
   },
 };

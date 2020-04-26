@@ -11,6 +11,10 @@ import P from 'Atoms/Text/P';
 import moment from 'moment';
 import EditUserInfoModal from 'Molecules/Modal/EditUserInfoModal';
 import UserImage from 'Atoms/UserImage';
+import { ImageCreateModel } from 'Types/Image';
+import { useMutation } from 'react-query';
+import { updateImage, createImage } from 'API/Image';
+import { updateUserInfo } from 'API/User/index';
 
 const CardStyled = styled(Card)`
   width: 100%;
@@ -85,11 +89,32 @@ const UserCard = ({ className }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const { data, status, refetch } = useQuery('userInfo', getUserInfo);
 
+  const [mutateUpdateImage] = useMutation(updateImage);
+  const [mutateCreateImage] = useMutation(createImage);
+  const [mutateUserInfo] = useMutation(updateUserInfo);
+
   const onChangeActionMenu = (option: ActionMenuOption): void => {
     if (option.value === 'edit') {
       setIsOpen(true);
     }
   };
+
+  const onSubmitImage = (imageData: ImageCreateModel): Promise<void> =>
+    new Promise(resolve => {
+      if (data?.profileImage?.id) {
+        mutateUpdateImage({ ...imageData, id: data.profileImage.id }).then(() => {
+          refetch();
+          resolve();
+        });
+      } else {
+        mutateCreateImage(imageData)
+          .then(image => mutateUserInfo([{ op: 'add', path: '/imageId', value: image.id }]))
+          .then(() => {
+            refetch();
+            resolve();
+          });
+      }
+    });
 
   return (
     <CardStyled className={className} isLoading={status === 'loading' && !data}>
@@ -122,10 +147,10 @@ const UserCard = ({ className }: Props): ReactElement => {
       </CardBody>
       <EditUserInfoModal
         displayName={data?.displayName}
-        profileImageId={data?.profileImage?.id}
         userInfoRefetch={refetch}
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
+        onSubmitImage={onSubmitImage}
       />
     </CardStyled>
   );

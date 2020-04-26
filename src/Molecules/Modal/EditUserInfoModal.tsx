@@ -3,7 +3,8 @@ import Modal from 'Atoms/Modal';
 import styled from 'styled-components/macro';
 import ChangePasswordForm from 'Molecules/Form/ChangePasswordForm';
 import EditUserInfoForm from 'Molecules/Form/EditUserInfoForm';
-import UserImageForm from 'Molecules/Form/UserImageForm';
+import ImageForm from 'Molecules/Form/ImageForm';
+import { ImageCreateModel } from 'Types/Image';
 
 const FormSeparator = styled.div`
   width: 100%;
@@ -15,10 +16,10 @@ type Props = {
   className?: string;
   isLoading?: boolean;
   displayName?: string | null;
-  profileImageId?: string;
   isOpen: boolean;
   onRequestClose: () => void;
   userInfoRefetch: () => void;
+  onSubmitImage: (data: ImageCreateModel) => Promise<void>;
 };
 
 const EditUserInfoModal = ({
@@ -28,7 +29,7 @@ const EditUserInfoModal = ({
   isLoading,
   displayName,
   userInfoRefetch,
-  profileImageId,
+  onSubmitImage,
 }: Props): ReactElement => (
   <Modal
     className={className}
@@ -37,7 +38,12 @@ const EditUserInfoModal = ({
     title="Edit user info"
     isLoading={isLoading}
   >
-    <UserImageForm profileImageId={profileImageId} userInfoRefetch={userInfoRefetch} />
+    <ImageForm
+      onSubmit={onSubmitImage}
+      title="Profile image"
+      inputLabel="Choose an image"
+      buttonLabel="Change profile image"
+    />
     <EditUserInfoForm displayName={displayName} userInfoRefetch={userInfoRefetch} />
     <FormSeparator />
     <ChangePasswordForm />

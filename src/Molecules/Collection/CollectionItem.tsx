@@ -72,6 +72,7 @@ const CollectionItemStyled = styled(Link)`
 
 export type Props = {
   className?: string;
+  image?: string;
   to: string;
   accountMenuOptions: ActionMenuOption[];
   title: string;
@@ -86,11 +87,16 @@ const CollectionItem = ({
   to,
   accountMenuOptions,
   accountMenuOnChange,
+  image,
 }: Props): ReactElement => {
   return (
     <CollectionItemStyled to={to} className={className}>
       <ImageStyled
-        src={`https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fnandostudio%2Fbe-the-dj%2F128%2Fvinyl-icon.png&f=1&nofb=1`}
+        src={
+          image
+            ? `data:image;base64,${image}`
+            : 'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fnandostudio%2Fbe-the-dj%2F128%2Fvinyl-icon.png&f=1&nofb=1'
+        }
       />
       <TitleContainer>
         <H level="2" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
