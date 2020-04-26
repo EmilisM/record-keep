@@ -6,7 +6,7 @@ import FieldInput from 'Molecules/FieldInput';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { useMutation } from 'react-query';
 import { updateUserInfo as updateUserInfoAPI } from 'API/User';
-import { UpdateUserInfo } from 'Types/User/User';
+import { UpdateUserInfo } from 'Types/User';
 
 const FormStyled = styled(Form)`
   display: flex;

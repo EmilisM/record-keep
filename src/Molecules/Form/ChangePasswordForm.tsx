@@ -7,7 +7,7 @@ import FormInput from 'Atoms/Input/FormInput';
 import FormError from 'Atoms/Error/FormError';
 import { useMutation } from 'react-query';
 import { changePassword as changePasswordAPI } from 'API/User';
-import { ChangePasswordErrorResponse } from 'Types/User/User';
+import { ChangePasswordErrorResponse } from 'Types/User';
 import { AxiosError } from 'axios';
 import { getErrorMessage } from 'Types/Error';
 import GlobalFormError from 'Atoms/Error/GlobalFormError';

@@ -7,7 +7,7 @@ import {
   TokenRequest,
   CreateUserRequest,
   ChangePasswordRequest,
-} from 'Types/User/User';
+} from 'Types/User';
 
 export const getAccessToken = async (request: TokenRequest): Promise<TokenResponse> => {
   const params = new URLSearchParams([

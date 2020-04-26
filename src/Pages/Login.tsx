@@ -9,7 +9,7 @@ import { getAccessToken as getAccessTokenAPI, createUser as createUserAPI } from
 import { useHistory, Redirect } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { AxiosError } from 'axios';
-import { ErrorTokenResponse, CreateUserErrorResponse } from 'Types/User/User';
+import { ErrorTokenResponse, CreateUserErrorResponse } from 'Types/User';
 import Loader from 'Atoms/Loader/Loader';
 import { LoginFormFields } from 'Types/Login';
 import { FormikErrors, FormikHelpers } from 'formik';
