@@ -30,6 +30,8 @@ const theme: DefaultTheme = {
     special: {
       loaderFirst: '#667eea',
       loaderSecond: '#764ba2',
+      success: '#8bc34a',
+      error: '#ff3333',
     },
   },
   font: {

@@ -31,6 +31,8 @@ declare module 'styled-components' {
       special: {
         loaderFirst: string;
         loaderSecond: string;
+        success: string;
+        error: string;
       };
     };
     font: {

@@ -11,6 +11,7 @@ import { ChangePasswordErrorResponse } from 'Types/User';
 import { AxiosError } from 'axios';
 import { getErrorMessage } from 'Types/Error';
 import GlobalFormError from 'Atoms/Error/GlobalFormError';
+import { toast } from 'react-toastify';
 
 type Props = {
   className?: string;
@@ -86,6 +87,7 @@ const ChangePasswordForm = ({ className }: Props): ReactElement => {
       .then(() => {
         helpers.resetForm();
         helpers.setSubmitting(false);
+        toast.success('Change password complete');
       })
       .catch((err: AxiosError<ChangePasswordErrorResponse>) => {
         helpers.setErrors({

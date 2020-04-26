@@ -7,6 +7,7 @@ import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { useMutation } from 'react-query';
 import { updateUserInfo as updateUserInfoAPI } from 'API/User';
 import { UpdateUserInfo } from 'Types/User';
+import { toast } from 'react-toastify';
 
 const FormStyled = styled(Form)`
   display: flex;
@@ -62,6 +63,7 @@ const EditUserInfoForm = ({ className, displayName, userInfoRefetch }: Props): R
     updateUserInfo(updateRequest).then(() => {
       userInfoRefetch();
       helpers.setSubmitting(false);
+      toast.success('User info update complete');
     });
   };
 

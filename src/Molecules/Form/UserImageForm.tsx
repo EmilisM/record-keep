@@ -7,6 +7,7 @@ import { useMutation } from 'react-query';
 import { updateImage, createImage } from 'API/Image';
 import ImagePicker from 'Molecules/ImagePicker';
 import { updateUserInfo } from 'API/User/index';
+import { toast } from 'react-toastify';
 
 const FormStyled = styled.form`
   display: flex;
@@ -43,6 +44,10 @@ const UserImageForm = ({ className, userInfoRefetch, profileImageId }: Props): R
   const [image, setImage] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>({ aspect: 1, x: 0, y: 0, height: 25, width: 25, unit: '%' });
 
+  const notifyUpdate = (): void => {
+    toast('Image update complete', { type: 'success' });
+  };
+
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
@@ -60,6 +65,7 @@ const UserImageForm = ({ className, userInfoRefetch, profileImageId }: Props): R
         mutateUpdateImage({ ...dataReq, id: profileImageId }).then(() => {
           userInfoRefetch();
           setIsLoading(false);
+          notifyUpdate();
         });
       } else {
         mutateCreateImage(dataReq)
@@ -67,6 +73,7 @@ const UserImageForm = ({ className, userInfoRefetch, profileImageId }: Props): R
           .then(() => {
             userInfoRefetch();
             setIsLoading(false);
+            notifyUpdate();
           });
       }
 
