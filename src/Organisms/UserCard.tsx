@@ -1,19 +1,16 @@
-import React, { ReactElement, useState, useReducer, FormEvent } from 'react';
+import React, { ReactElement, useState } from 'react';
 import Card from 'Atoms/Card/Card';
 import styled from 'styled-components/macro';
 import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import H from 'Atoms/Text/H';
-import { useQuery, useMutation } from 'react-query';
-import { getUserInfo, updateUserInfo } from 'API/User';
+import { useQuery } from 'react-query';
+import { getUserInfo } from 'API/User';
 import P from 'Atoms/Text/P';
 import moment from 'moment';
 import EditUserInfoModal from 'Molecules/Modal/EditUserInfoModal';
-import { reducer, stateInit } from 'State/UserData/UserData';
 import UserImage from 'Atoms/UserImage';
-import { UpdateUserInfo } from 'Types/User/User';
-import { updateImage, createImage } from 'API/Image';
 
 const CardStyled = styled(Card)`
   width: 100%;
@@ -87,56 +84,11 @@ type Props = {
 const UserCard = ({ className }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const { data, status, refetch } = useQuery('userInfo', getUserInfo);
-  const [state, dispatch] = useReducer(reducer, data, stateInit);
-
-  const [mutateUserInfo, { status: userInfoStatus }] = useMutation(updateUserInfo);
-  const [mutateUpdateImage, { status: updateImageStatus, error: updateImageError }] = useMutation(updateImage);
-  const [mutateCreateImage, { status: createImageStatus }] = useMutation(createImage);
 
   const onChangeActionMenu = (option: ActionMenuOption): void => {
     if (option.value === 'edit') {
       setIsOpen(true);
     }
-  };
-
-  const onSubmitImageData = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-    const { crop } = state;
-
-    if (state.image) {
-      const dataReq = {
-        height: crop.height || 25,
-        width: crop.width || 25,
-        x: crop.x || 0,
-        y: crop.y || 0,
-        data: state.image.split(',')[1],
-      };
-
-      if (data?.profileImage?.id) {
-        mutateUpdateImage({ ...dataReq, id: data.profileImage.id }).then(() => refetch());
-      } else {
-        mutateCreateImage(dataReq)
-          .then(image => mutateUserInfo([{ op: 'add', path: '/imageId', value: image.id }]))
-          .then(() => refetch());
-      }
-
-      dispatch({ type: 'UserData/Image', payload: null });
-      dispatch({ type: 'UserData/Crop', payload: { x: 0, y: 0 } });
-    }
-  };
-
-  const onSubmitProfileData = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-
-    const updateRequest: UpdateUserInfo[] = [
-      {
-        op: 'add',
-        path: '/displayName',
-        value: state.displayName,
-      },
-    ];
-
-    mutateUserInfo(updateRequest).then(() => refetch());
   };
 
   return (
@@ -169,14 +121,11 @@ const UserCard = ({ className }: Props): ReactElement => {
         </Field>
       </CardBody>
       <EditUserInfoModal
-        isLoading={userInfoStatus === 'loading' || updateImageStatus === 'loading' || createImageStatus === 'loading'}
-        state={state}
-        dispatch={dispatch}
-        onSubmitProfile={onSubmitProfileData}
-        onSubmitImageData={onSubmitImageData}
+        displayName={data?.displayName}
+        profileImageId={data?.profileImage?.id}
+        userInfoRefetch={refetch}
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
-        imageError={updateImageError as Error}
       />
     </CardStyled>
   );

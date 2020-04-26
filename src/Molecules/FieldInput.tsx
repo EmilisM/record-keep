@@ -1,10 +1,11 @@
-import React, { ReactElement, useState, ChangeEvent, useRef, KeyboardEvent } from 'react';
+import React, { ReactElement, useState, useRef, KeyboardEvent } from 'react';
 import styled from 'styled-components/macro';
 import Input from 'Atoms/Input/Input';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { ReactComponent as Checkmark } from 'Assets/Checkmark.svg';
 import InvisibleButton from 'Atoms/Button/InvisibleButton';
 import useClickOutside from 'Services/Hooks/useClickOutside';
+import { useField } from 'formik';
 
 type StyleProps = {
   isEditMode: boolean;
@@ -56,15 +57,15 @@ const InputStyled = styled(Input)`
 
 type Props = {
   className?: string;
-  value?: string | null;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  name: string;
 };
 
-const FieldInput = ({ className, value, onChange, placeholder }: Props): ReactElement => {
+const FieldInput = ({ className, placeholder, ...rest }: Props): ReactElement => {
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const ref = useClickOutside<HTMLDivElement>(() => setIsEditMode(false));
+  const [field] = useField(rest);
 
   const onClick = (): void => {
     if (isEditMode) {
@@ -93,12 +94,9 @@ const FieldInput = ({ className, value, onChange, placeholder }: Props): ReactEl
       isEditMode={isEditMode}
     >
       <InputStyled
-        id="input"
-        name="input"
         fontSize="normal"
         color="primaryDarker"
-        value={value || ''}
-        onChange={onChange}
+        {...field}
         placeholder={placeholder}
         inputRef={inputRef}
         onKeyPress={onKeyPress}
