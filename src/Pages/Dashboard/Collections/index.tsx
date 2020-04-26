@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, MouseEvent } from 'react';
+import React, { ReactElement, useState } from 'react';
 import styled from 'styled-components/macro';
 import CollectionsFilterCard from 'Organisms/Collections/CollectionsFilterCard';
 import CollectionItem from 'Molecules/Collection/CollectionItem';
@@ -8,7 +8,6 @@ import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { CollectionItemOption } from 'Types/Collection';
 import { RouteConfig } from 'Routes/RouteConfig';
-import { useHistory } from 'react-router-dom';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -85,7 +84,6 @@ const Collections = (): ReactElement => {
   const [collectionItems, setCollectionItems] = useState<CollectionItemOption[]>(collectionItemsInit);
   const [isEditable, setIsEditable] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const { push } = useHistory();
 
   const onClickNewCollection = (): void => {
     if (!isEditable) {
@@ -99,27 +97,7 @@ const Collections = (): ReactElement => {
     setIsEditable(false);
   };
 
-  const onEditChange = (): void => {};
-
-  const onEditSubmit = (option: CollectionItemOption, index: number): void => {
-    const collection: CollectionItemOption = { ...collectionItems[index], isEditable: false };
-
-    const newCollections = [...collectionItems];
-    newCollections[index] = collection;
-
-    setCollectionItems(newCollections);
-  };
-
   const accountMenuOnChange = (): void => {};
-
-  const onClickLink = (event: MouseEvent<HTMLAnchorElement>, option: CollectionItemOption, index: number): void => {
-    event.preventDefault();
-    if (option.isEditable) {
-      onEditSubmit(option, index);
-    } else {
-      push(`${RouteConfig.Dashboard.Collections.Root}/${option.value}`);
-    }
-  };
 
   return (
     <CollectionsStyled>
@@ -136,15 +114,12 @@ const Collections = (): ReactElement => {
         />
         {collectionItems.map((item, index) => (
           <CollectionItemStyled
+            to={RouteConfig.Dashboard.Collections.Collection}
             key={`${item.name}-${item.count}`}
             title={item.name}
             subTitle={`${item.count} ${item.count === 1 ? 'record' : 'records'}`}
-            isEditable={item.isEditable}
-            onEditSubmit={() => onEditSubmit(item, index)}
-            onEditChange={onEditChange}
             accountMenuOptions={accountMenuOptions}
             accountMenuOnChange={accountMenuOnChange}
-            onClick={event => onClickLink(event, item, index)}
           />
         ))}
       </SecondRow>

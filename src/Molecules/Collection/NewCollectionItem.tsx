@@ -20,7 +20,6 @@ const NewCollectionItemStyled = styled(Card)`
   align-items: center;
 
   padding: 10px 20px;
-  border: dashed 2px ${props => props.theme.colors.border.cardShadow};
 
   cursor: pointer;
 
@@ -30,6 +29,10 @@ const NewCollectionItemStyled = styled(Card)`
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     padding: 10px;
+  }
+
+  &:hover {
+    background-color: ${props => props.theme.colors.background.primaryDarker};
   }
 
   transition: all 300ms ease;

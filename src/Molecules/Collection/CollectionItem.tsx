@@ -1,4 +1,4 @@
-import React, { ReactElement, MouseEvent, KeyboardEvent, ChangeEvent } from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
 import Image from 'Atoms/Image';
@@ -6,7 +6,6 @@ import Link from 'Atoms/Link/Link';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
-import InputDashboard from 'Atoms/Input/InputDashboard';
 
 const TitleContainer = styled.div`
   display: flex;
@@ -71,25 +70,13 @@ const CollectionItemStyled = styled(Link)`
   }
 `;
 
-const InputDashboardStyled = styled(InputDashboard)`
-  max-width: 300px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    max-width: 160px;
-  }
-`;
-
 export type Props = {
   className?: string;
-  to?: string;
+  to: string;
   accountMenuOptions: ActionMenuOption[];
   title: string;
   subTitle: string;
-  isEditable: boolean;
   accountMenuOnChange: (option: ActionMenuOption) => void;
-  onEditSubmit: () => void;
-  onClick: (event: MouseEvent<HTMLAnchorElement>) => void;
-  onEditChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const CollectionItem = ({
@@ -97,44 +84,18 @@ const CollectionItem = ({
   title,
   subTitle,
   to,
-  isEditable,
-  onEditSubmit,
-  onEditChange,
   accountMenuOptions,
   accountMenuOnChange,
-  onClick,
 }: Props): ReactElement => {
-  const onKeyPressInput = (event: KeyboardEvent<HTMLInputElement>): void => {
-    event.preventDefault();
-    if (event.key === 'Enter') {
-      onEditSubmit();
-    }
-  };
-
   return (
-    <CollectionItemStyled to={to || '#'} onClick={onClick} className={className}>
+    <CollectionItemStyled to={to} className={className}>
       <ImageStyled
         src={`https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fnandostudio%2Fbe-the-dj%2F128%2Fvinyl-icon.png&f=1&nofb=1`}
       />
       <TitleContainer>
-        {isEditable ? (
-          <InputDashboardStyled
-            id="input"
-            name="input"
-            color="primaryDarker"
-            placeholder="Collection name"
-            fontSize="normal"
-            fontWeight="semiBold"
-            onKeyPress={onKeyPressInput}
-            onChange={onEditChange}
-            value={title}
-            autoFocus
-          />
-        ) : (
-          <H level="2" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
-            {title}
-          </H>
-        )}
+        <H level="2" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
+          {title}
+        </H>
         <H level="3" fontSize="normal" fontWeight="light" color="primaryDarker">
           {subTitle}
         </H>
