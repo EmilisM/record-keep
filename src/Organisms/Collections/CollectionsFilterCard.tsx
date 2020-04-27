@@ -1,10 +1,13 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ChangeEvent } from 'react';
 import styled from 'styled-components/macro';
 import InputDashboard from 'Atoms/Input/InputDashboard';
 import Card from 'Atoms/Card/Card';
+import InputLabel from 'Atoms/Input/InputLabel';
 
 type Props = {
   className?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 };
 
 const Column = styled.div`
@@ -30,9 +33,12 @@ const InputDashboardStyled = styled(InputDashboard)`
   margin-top: 10px;
 `;
 
-const CollectionsFilterCard = ({ className }: Props): ReactElement => (
+const CollectionsFilterCard = ({ className, onChange, value }: Props): ReactElement => (
   <CardStyled className={className}>
     <Column>
+      <InputLabel color="primaryDarker" fontSize="normal">
+        Search for collections
+      </InputLabel>
       <InputDashboardStyled
         id="input"
         name="input"
@@ -40,6 +46,8 @@ const CollectionsFilterCard = ({ className }: Props): ReactElement => (
         color="primaryDarker"
         fontWeight="regular"
         fontSize="normal"
+        onChange={onChange}
+        value={value}
       />
     </Column>
   </CardStyled>

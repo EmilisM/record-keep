@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import CollectionsFilterCard from 'Organisms/Collections/CollectionsFilterCard';
 import CollectionItem from 'Molecules/Collection/CollectionItem';
@@ -84,13 +84,18 @@ const Collections = (): ReactElement => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [itemIndex, setItemIndex] = useState<number>();
+  const [nameSearch, setNameSearch] = useState<string>('');
 
-  const { data, status, refetch } = useQuery('collections', getCollections);
+  const { data, status, refetch } = useQuery('collections', [nameSearch], (key, name) => getCollections(name));
   const [createCollection] = useMutation(createCollectionAPI, { throwOnError: true });
 
   const [mutateUpdateImage] = useMutation(updateImage);
   const [mutateCreateImage] = useMutation(createImage);
   const [mutateCollection] = useMutation(updateCollection);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, nameSearch]);
 
   const onClickNewCollection = (): void => {
     if (!isEditable) {
@@ -149,7 +154,7 @@ const Collections = (): ReactElement => {
   return (
     <CollectionsStyled>
       <FirstRow>
-        <CollectionsFilterCardStyled />
+        <CollectionsFilterCardStyled value={nameSearch} onChange={event => setNameSearch(event.target.value)} />
       </FirstRow>
       <SecondRow>
         <NewCollectionItemStyled

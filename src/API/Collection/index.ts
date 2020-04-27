@@ -1,8 +1,8 @@
 import { Collection, CreateCollection, UpdateCollection } from 'Types/Collection';
 import API from 'API';
 
-export const getCollections = async (): Promise<Collection[]> => {
-  const collections = await API.get('/api/collection');
+export const getCollections = async (name?: string): Promise<Collection[]> => {
+  const collections = await API.get(`/api/collection?name=${name}`);
 
   return collections.data;
 };
