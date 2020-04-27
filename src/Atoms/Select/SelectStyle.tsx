@@ -37,6 +37,7 @@ const SelectStyle = styled(ReactSelect)<Props>`
     background-color: ${props => props.theme.colors.background.primary};
     cursor: pointer;
     letter-spacing: -0.8px;
+    color: ${props => props.theme.colors.text.primaryDarker};
   }
 
   .${props => props.classNamePrefix}__option, .${props => props.classNamePrefix}__placeholder {
@@ -49,7 +50,9 @@ const SelectStyle = styled(ReactSelect)<Props>`
 
   .${props => props.classNamePrefix}__menu {
     overflow: hidden;
-    background: none;
+    background: ${props => props.theme.colors.background.primary};
+
+    z-index: 100;
   }
 `;
 

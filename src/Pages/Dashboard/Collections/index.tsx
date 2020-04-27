@@ -8,12 +8,20 @@ import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { useQuery, useMutation } from 'react-query';
-import { getCollections, createCollection as createCollectionAPI, updateCollection } from 'API/Collection';
+import {
+  getCollections,
+  createCollection as createCollectionAPI,
+  updateCollection as updateCollectionAPI,
+  deleteCollection as deleteCollectionAPI,
+} from 'API/Collection';
 import Loader from 'Atoms/Loader/Loader';
 import { toast } from 'react-toastify';
 import EditCollectionModal from 'Molecules/Modal/EditCollectionModal';
 import { ImageCreateModel } from 'Types/Image';
 import { updateImage, createImage } from 'API/Image';
+import CollectionDeleteModal from 'Organisms/Modal/CollectionDeleteModal';
+import { Collection, CollectionDeleteFields } from 'Types/Collection';
+import { FormikHelpers } from 'formik';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -84,16 +92,20 @@ const accountMenuOptions: ActionMenuOption[] = [
 const Collections = (): ReactElement => {
   const [isEditable, setIsEditable] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
+
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [itemIndex, setItemIndex] = useState<number>();
+  const [deletionModalOpen, setDeletionModalOpen] = useState(false);
+
   const [nameSearch, setNameSearch] = useState<string>('');
 
+  const [activeCollection, setActiveCollection] = useState<Collection | null>(null);
   const { data, status, refetch } = useQuery('collections', [nameSearch], (key, name) => getCollections(name));
-  const [createCollection] = useMutation(createCollectionAPI, { throwOnError: true });
 
+  const [createCollection] = useMutation(createCollectionAPI, { throwOnError: true });
   const [mutateUpdateImage] = useMutation(updateImage);
   const [mutateCreateImage] = useMutation(createImage);
-  const [mutateCollection] = useMutation(updateCollection);
+  const [updateCollection] = useMutation(updateCollectionAPI);
+  const [deleteCollection] = useMutation(deleteCollectionAPI);
 
   useEffect(() => {
     refetch();
@@ -121,30 +133,37 @@ const Collections = (): ReactElement => {
   };
 
   const accountMenuOnChange = (option: ActionMenuOption, index: number): void => {
-    setItemIndex(index);
+    if (!data) {
+      return;
+    }
+
+    setActiveCollection(data[index]);
 
     if (option.value === 'edit') {
       setEditModalOpen(true);
+    } else if (option.value === 'delete') {
+      setDeletionModalOpen(true);
     }
   };
 
   const onImageSubmit = (imageData: ImageCreateModel): Promise<void> =>
     new Promise<void>(resolve => {
-      if (!data || itemIndex === undefined) {
+      if (!data || !activeCollection) {
         return resolve();
       }
 
-      const collection = data[itemIndex];
-
-      if (collection.image?.id) {
-        mutateUpdateImage({ ...imageData, id: collection.image?.id }).then(() => {
+      if (activeCollection.image?.id) {
+        mutateUpdateImage({ ...imageData, id: activeCollection.image?.id }).then(() => {
           refetch();
           resolve();
         });
       } else {
         mutateCreateImage(imageData)
           .then(image =>
-            mutateCollection({ id: collection.id, operations: [{ op: 'add', path: '/imageId', value: image.id }] }),
+            updateCollection({
+              id: activeCollection.id,
+              operations: [{ op: 'add', path: '/imageId', value: image.id }],
+            }),
           )
           .then(() => {
             refetch();
@@ -152,6 +171,21 @@ const Collections = (): ReactElement => {
           });
       }
     });
+
+  const onSubmitDelete = (values: CollectionDeleteFields, helpers: FormikHelpers<CollectionDeleteFields>): void => {
+    if (!activeCollection) {
+      return;
+    }
+
+    const id = activeCollection.id;
+
+    deleteCollection({ id, destinationId: values.toCollection && values.toCollection.value }).then(() => {
+      helpers.setSubmitting(false);
+      helpers.resetForm();
+      refetch();
+      toast.success('Collection delete completed');
+    });
+  };
 
   return (
     <CollectionsStyled>
@@ -185,16 +219,23 @@ const Collections = (): ReactElement => {
           <Loader />
         </LoaderContainer>
       ) : null}
-      {data && itemIndex !== undefined ? (
-        <EditCollectionModal
-          onImageSubmit={onImageSubmit}
-          isOpen={editModalOpen}
-          onRequestClose={() => setEditModalOpen(false)}
-          collectionsRefetch={refetch}
-          name={data[itemIndex].name}
-          description={data[itemIndex].description}
-          id={data[itemIndex].id}
-        />
+      {data && activeCollection ? (
+        <>
+          <EditCollectionModal
+            onImageSubmit={onImageSubmit}
+            isOpen={editModalOpen}
+            onRequestClose={() => setEditModalOpen(false)}
+            collectionsRefetch={refetch}
+            activeCollection={activeCollection}
+          />
+          <CollectionDeleteModal
+            isOpen={deletionModalOpen}
+            onRequestClose={() => setDeletionModalOpen(false)}
+            onSubmit={onSubmitDelete}
+            activeCollection={activeCollection}
+            collections={data}
+          />
+        </>
       ) : null}
     </CollectionsStyled>
   );

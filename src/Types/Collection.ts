@@ -45,3 +45,25 @@ export interface UpdateCollection {
   id: number;
   operations: CollectionUpdates[];
 }
+
+export type CollectionDelete = 'delete' | 'move';
+
+export interface CollectionDeleteOption {
+  label: string;
+  value: CollectionDelete;
+}
+
+export interface CollectionOption {
+  value: string;
+  label: string;
+}
+
+export interface CollectionDeleteFields {
+  delete: CollectionDelete;
+  toCollection?: CollectionOption;
+}
+
+export interface CollectionDeleteRequest {
+  id: number;
+  destinationId?: string;
+}

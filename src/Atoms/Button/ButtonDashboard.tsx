@@ -56,6 +56,12 @@ const ButtonDashboard = styled(ButtonBase)`
   &:disabled {
     opacity: 0.6;
   }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  transition: 300ms all ease;
 `;
 
 export default ButtonDashboard;

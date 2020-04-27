@@ -1,4 +1,4 @@
-import { Collection, CreateCollection, UpdateCollection } from 'Types/Collection';
+import { Collection, CreateCollection, UpdateCollection, CollectionDeleteRequest } from 'Types/Collection';
 import API from 'API';
 
 export const getCollections = async (name?: string): Promise<Collection[]> => {
@@ -13,4 +13,8 @@ export const createCollection = async (request: CreateCollection): Promise<void>
 
 export const updateCollection = async (request: UpdateCollection): Promise<void> => {
   return await API.patch(`/api/collection/${request.id}`, request.operations);
+};
+
+export const deleteCollection = async (request: CollectionDeleteRequest): Promise<void> => {
+  return await API.delete(`/api/collection/${request.id}?destinationId=${request.destinationId || ''}`);
 };

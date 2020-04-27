@@ -3,17 +3,16 @@ import Modal from 'Atoms/Modal';
 import ImageForm from 'Molecules/Form/ImageForm';
 import { ImageCreateModel } from 'Types/Image';
 import CollectionEditForm from 'Molecules/Form/CollectionEditForm';
+import { Collection } from 'Types/Collection';
 
 type Props = {
   className?: string;
   isLoading?: boolean;
-  description: string | null;
-  name: string;
   isOpen: boolean;
   onRequestClose: () => void;
   onImageSubmit: (data: ImageCreateModel) => Promise<void>;
-  id: number;
   collectionsRefetch: () => void;
+  activeCollection: Collection;
 };
 
 const EditCollectionModal = ({
@@ -22,9 +21,7 @@ const EditCollectionModal = ({
   isLoading,
   onRequestClose,
   onImageSubmit,
-  name,
-  description,
-  id,
+  activeCollection,
   collectionsRefetch,
 }: Props): ReactElement => (
   <Modal
@@ -40,7 +37,12 @@ const EditCollectionModal = ({
       inputLabel="Choose an image"
       buttonLabel="Change collection image"
     />
-    <CollectionEditForm name={name} description={description} id={id} collectionsRefetch={collectionsRefetch} />
+    <CollectionEditForm
+      name={activeCollection.name}
+      description={activeCollection.description}
+      id={activeCollection.id}
+      collectionsRefetch={collectionsRefetch}
+    />
   </Modal>
 );
 
