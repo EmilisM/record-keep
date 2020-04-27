@@ -18,6 +18,8 @@ import { updateImage, createImage } from 'API/Image';
 const CollectionsStyled = styled.div`
   display: flex;
   flex-direction: column;
+
+  height: 100%;
 `;
 
 const FirstRow = styled.div`
@@ -165,11 +167,7 @@ const Collections = (): ReactElement => {
           onChange={event => setNewCollectionName(event.target.value)}
           onClear={onClearNewCollection}
         />
-        {status === 'loading' || !data ? (
-          <LoaderContainer>
-            <Loader />
-          </LoaderContainer>
-        ) : (
+        {data &&
           data.map((item, index) => (
             <CollectionItemStyled
               to={RouteConfig.Dashboard.Collections.Collection}
@@ -180,9 +178,13 @@ const Collections = (): ReactElement => {
               accountMenuOnChange={option => accountMenuOnChange(option, index)}
               image={item.image?.data}
             />
-          ))
-        )}
+          ))}
       </SecondRow>
+      {status === 'loading' || !data ? (
+        <LoaderContainer>
+          <Loader />
+        </LoaderContainer>
+      ) : null}
       {data && itemIndex !== undefined ? (
         <EditCollectionModal
           onImageSubmit={onImageSubmit}
