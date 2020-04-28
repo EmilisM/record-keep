@@ -1,49 +1,36 @@
 import React, { ReactElement, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import Card from 'Atoms/Card/Card';
-import H from 'Atoms/Text/H';
 import { RouteComponentProps } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { getCollection } from 'API/Collection';
 import { CollectionMatchParams } from 'Types/Collection';
+import Loader from 'Atoms/Loader/Loader';
+import { RecordCountCard } from 'Molecules/Card/RecordCountCard';
+import CollectionInfoCard from 'Molecules/Card/CollectionInfoCard';
 
-const CollectionStyled = styled.div``;
-
-const RecordCountCard = styled(Card)`
-  background-color: ${props => props.theme.colors.background.secondaryDarker};
-  padding: 10px 20px;
-
-  display: flex;
-  justify-content: space-between;
-
-  width: 33%;
-`;
-
-const DescriptionCard = styled(Card)`
-  background-color: ${props => props.theme.colors.background.secondaryDarker};
-  padding: 10px 20px;
-
-  display: flex;
-  justify-content: space-between;
-
-  width: 33%;
-  margin-left: 20px;
-`;
-
-const CardStyled = styled(Card)`
-  background-color: ${props => props.theme.colors.background.secondaryDarker};
-  padding: 10px 20px;
-
-  display: flex;
-  justify-content: space-between;
-
-  width: 33%;
-  margin-left: 20px;
-`;
-
-const Row = styled.div`
+const CollectionStyled = styled.div`
   display: flex;
   flex-direction: row;
+
+  width: 100%;
+`;
+
+const ColumnFirst = styled.div`
+  width: 33%;
+`;
+
+const ColumnSecond = styled.div`
+  width: 66%;
+  margin-left: 20px;
+`;
+
+const LoaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  width: 100%;
 `;
 
 type Props = RouteComponentProps<CollectionMatchParams> & {
@@ -51,7 +38,7 @@ type Props = RouteComponentProps<CollectionMatchParams> & {
 };
 
 const Collection = ({ setTitle, match }: Props): ReactElement => {
-  const { data } = useQuery(['collection', match.params.collectionId], (key, id) => getCollection(id));
+  const { data, status } = useQuery(['collection', match.params.collectionId], (key, id) => getCollection(id));
 
   useEffect(() => {
     if (data) {
@@ -61,32 +48,20 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
 
   return (
     <CollectionStyled>
-      <Row>
-        <RecordCountCard>
-          <H fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
-            Records
-          </H>
-          <H fontWeight="light" color="primaryLight" fontSize="regular" level="2">
-            56
-          </H>
-        </RecordCountCard>
-        <DescriptionCard>
-          <H fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
-            Records
-          </H>
-          <H fontWeight="light" color="primaryLight" fontSize="regular" level="2">
-            56
-          </H>
-        </DescriptionCard>
-        <CardStyled>
-          <H fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
-            Records
-          </H>
-          <H fontWeight="light" color="primaryLight" fontSize="regular" level="2">
-            56
-          </H>
-        </CardStyled>
-      </Row>
+      {!data || status === 'loading' ? (
+        <LoaderContainer>
+          <Loader />
+        </LoaderContainer>
+      ) : (
+        [
+          <ColumnFirst key="column-first">
+            <CollectionInfoCard description={data.description} creationDate={data.creationDate} />
+          </ColumnFirst>,
+          <ColumnSecond key="column-second">
+            <RecordCountCard count={data.recordCount} />
+          </ColumnSecond>,
+        ]
+      )}
     </CollectionStyled>
   );
 };
