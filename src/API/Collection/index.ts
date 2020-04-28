@@ -7,6 +7,12 @@ export const getCollections = async (name?: string): Promise<Collection[]> => {
   return collections.data;
 };
 
+export const getCollection = async (id: string): Promise<Collection> => {
+  const collection = await API.get<Collection>(`/api/collection/${id}`);
+
+  return collection.data;
+};
+
 export const createCollection = async (request: CreateCollection): Promise<void> => {
   return await API.post('/api/collection', request);
 };

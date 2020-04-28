@@ -18,7 +18,7 @@ const DashboardRoute = (): ReactElement => (
     <DashboardLayout<CollectionMatchParams>
       exact
       path={RouteConfig.Dashboard.Collections.Collection}
-      title={params => `Collection: ${params.collectionName}`}
+      title="Collection"
       component={Collection}
     />
     <DashboardLayout exact path={RouteConfig.Dashboard.Analysis} title="Analysis" component={Analysis} />

@@ -20,9 +20,9 @@ const fontSizes: FontSizes<Sizes> = {
     mobile: 22,
   },
   dashboardTitle: {
-    desktop: 40,
+    desktop: 30,
     tablet: 30,
-    mobile: 30,
+    mobile: 25,
   },
   landingSubTitle: {
     desktop: 60,

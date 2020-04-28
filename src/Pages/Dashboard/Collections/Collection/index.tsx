@@ -1,9 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import Card from 'Atoms/Card/Card';
 import H from 'Atoms/Text/H';
-
-type Props = {};
+import { RouteComponentProps } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { getCollection } from 'API/Collection';
+import { CollectionMatchParams } from 'Types/Collection';
 
 const CollectionStyled = styled.div``;
 
@@ -44,7 +46,19 @@ const Row = styled.div`
   flex-direction: row;
 `;
 
-const Collection = (): ReactElement => {
+type Props = RouteComponentProps<CollectionMatchParams> & {
+  setTitle: (newTitle: string) => void;
+};
+
+const Collection = ({ setTitle, match }: Props): ReactElement => {
+  const { data } = useQuery(['collection', match.params.collectionId], (key, id) => getCollection(id));
+
+  useEffect(() => {
+    if (data) {
+      setTitle(`Collection ${data.name}`);
+    }
+  }, [data, setTitle]);
+
   return (
     <CollectionStyled>
       <Row>

@@ -2,7 +2,7 @@ import { Image } from './Image';
 import { PatchOperations } from './API';
 
 export type CollectionMatchParams = {
-  collectionName: string;
+  collectionId: string;
 };
 
 export interface Collection {

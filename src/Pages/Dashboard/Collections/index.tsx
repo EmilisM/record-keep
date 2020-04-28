@@ -204,7 +204,7 @@ const Collections = (): ReactElement => {
         {data &&
           data.map((item, index) => (
             <CollectionItemStyled
-              to={RouteConfig.Dashboard.Collections.Collection}
+              to={`${RouteConfig.Dashboard.Collections.Root}/${item.id}`}
               key={item.id}
               title={item.name}
               subTitle={item.recordCount > 0 ? `${item.recordCount} record` : 'No records'}

@@ -1,18 +1,12 @@
-import React, { ReactElement, useState, MouseEvent } from 'react';
+import React, { ReactElement, useState, MouseEvent, useEffect } from 'react';
 import { Route, RouteProps, RouteComponentProps, Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
 import DashboardMenu from 'Organisms/DashboardMenu/DashboardMenu';
 import DashboardMenuMobile from 'Organisms/DashboardMobile/DashboardMenuMobile';
 import DashboardHeader from 'Organisms/Dashboard/DashboardHeader';
-import { isString } from 'Types/General';
 import { useAuthServiceContext } from 'Services/Hooks/useAuthService';
 import { RouteConfig } from 'Routes/RouteConfig';
-
-type Props<T> = RouteProps & {
-  component: (props: RouteComponentProps<T>) => ReactElement;
-  title: string | ((params: T) => string);
-};
 
 const DashboardLayoutStyled = styled.div`
   display: flex;
@@ -74,9 +68,23 @@ const ContentContainer = styled.div<StyledProps>`
   transition: all 300ms ease;
 `;
 
+type ComponentProps<T> = RouteComponentProps<T> & {
+  setTitle: (newTitle: string) => void;
+};
+
+type Props<T> = RouteProps & {
+  component: (props: ComponentProps<T>) => ReactElement;
+  title: string;
+};
+
 function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const { logout, isAuth } = useAuthServiceContext();
+  const [stateTitle, setTitle] = useState<string>(title);
+
+  useEffect(() => {
+    setTitle(title);
+  }, [title]);
 
   if (!isAuth) {
     return <Redirect to={RouteConfig.Login} />;
@@ -92,10 +100,6 @@ function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>):
     logout();
   };
 
-  const getDashboardHeaderTitle = (params: T): string => {
-    return isString(title) ? title : title(params);
-  };
-
   return (
     <Route
       {...rest}
@@ -104,9 +108,9 @@ function DashboardLayout<T>({ component: Component, title, ...rest }: Props<T>):
           <DashboardMenu isOpen={isOpen} onClick={onClick} onClickLogout={onClickLogout} />
           <DashboardMenuMobile isOpen={isOpen} onClick={onClick} onClickLogout={onClickLogout} />
           <ContentContainer isOpen={isOpen}>
-            <DashboardHeader title={getDashboardHeaderTitle(props.match.params)} />
+            <DashboardHeader title={stateTitle} />
             <Content>
-              <Component {...props} />
+              <Component {...props} setTitle={setTitle} />
             </Content>
           </ContentContainer>
         </DashboardLayoutStyled>

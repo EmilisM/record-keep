@@ -9,17 +9,17 @@ const DashboardHeaderStyled = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  padding: 15px 20px;
+  padding: 10px 20px;
 
   height: 100%;
-  max-height: 70px;
+  max-height: 60px;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
-    padding: 15px 15px;
+    padding: 10px 15px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    padding: 15px 10px;
+    padding: 10px 10px;
   }
 `;
 
