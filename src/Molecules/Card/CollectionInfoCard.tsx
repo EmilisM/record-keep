@@ -3,6 +3,10 @@ import styled from 'styled-components/macro';
 import Card from 'Atoms/Card/Card';
 import H from 'Atoms/Text/H';
 import moment from 'moment';
+import ActionMenu from 'Organisms/ActionMenu';
+import { ActionMenuOption } from 'Types/ActionMenu';
+import { ReactComponent as Edit } from 'Assets/Edit.svg';
+import P from 'Atoms/Text/P';
 
 const CardStyled = styled(Card)`
   background-color: ${props => props.theme.colors.background.secondaryDarker};
@@ -14,32 +18,60 @@ const CardStyled = styled(Card)`
   width: 100%;
 `;
 
-const HStyled = styled(H)`
+const DescriptionContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const PStyled = styled(P)`
   margin: 0 0 20px;
+`;
+
+const ActionMenuStyled = styled(ActionMenu)`
+  &:hover {
+    background-color: ${props => props.theme.colors.background.secondaryDarkLighter};
+  }
+
+  .action-menu__icon {
+    fill: ${props => props.theme.colors.text.primaryLight};
+  }
 `;
 
 type Props = {
   className?: string;
   description?: string | null;
   creationDate: Date;
+  onActionMenuClick: (options: ActionMenuOption) => void;
 };
 
-const CollectionInfoCard = ({ className, description, creationDate }: Props): ReactElement => (
+const options: ActionMenuOption[] = [
+  {
+    value: 'edit',
+    label: 'Edit',
+    Icon: Edit,
+  },
+];
+
+const CollectionInfoCard = ({ className, description, creationDate, onActionMenuClick }: Props): ReactElement => (
   <CardStyled className={className}>
     {description && [
-      <H key="description" fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
-        Description
-      </H>,
-      <HStyled key="description-value" fontWeight="light" color="primaryLight" fontSize="regular" level="2">
+      <DescriptionContainer key="description">
+        <H fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
+          Description
+        </H>
+        <ActionMenuStyled onChange={onActionMenuClick} options={options} />
+      </DescriptionContainer>,
+      <PStyled key="description-value" fontWeight="light" color="primaryLight" fontSize="regular">
         {description}
-      </HStyled>,
+      </PStyled>,
     ]}
     <H fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
       Creation date
     </H>
-    <H fontWeight="light" color="primaryLight" fontSize="regular" level="2">
+    <P fontWeight="light" color="primaryLight" fontSize="regular">
       {moment(creationDate).format('YYYY-MM-DD')}
-    </H>
+    </P>
   </CardStyled>
 );
 

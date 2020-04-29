@@ -11,8 +11,8 @@ type Props = {
   isOpen: boolean;
   onRequestClose: () => void;
   onImageSubmit: (data: ImageCreateModel) => Promise<void>;
-  collectionsRefetch: () => void;
-  activeCollection: Collection;
+  refetch: () => void;
+  collection: Collection;
 };
 
 const EditCollectionModal = ({
@@ -21,8 +21,8 @@ const EditCollectionModal = ({
   isLoading,
   onRequestClose,
   onImageSubmit,
-  activeCollection,
-  collectionsRefetch,
+  refetch,
+  collection,
 }: Props): ReactElement => (
   <Modal
     className={className}
@@ -37,12 +37,7 @@ const EditCollectionModal = ({
       inputLabel="Choose an image"
       buttonLabel="Change collection image"
     />
-    <CollectionEditForm
-      name={activeCollection.name}
-      description={activeCollection.description}
-      id={activeCollection.id}
-      collectionsRefetch={collectionsRefetch}
-    />
+    <CollectionEditForm collection={collection} refetch={refetch} />
   </Modal>
 );
 

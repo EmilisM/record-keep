@@ -184,6 +184,7 @@ const Collections = (): ReactElement => {
       helpers.resetForm();
       refetch();
       toast.success('Collection delete completed');
+      setDeletionModalOpen(false);
     });
   };
 
@@ -225,8 +226,8 @@ const Collections = (): ReactElement => {
             onImageSubmit={onImageSubmit}
             isOpen={editModalOpen}
             onRequestClose={() => setEditModalOpen(false)}
-            collectionsRefetch={refetch}
-            activeCollection={activeCollection}
+            refetch={refetch}
+            collection={activeCollection}
           />
           <CollectionDeleteModal
             isOpen={deletionModalOpen}

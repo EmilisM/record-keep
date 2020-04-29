@@ -7,7 +7,7 @@ import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { updateCollection as updateCollectionAPI } from 'API/Collection';
-import { UpdateCollection } from 'Types/Collection';
+import { UpdateCollection, Collection } from 'Types/Collection';
 
 const FormStyled = styled(Form)`
   display: flex;
@@ -45,23 +45,21 @@ interface CollectionFields {
 
 type Props = {
   className?: string;
-  description: string | null;
-  name: string;
-  collectionsRefetch: () => void;
-  id: number;
+  refetch: () => void;
+  collection: Collection;
 };
 
-const CollectionEditForm = ({ className, collectionsRefetch, name, description, id }: Props): ReactElement => {
+const CollectionEditForm = ({ className, refetch, collection }: Props): ReactElement => {
   const [updateCollection] = useMutation(updateCollectionAPI, { throwOnError: true });
 
   const initialValues: CollectionFields = {
-    name: name,
-    description: description || '',
+    name: collection.name,
+    description: collection.description || '',
   };
 
   const onSubmit = (values: CollectionFields, helpers: FormikHelpers<CollectionFields>): void => {
     const updateRequest: UpdateCollection = {
-      id,
+      id: collection.id,
       operations: [
         {
           op: 'add',
@@ -78,9 +76,9 @@ const CollectionEditForm = ({ className, collectionsRefetch, name, description, 
 
     updateCollection(updateRequest)
       .then(() => {
-        collectionsRefetch();
+        refetch();
         helpers.setSubmitting(false);
-        toast.success('User info update complete');
+        toast.success('Collection update complete');
       })
       .catch(() => {
         helpers.setSubmitting(false);

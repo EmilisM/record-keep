@@ -64,7 +64,7 @@ const EditUserInfoForm = ({ className, displayName, userInfoRefetch }: Props): R
       .then(() => {
         userInfoRefetch();
         helpers.setSubmitting(false);
-        toast.success('User info update complete');
+        toast.success('User update complete');
       })
       .catch(() => {
         helpers.setSubmitting(false);

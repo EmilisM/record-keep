@@ -11,6 +11,8 @@ const ToastContainerStyled = styled(ToastContainer)`
     font-family: ${props => props.theme.font.fontFamily.primary};
     font-size: 20px;
 
+    border-radius: 4px;
+
     @media (max-width: ${props => props.theme.breakpoints.desktop}) {
       font-size: 18px;
     }

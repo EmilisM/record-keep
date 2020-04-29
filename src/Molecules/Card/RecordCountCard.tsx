@@ -20,10 +20,10 @@ type Props = {
 
 export const RecordCountCard = ({ className, count }: Props): ReactElement => (
   <CardStyled className={className}>
-    <H fontWeight="semiBold" color="primaryLight" fontSize="big" level="2">
+    <H fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
       Records
     </H>
-    <H fontWeight="light" color="primaryLight" fontSize="big" level="2">
+    <H fontWeight="light" color="primaryLight" fontSize="regular" level="2">
       {count}
     </H>
   </CardStyled>
