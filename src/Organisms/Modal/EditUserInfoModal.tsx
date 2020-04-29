@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 import Modal from 'Atoms/Modal';
 import styled from 'styled-components/macro';
-import ChangePasswordForm from 'Molecules/Form/ChangePasswordForm';
-import EditUserInfoForm from 'Molecules/Form/EditUserInfoForm';
-import ImageForm from 'Molecules/Form/ImageForm';
+import ChangePasswordForm from 'Organisms/Form/ChangePasswordForm';
+import EditUserInfoForm from 'Organisms/Form/EditUserInfoForm';
+import ImageForm from 'Organisms/Form/ImageForm';
 import { ImageCreateModel } from 'Types/Image';
 
 const FormSeparator = styled.div`

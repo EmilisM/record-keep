@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
 import RadioButton from 'Atoms/Radio';
-import LoginForm from 'Molecules/Form/LoginForm';
+import LoginForm from 'Organisms/Form/LoginForm';
 import styled from 'styled-components/macro';
 import { RadioOptionType } from 'Types/Radio';
 import { useAuthServiceContext } from 'Services/Hooks/useAuthService';

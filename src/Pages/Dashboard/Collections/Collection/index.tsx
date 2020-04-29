@@ -9,7 +9,7 @@ import { RecordCountCard } from 'Molecules/Card/RecordCountCard';
 import CollectionInfoCard from 'Molecules/Card/CollectionInfoCard';
 import { reducer, initialState } from 'State/Collection';
 import { ActionMenuOption } from 'Types/ActionMenu';
-import EditCollectionModal from 'Molecules/Modal/EditCollectionModal';
+import EditCollectionModal from 'Organisms/Modal/EditCollectionModal';
 import { ImageCreateModel } from 'Types/Image';
 import RecordItem from 'Molecules/Record/RecordItem';
 import { ReactComponent as Delete } from 'Assets/Add.svg';
@@ -25,7 +25,7 @@ const CollectionStyled = styled.div`
 
   width: 100%;
 
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     flex-direction: column;
   }
 `;
@@ -33,7 +33,7 @@ const CollectionStyled = styled.div`
 const ColumnFirst = styled.div`
   width: 33%;
 
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     width: 100%;
   }
 `;
@@ -42,9 +42,9 @@ const ColumnSecond = styled.div`
   width: 66%;
   margin: 0 0 0 20px;
 
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     width: 100%;
-    margin: 10px 0 0 0;
+    margin: 20px 0 0 0;
   }
 `;
 

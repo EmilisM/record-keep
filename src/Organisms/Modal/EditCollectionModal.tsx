@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import Modal from 'Atoms/Modal';
-import ImageForm from 'Molecules/Form/ImageForm';
+import ImageForm from 'Organisms/Form/ImageForm';
 import { ImageCreateModel } from 'Types/Image';
-import CollectionEditForm from 'Molecules/Form/CollectionEditForm';
+import CollectionEditForm from 'Organisms/Form/CollectionEditForm';
 import { Collection } from 'Types/Collection';
 
 type Props = {

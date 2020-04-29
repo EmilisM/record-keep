@@ -1,6 +1,6 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import CollectionsFilterCard from 'Organisms/Collections/CollectionsFilterCard';
+import CollectionsFilterCard from 'Molecules/Card/CollectionsFilterCard';
 import CollectionItem from 'Molecules/Collection/CollectionItem';
 import NewCollectionItem from 'Molecules/Collection/NewCollectionItem';
 import { ReactComponent as Delete } from 'Assets/Add.svg';
@@ -16,7 +16,7 @@ import {
 } from 'API/Collection';
 import Loader from 'Atoms/Loader/Loader';
 import { toast } from 'react-toastify';
-import EditCollectionModal from 'Molecules/Modal/EditCollectionModal';
+import EditCollectionModal from 'Organisms/Modal/EditCollectionModal';
 import { ImageCreateModel } from 'Types/Image';
 import { updateImage, createImage } from 'API/Image';
 import CollectionDeleteModal from 'Organisms/Modal/CollectionDeleteModal';

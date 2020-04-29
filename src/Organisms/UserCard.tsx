@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 import { getUserInfo } from 'API/User';
 import P from 'Atoms/Text/P';
 import moment from 'moment';
-import EditUserInfoModal from 'Molecules/Modal/EditUserInfoModal';
+import EditUserInfoModal from 'Organisms/Modal/EditUserInfoModal';
 import UserImage from 'Atoms/UserImage';
 import { ImageCreateModel } from 'Types/Image';
 import { useMutation } from 'react-query';
