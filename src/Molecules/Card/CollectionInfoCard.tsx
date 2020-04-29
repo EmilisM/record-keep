@@ -7,10 +7,12 @@ import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import P from 'Atoms/Text/P';
+import Image from 'Atoms/Image';
+import { getDefaultResourceImage } from 'Services/image';
 
 const CardStyled = styled(Card)`
   background-color: ${props => props.theme.colors.background.secondaryDarker};
-  padding: 10px 20px;
+  padding: 20px;
 
   display: flex;
   flex-direction: column;
@@ -22,6 +24,8 @@ const DescriptionContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  margin-top: 10px;
 `;
 
 const PStyled = styled(P)`
@@ -38,9 +42,15 @@ const ActionMenuStyled = styled(ActionMenu)`
   }
 `;
 
+const ImageStyled = styled(Image)`
+  width: 128px;
+  height: 128px;
+`;
+
 type Props = {
   className?: string;
   description?: string | null;
+  image?: string;
   creationDate: Date;
   onActionMenuClick: (options: ActionMenuOption) => void;
 };
@@ -53,8 +63,15 @@ const options: ActionMenuOption[] = [
   },
 ];
 
-const CollectionInfoCard = ({ className, description, creationDate, onActionMenuClick }: Props): ReactElement => (
+const CollectionInfoCard = ({
+  className,
+  description,
+  creationDate,
+  onActionMenuClick,
+  image,
+}: Props): ReactElement => (
   <CardStyled className={className}>
+    <ImageStyled src={getDefaultResourceImage(image)} />
     {description && [
       <DescriptionContainer key="description">
         <H fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">

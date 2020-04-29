@@ -8,6 +8,28 @@ import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { getDefaultResourceImage } from 'Services/image';
 
+const RecordItemStyled = styled(Link)`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 10px 20px;
+  background: ${props => props.theme.colors.background.primary};
+  border-radius: 4px;
+  box-shadow: 0px 1px 2px 0 ${props => props.theme.colors.border.cardShadow};
+
+  &:hover {
+    background-color: ${props => props.theme.colors.background.primaryDarker};
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    padding: 10px 15px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    padding: 10px;
+  }
+`;
+
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,62 +71,30 @@ const ActionMenuStyled = styled(ActionMenu)`
   margin: 0 0 0 auto;
 `;
 
-const CollectionItemStyled = styled(Link)`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  padding: 10px 20px;
-  background: ${props => props.theme.colors.background.primary};
-  border-radius: 4px;
-  box-shadow: 0px 1px 2px 0 ${props => props.theme.colors.border.cardShadow};
-
-  &:hover {
-    background-color: ${props => props.theme.colors.background.primaryDarker};
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
-    padding: 10px 15px;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    padding: 10px;
-  }
-`;
-
 export type Props = {
   className?: string;
   image?: string;
   to: string;
   accountMenuOptions: ActionMenuOption[];
-  title: string;
-  subTitle: string;
   accountMenuOnChange: (option: ActionMenuOption) => void;
 };
 
-const CollectionItem = ({
-  className,
-  title,
-  subTitle,
-  to,
-  accountMenuOptions,
-  accountMenuOnChange,
-  image,
-}: Props): ReactElement => {
+const RecordItem = ({ className, to, accountMenuOptions, accountMenuOnChange, image }: Props): ReactElement => {
   return (
-    <CollectionItemStyled to={to} className={className}>
+    <RecordItemStyled className={className} to={to}>
       <ImageStyled src={getDefaultResourceImage(image)} />
       <TitleContainer>
         <H level="2" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
-          {title}
+          Autechre
         </H>
         <H level="3" fontSize="normal" fontWeight="light" color="primaryDarker">
-          {subTitle}
+          Amber
         </H>
       </TitleContainer>
       <ActionMenuStyled options={accountMenuOptions} onChange={accountMenuOnChange} />
       <ArrowStyled />
-    </CollectionItemStyled>
+    </RecordItemStyled>
   );
 };
 
-export default CollectionItem;
+export default RecordItem;

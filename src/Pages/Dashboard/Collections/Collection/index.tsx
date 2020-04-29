@@ -1,8 +1,8 @@
 import React, { ReactElement, useEffect, useReducer } from 'react';
 import styled from 'styled-components/macro';
 import { RouteComponentProps } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { getCollection } from 'API/Collection';
+import { useQuery, useMutation } from 'react-query';
+import { getCollection, updateCollection } from 'API/Collection';
 import { CollectionMatchParams } from 'Types/Collection';
 import Loader from 'Atoms/Loader/Loader';
 import { RecordCountCard } from 'Molecules/Card/RecordCountCard';
@@ -11,6 +11,13 @@ import { reducer, initialState } from 'State/Collection';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import EditCollectionModal from 'Molecules/Modal/EditCollectionModal';
 import { ImageCreateModel } from 'Types/Image';
+import RecordItem from 'Molecules/Record/RecordItem';
+import { ReactComponent as Delete } from 'Assets/Add.svg';
+import { ReactComponent as Edit } from 'Assets/Edit.svg';
+import { RouteConfig } from 'Routes/RouteConfig';
+import { updateImage, createImage } from 'API/Image';
+import { getRecords } from 'API/Record';
+import NewRecorditem from 'Molecules/Record/NewRecordItem';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -25,11 +32,20 @@ const CollectionStyled = styled.div`
 
 const ColumnFirst = styled.div`
   width: 33%;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 100%;
+  }
 `;
 
 const ColumnSecond = styled.div`
   width: 66%;
-  margin-left: 20px;
+  margin: 0 0 0 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 100%;
+    margin: 10px 0 0 0;
+  }
 `;
 
 const LoaderContainer = styled.div`
@@ -41,55 +57,123 @@ const LoaderContainer = styled.div`
   width: 100%;
 `;
 
+const DeleteStyled = styled(Delete)`
+  transform: rotateZ(45deg);
+`;
+
+const RecordItemStyled = styled(RecordItem)`
+  margin-top: 20px;
+`;
+
+const NewRecorditemStyled = styled(NewRecorditem)`
+  margin-top: 20px;
+`;
+
+const accountMenuOptions: ActionMenuOption[] = [
+  {
+    value: 'edit',
+    label: 'Edit',
+    Icon: Edit,
+  },
+  {
+    value: 'delete',
+    label: 'Delete',
+    Icon: DeleteStyled,
+  },
+];
+
 type Props = RouteComponentProps<CollectionMatchParams> & {
   setTitle: (newTitle: string) => void;
 };
 
 const Collection = ({ setTitle, match }: Props): ReactElement => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { data, status, refetch } = useQuery(['collection', match.params.collectionId], (key, id) => getCollection(id));
+  const { data: collectionData, status: collectionStatus, refetch: collectionRefetch } = useQuery(
+    ['collection', match.params.collectionId],
+    (key, id) => getCollection(id),
+  );
+  const { data: recordsData, status: recordsStatus, refetch: recordsRefetch } = useQuery('records', getRecords);
+
+  const [mutateUpdateImage] = useMutation(updateImage);
+  const [mutateCreateImage] = useMutation(createImage);
+  const [mutateCollection] = useMutation(updateCollection);
 
   useEffect(() => {
-    if (data) {
-      setTitle(`Collection ${data.name}`);
+    if (collectionData) {
+      setTitle(`Collection ${collectionData.name}`);
     }
-  }, [data, setTitle]);
+  }, [collectionData, setTitle]);
 
-  const onActionMenuClick = (options: ActionMenuOption): void => {
+  const onCollectionActionClick = (options: ActionMenuOption): void => {
     if (options.value === 'edit') {
       dispatch({ type: 'editModal/open' });
     }
   };
 
-  const onImageSubmit = (data: ImageCreateModel): Promise<void> => new Promise(() => {});
+  const onImageSubmit = (createModel: ImageCreateModel): Promise<void> =>
+    new Promise(resolve => {
+      if (!collectionData) {
+        return resolve();
+      }
+
+      if (collectionData?.image?.id) {
+        mutateUpdateImage({ ...createModel, id: collectionData.image.id }).then(() => {
+          collectionRefetch();
+          resolve();
+        });
+      } else {
+        mutateCreateImage(createModel)
+          .then(image =>
+            mutateCollection({
+              id: collectionData.id,
+              operations: [{ op: 'add', path: '/imageId', value: image.id }],
+            }),
+          )
+          .then(() => {
+            collectionRefetch();
+            resolve();
+          });
+      }
+    });
+
+  const onChange = (options: ActionMenuOption): void => {};
 
   return (
     <CollectionStyled>
-      {!data || status === 'loading' ? (
+      {!collectionData || collectionStatus === 'loading' || !recordsData || recordsStatus === 'loading' ? (
         <LoaderContainer>
           <Loader />
         </LoaderContainer>
       ) : (
-        [
-          <ColumnFirst key="column-first">
+        <>
+          <ColumnFirst>
             <CollectionInfoCard
-              description={data.description}
-              creationDate={data.creationDate}
-              onActionMenuClick={onActionMenuClick}
+              image={collectionData.image?.data}
+              description={collectionData.description}
+              creationDate={collectionData.creationDate}
+              onActionMenuClick={onCollectionActionClick}
             />
-          </ColumnFirst>,
-          <ColumnSecond key="column-second">
-            <RecordCountCard count={data.recordCount} />
-          </ColumnSecond>,
+          </ColumnFirst>
+          <ColumnSecond>
+            <RecordCountCard count={collectionData.recordCount} />
+            <NewRecorditemStyled onClick={() => dispatch({ type: 'newRecordModal/open' })} />
+            {recordsData.map(record => (
+              <RecordItemStyled
+                key={record.id}
+                to={RouteConfig.Dashboard.Collections.Root}
+                accountMenuOptions={accountMenuOptions}
+                accountMenuOnChange={onChange}
+              />
+            ))}
+          </ColumnSecond>
           <EditCollectionModal
-            key="collection-modal"
-            refetch={refetch}
-            collection={data}
+            refetch={collectionRefetch}
+            collection={collectionData}
             isOpen={state.editModal}
             onRequestClose={() => dispatch({ type: 'editModal/close' })}
             onImageSubmit={onImageSubmit}
-          />,
-        ]
+          />
+        </>
       )}
     </CollectionStyled>
   );
