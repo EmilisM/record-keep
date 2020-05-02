@@ -20,6 +20,10 @@ const SelectStyled = styled(SelectStyle)`
   .${props => props.classNamePrefix}__menu-list {
     padding: 0;
   }
+
+  .${props => props.classNamePrefix}__search-icon {
+    margin-left: 10px;
+  }
 `;
 
 type SearchSelectOption = {

@@ -10,13 +10,20 @@ const SelectStyle = styled(ReactSelect)<Props>`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight.regular};
   color: ${props => props.theme.colors.text.primaryDark};
-  font-size: 22px;
+  font-size: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    font-size: 18px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    font-size: 16px;
+  }
 
   .${props => props.classNamePrefix}__control {
     background-color: ${props => props.theme.colors.background.primary};
     border: none;
     box-shadow: none;
-    padding-left: 10px;
   }
 
   .${props => props.classNamePrefix}__indicator-separator {

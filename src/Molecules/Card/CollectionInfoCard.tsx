@@ -20,19 +20,15 @@ const CardStyled = styled(Card)`
   width: 100%;
 `;
 
-const DescriptionContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-top: 10px;
-`;
-
 const PStyled = styled(P)`
   margin: 0 0 20px;
 `;
 
 const ActionMenuStyled = styled(ActionMenu)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
   &:hover {
     background-color: ${props => props.theme.colors.background.secondaryDarkLighter};
   }
@@ -72,13 +68,11 @@ const CollectionInfoCard = ({
 }: Props): ReactElement => (
   <CardStyled className={className}>
     <ImageStyled src={getDefaultResourceImage(image)} />
+    <ActionMenuStyled onChange={onActionMenuClick} options={options} />
     {description && [
-      <DescriptionContainer key="description">
-        <H fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
-          Description
-        </H>
-        <ActionMenuStyled onChange={onActionMenuClick} options={options} />
-      </DescriptionContainer>,
+      <H key="description" fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
+        Description
+      </H>,
       <PStyled key="description-value" fontWeight="light" color="primaryLight" fontSize="regular">
         {description}
       </PStyled>,

@@ -8,9 +8,10 @@ type Props = {
   placeholder?: string;
   showSearch?: boolean;
   isSearchable?: boolean;
-  value?: SelectOption;
+  value?: SelectOption | SelectOption[];
+  isMulti?: boolean;
   options: SelectOption[];
-  onChange: (option: SelectOption) => void;
+  onChange: (option: SelectOption) => void | ((options: SelectOption[]) => void);
 };
 
 const Select = ({
@@ -22,6 +23,7 @@ const Select = ({
   onChange,
   isSearchable,
   value,
+  isMulti,
 }: Props): ReactElement => (
   <SelectStyle
     className={className}
@@ -32,6 +34,7 @@ const Select = ({
     onChange={onChange}
     isSearchable={isSearchable}
     value={value}
+    isMulti={isMulti}
   />
 );
 

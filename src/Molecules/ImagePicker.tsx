@@ -65,7 +65,7 @@ const InvisibleButtonStyled = styled(InvisibleButton)`
 type Props = {
   className?: string;
   onCropComplete?: () => void;
-  children?: ReactNode;
+  children: ReactNode;
   crop: Crop;
   image?: string | null;
   onCropChange: (crop: Crop, percentCrop: PercentCrop) => void;

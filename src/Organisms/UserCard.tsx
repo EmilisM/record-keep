@@ -14,7 +14,7 @@ import UserImage from 'Atoms/UserImage';
 import { ImageCreateModel } from 'Types/Image';
 import { useMutation } from 'react-query';
 import { updateImage, createImage } from 'API/Image';
-import { updateUserInfo } from 'API/User/index';
+import { updateUserInfo } from 'API/User';
 
 const CardStyled = styled(Card)`
   width: 100%;

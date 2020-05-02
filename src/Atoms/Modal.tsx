@@ -14,10 +14,10 @@ const ModalStyled = styled(ReactModal)`
   right: auto;
   bottom: auto;
   transform: translate(-50%, -20%);
-  overflow: auto;
+  overflow-y: auto;
 
   width: 70%;
-  max-height: 90%;
+  max-height: calc(100vh - 20px);
 
   background: ${props => props.theme.colors.background.primary};
   border-radius: 8px;

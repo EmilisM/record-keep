@@ -18,6 +18,7 @@ import { RouteConfig } from 'Routes/RouteConfig';
 import { updateImage, createImage } from 'API/Image';
 import { getRecords } from 'API/Record';
 import NewRecorditem from 'Molecules/Record/NewRecordItem';
+import NewRecordModal from 'Organisms/Modal/NewRecordModal';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -63,10 +64,18 @@ const DeleteStyled = styled(Delete)`
 
 const RecordItemStyled = styled(RecordItem)`
   margin-top: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    margin-top: 10px;
+  }
 `;
 
 const NewRecorditemStyled = styled(NewRecorditem)`
   margin-top: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    margin-top: 10px;
+  }
 `;
 
 const accountMenuOptions: ActionMenuOption[] = [
@@ -163,6 +172,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
                 to={RouteConfig.Dashboard.Collections.Root}
                 accountMenuOptions={accountMenuOptions}
                 accountMenuOnChange={onChange}
+                record={record}
               />
             ))}
           </ColumnSecond>
@@ -172,6 +182,12 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
             isOpen={state.editModal}
             onRequestClose={() => dispatch({ type: 'editModal/close' })}
             onImageSubmit={onImageSubmit}
+          />
+          <NewRecordModal
+            isOpen={state.newRecordModal}
+            onRequestClose={() => dispatch({ type: 'newRecordModal/close' })}
+            recordsRefetch={recordsRefetch}
+            collectionId={collectionData.id}
           />
         </>
       )}

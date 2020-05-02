@@ -7,6 +7,7 @@ import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
 import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { getDefaultResourceImage } from 'Services/image';
+import { Record } from 'Types/Record';
 
 const RecordItemStyled = styled(Link)`
   display: flex;
@@ -73,22 +74,22 @@ const ActionMenuStyled = styled(ActionMenu)`
 
 export type Props = {
   className?: string;
-  image?: string;
   to: string;
   accountMenuOptions: ActionMenuOption[];
   accountMenuOnChange: (option: ActionMenuOption) => void;
+  record: Record;
 };
 
-const RecordItem = ({ className, to, accountMenuOptions, accountMenuOnChange, image }: Props): ReactElement => {
+const RecordItem = ({ className, to, accountMenuOptions, accountMenuOnChange, record }: Props): ReactElement => {
   return (
     <RecordItemStyled className={className} to={to}>
-      <ImageStyled src={getDefaultResourceImage(image)} />
+      <ImageStyled src={getDefaultResourceImage(record.image?.data)} />
       <TitleContainer>
         <H level="2" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
-          Autechre
+          {record.artist}
         </H>
         <H level="3" fontSize="normal" fontWeight="light" color="primaryDarker">
-          Amber
+          {record.name}
         </H>
       </TitleContainer>
       <ActionMenuStyled options={accountMenuOptions} onChange={accountMenuOnChange} />
