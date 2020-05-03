@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState } from 'react';
 import styled from 'styled-components/macro';
 import CollectionsFilterCard from 'Molecules/Card/CollectionsFilterCard';
 import CollectionItem from 'Molecules/Collection/CollectionItem';
@@ -22,6 +22,7 @@ import { updateImage, createImage } from 'API/Image';
 import CollectionDeleteModal from 'Organisms/Modal/CollectionDeleteModal';
 import { Collection, CollectionDeleteFields } from 'Types/Collection';
 import { FormikHelpers } from 'formik';
+import useDebounce from 'Services/Hooks/useDebounce';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -97,19 +98,16 @@ const Collections = (): ReactElement => {
   const [deletionModalOpen, setDeletionModalOpen] = useState(false);
 
   const [nameSearch, setNameSearch] = useState<string>('');
+  const nameSearchDebounced = useDebounce(nameSearch, 300);
 
   const [activeCollection, setActiveCollection] = useState<Collection | null>(null);
-  const { data, status, refetch } = useQuery('collections', [nameSearch], (key, name) => getCollections(name));
+  const { data, status, refetch } = useQuery(['collections', nameSearchDebounced], (key, name) => getCollections(name));
 
   const [createCollection] = useMutation(createCollectionAPI, { throwOnError: true });
   const [mutateUpdateImage] = useMutation(updateImage);
   const [mutateCreateImage] = useMutation(createImage);
   const [updateCollection] = useMutation(updateCollectionAPI);
   const [deleteCollection] = useMutation(deleteCollectionAPI);
-
-  useEffect(() => {
-    refetch();
-  }, [refetch, nameSearch]);
 
   const onClickNewCollection = (): void => {
     if (!isEditable) {
