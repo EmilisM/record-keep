@@ -1,4 +1,4 @@
-import { Record, CreateRecordModel } from 'Types/Record';
+import { Record, CreateRecordModel, UpdateRecordModel } from 'Types/Record';
 import API from 'API';
 
 export const getRecords = async (collectionId?: string): Promise<Record[]> => {
@@ -19,4 +19,8 @@ export const createRecord = async (data: CreateRecordModel): Promise<void> => {
 
 export const deleteRecord = async (id: number): Promise<void> => {
   return await API.delete(`/api/record/${id}`);
+};
+
+export const updateRecord = async (data: UpdateRecordModel): Promise<void> => {
+  return await API.patch(`/api/record/${data.id}`, data.operations);
 };

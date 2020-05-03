@@ -1,10 +1,11 @@
 import { Crop } from 'react-image-crop';
 
 export interface Image {
-  id: string;
+  id: number;
   data: string;
 }
 
+//TODO: Naming
 export interface ImageCreateModel {
   data: string;
   x: number;
@@ -14,7 +15,7 @@ export interface ImageCreateModel {
 }
 
 export interface ImageUpdateModel {
-  id: string;
+  id: number;
   data: string;
   x: number;
   y: number;

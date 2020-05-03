@@ -56,6 +56,18 @@ export const reducer = (state: State, action: Actions): State => {
         activeRecord: action.payload,
       };
     }
+    case 'editRecordModal/close': {
+      return {
+        ...state,
+        editRecordModal: false,
+      };
+    }
+    case 'editRecordModal/open': {
+      return {
+        ...state,
+        editRecordModal: true,
+      };
+    }
     default: {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const never: never = action;
@@ -69,4 +81,5 @@ export const initialState: State = {
   newRecordModal: false,
   deletionModal: false,
   activeRecord: null,
+  editRecordModal: false,
 };

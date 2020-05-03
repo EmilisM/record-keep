@@ -6,6 +6,7 @@ export interface State {
   newRecordModal: boolean;
   deletionModal: boolean;
   activeRecord: Record | null;
+  editRecordModal: boolean;
 }
 
 export type Actions =
@@ -17,4 +18,6 @@ export type Actions =
   | Action<'newRecordModal/close'>
   | Action<'deletionModal/open'>
   | Action<'deletionModal/close'>
-  | ActionWithPayload<'activeRecord/set', Record>;
+  | ActionWithPayload<'activeRecord/set', Record>
+  | Action<'editRecordModal/open'>
+  | Action<'editRecordModal/close'>;

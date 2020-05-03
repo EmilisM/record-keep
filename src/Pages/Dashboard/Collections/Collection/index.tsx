@@ -16,12 +16,13 @@ import { ReactComponent as Delete } from 'Assets/Add.svg';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { updateImage, createImage } from 'API/Image';
-import { getRecords, deleteRecord as deleteRecordAPI } from 'API/Record';
+import { getRecords, deleteRecord as deleteRecordAPI, updateRecord as updateRecordAPI } from 'API/Record';
 import NewRecorditem from 'Molecules/Record/NewRecordItem';
 import NewRecordModal from 'Organisms/Modal/NewRecordModal';
 import DeletionModal from 'Organisms/Modal/DeletionModal';
 import { Record } from 'Types/Record';
 import { toast } from 'react-toastify';
+import EditRecordModal from 'Organisms/Modal/EditRecordModal';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -113,6 +114,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
   const [mutateCreateImage] = useMutation(createImage);
   const [mutateCollection] = useMutation(updateCollection);
   const [deleteRecord] = useMutation(deleteRecordAPI);
+  const [updateRecord] = useMutation(updateRecordAPI);
 
   useEffect(() => {
     if (collectionData) {
@@ -154,8 +156,11 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
 
   const onChange = (options: ActionMenuOption, activeRecord: Record): void => {
     dispatch({ type: 'activeRecord/set', payload: activeRecord });
+
     if (options.value === 'delete') {
       dispatch({ type: 'deletionModal/open' });
+    } else if (options.value === 'edit') {
+      dispatch({ type: 'editRecordModal/open' });
     }
   };
 
@@ -170,6 +175,32 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
       toast.success('Record delete complete');
     });
   };
+
+  const onRecordImageSubmit = (data: ImageCreateModel): Promise<void> =>
+    new Promise<void>(resolve => {
+      const { activeRecord } = state;
+
+      if (!activeRecord) {
+        resolve();
+        return;
+      }
+
+      if (activeRecord.image) {
+        mutateUpdateImage({ id: activeRecord.image.id, ...data }).then(() => {
+          recordsRefetch();
+          resolve();
+        });
+      } else {
+        mutateCreateImage(data)
+          .then(image =>
+            updateRecord({ id: activeRecord.id, operations: [{ op: 'add', path: '/imageId', value: image.id }] }),
+          )
+          .then(() => {
+            recordsRefetch();
+            resolve();
+          });
+      }
+    });
 
   return (
     <CollectionStyled>
@@ -218,6 +249,12 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
             isOpen={state.deletionModal}
             onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
             onConfirm={onConfirmDelete}
+          />
+          <EditRecordModal
+            title={`Edit ${state.activeRecord?.name} by ${state.activeRecord?.artist}`}
+            isOpen={state.editRecordModal}
+            onRequestClose={() => dispatch({ type: 'editRecordModal/close' })}
+            onImageSubmit={onRecordImageSubmit}
           />
         </>
       )}
