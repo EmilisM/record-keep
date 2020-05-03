@@ -16,9 +16,12 @@ import { ReactComponent as Delete } from 'Assets/Add.svg';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { updateImage, createImage } from 'API/Image';
-import { getRecords } from 'API/Record';
+import { getRecords, deleteRecord as deleteRecordAPI } from 'API/Record';
 import NewRecorditem from 'Molecules/Record/NewRecordItem';
 import NewRecordModal from 'Organisms/Modal/NewRecordModal';
+import DeletionModal from 'Organisms/Modal/DeletionModal';
+import { Record } from 'Types/Record';
+import { toast } from 'react-toastify';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -109,6 +112,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
   const [mutateUpdateImage] = useMutation(updateImage);
   const [mutateCreateImage] = useMutation(createImage);
   const [mutateCollection] = useMutation(updateCollection);
+  const [deleteRecord] = useMutation(deleteRecordAPI);
 
   useEffect(() => {
     if (collectionData) {
@@ -148,7 +152,24 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
       }
     });
 
-  const onChange = (options: ActionMenuOption): void => {};
+  const onChange = (options: ActionMenuOption, activeRecord: Record): void => {
+    dispatch({ type: 'activeRecord/set', payload: activeRecord });
+    if (options.value === 'delete') {
+      dispatch({ type: 'deletionModal/open' });
+    }
+  };
+
+  const onConfirmDelete = (): void => {
+    if (!state.activeRecord) {
+      return;
+    }
+
+    deleteRecord(state.activeRecord.id).then(() => {
+      recordsRefetch();
+      dispatch({ type: 'deletionModal/close' });
+      toast.success('Record delete complete');
+    });
+  };
 
   return (
     <CollectionStyled>
@@ -174,7 +195,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
                 key={record.id}
                 to={RouteConfig.Dashboard.Collections.Root}
                 accountMenuOptions={accountMenuOptions}
-                accountMenuOnChange={onChange}
+                accountMenuOnChange={option => onChange(option, record)}
                 record={record}
               />
             ))}
@@ -191,6 +212,12 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
             onRequestClose={() => dispatch({ type: 'newRecordModal/close' })}
             recordsRefetch={recordsRefetch}
             collectionId={collectionData.id}
+          />
+          <DeletionModal
+            title={`Are you sure you want to delete ${state.activeRecord?.name} by ${state.activeRecord?.artist}`}
+            isOpen={state.deletionModal}
+            onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
+            onConfirm={onConfirmDelete}
           />
         </>
       )}

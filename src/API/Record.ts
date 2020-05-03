@@ -16,3 +16,7 @@ export const getRecord = async (id: number): Promise<Record> => {
 export const createRecord = async (data: CreateRecordModel): Promise<void> => {
   return await API.post('/api/record', data);
 };
+
+export const deleteRecord = async (id: number): Promise<void> => {
+  return await API.delete(`/api/record/${id}`);
+};
