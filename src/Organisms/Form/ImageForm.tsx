@@ -5,7 +5,7 @@ import InputLabel from 'Atoms/Input/InputLabel';
 import { Crop } from 'react-image-crop';
 import ImagePicker from 'Molecules/ImagePicker';
 import { toast } from 'react-toastify';
-import { ImageCreateModel } from 'Types/Image';
+import { ImageCreateModel, getImageCreateRequest } from 'Types/Image';
 
 const FormStyled = styled.form`
   display: flex;
@@ -54,13 +54,7 @@ const ImageForm = ({ className, title, buttonLabel, inputLabel, onSubmit }: Prop
       return;
     }
 
-    const dataReq = {
-      height: crop.height || 25,
-      width: crop.width || 25,
-      x: crop.x || 0,
-      y: crop.y || 0,
-      data: image.split(',')[1],
-    };
+    const dataReq = getImageCreateRequest(crop, image);
 
     setIsLoading(true);
     onSubmit(dataReq).then(() => onAfterUpdate());

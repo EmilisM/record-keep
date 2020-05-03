@@ -17,6 +17,9 @@ import { createImage as createImageAPI } from 'API/Image';
 import { createRecord as createRecordAPI } from 'API/Record';
 import GlobalFormError from 'Atoms/Error/GlobalFormError';
 import moment from 'moment';
+import { ImageResponse, getImageCreateRequest } from 'Types/Image';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 const FormStyled = styled(Form)`
   display: flex;
@@ -165,60 +168,52 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
       }))
     : [];
 
+  const imageCreatePromise = (values: CreateRecordFields): Promise<ImageResponse | null> =>
+    new Promise<ImageResponse | null>(resolve => {
+      if (values.image) {
+        createImage(getImageCreateRequest(values.crop, values.image)).then(resolve);
+      } else {
+        resolve(null);
+      }
+    });
+
   const onSubmit = (values: CreateRecordFields, helpers: FormikHelpers<CreateRecordFields>): void => {
-    const { crop, image, artist, name, description, recordType, style, label, year } = values;
+    const { artist, name, description, recordType, style, label, year } = values;
 
     if (!recordType) {
       return;
     }
 
     const styleIds = style.map(s => s.value);
-    const yearDate = moment().year(parseInt(year));
+    const yearDate = moment()
+      .utc()
+      .startOf('year')
+      .year(parseInt(year));
 
-    if (image) {
-      const dataReq = {
-        height: crop.height || 25,
-        width: crop.width || 25,
-        x: crop.x || 0,
-        y: crop.y || 0,
-        data: image.split(',')[1],
-      };
-
-      createImage({ ...dataReq })
-        .then(image =>
-          createRecord({
-            artist,
-            name,
-            description,
-            recordTypeId: recordType.value,
-            collectionId: collectionId,
-            imageId: image.id,
-            styleIds,
-            label,
-            year: yearDate,
-          }),
-        )
-        .then(() => {
-          recordsRefetch();
-          helpers.setSubmitting(false);
-          onRequestClose();
-        });
-    } else {
-      createRecord({
-        artist,
-        name,
-        description,
-        recordTypeId: recordType.value,
-        collectionId: collectionId,
-        styleIds,
-        label,
-        year: yearDate,
-      }).then(() => {
+    imageCreatePromise(values)
+      .then(result =>
+        createRecord({
+          artist,
+          name,
+          description,
+          recordTypeId: recordType.value,
+          collectionId: collectionId,
+          imageId: result?.id,
+          styleIds,
+          label,
+          year: yearDate,
+        }),
+      )
+      .then(() => {
         recordsRefetch();
         helpers.setSubmitting(false);
         onRequestClose();
+        toast.success('New record created');
+      })
+      .catch((err: AxiosError) => {
+        helpers.setFieldError('form', err.message);
+        helpers.setSubmitting(false);
       });
-    }
   };
 
   return (
