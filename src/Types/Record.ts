@@ -2,6 +2,7 @@ import { Image } from './Image';
 import { RecordType } from './RecordType';
 import { Moment } from 'moment';
 import { PatchOperations } from './API';
+import { RecordStyle } from './RecordStyle';
 
 export interface Record {
   id: number;
@@ -14,6 +15,7 @@ export interface Record {
   collectionId: number;
   image: Image | null;
   recordType: RecordType;
+  recordStyles: RecordStyle[];
 }
 
 export interface CreateRecordModel {
@@ -54,7 +56,7 @@ interface RecordLabelUpdate {
 
 interface RecordYearUpdate {
   op: PatchOperations;
-  path: '/label';
+  path: '/year';
   value: Moment;
 }
 
@@ -67,7 +69,13 @@ interface RecordImageUpdate {
 interface RecordTypeUpdate {
   op: PatchOperations;
   path: '/recordTypeId';
-  value: number;
+  value: string;
+}
+
+interface RecordStylesUpdate {
+  op: PatchOperations;
+  path: '/styleIds';
+  value: string[];
 }
 
 export type RecordUpdates =
@@ -77,7 +85,8 @@ export type RecordUpdates =
   | RecordLabelUpdate
   | RecordYearUpdate
   | RecordImageUpdate
-  | RecordTypeUpdate;
+  | RecordTypeUpdate
+  | RecordStylesUpdate;
 
 export interface UpdateRecordModel {
   id: number;

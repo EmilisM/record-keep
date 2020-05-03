@@ -244,18 +244,24 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
             recordsRefetch={recordsRefetch}
             collectionId={collectionData.id}
           />
-          <DeletionModal
-            title={`Are you sure you want to delete ${state.activeRecord?.name} by ${state.activeRecord?.artist}`}
-            isOpen={state.deletionModal}
-            onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
-            onConfirm={onConfirmDelete}
-          />
-          <EditRecordModal
-            title={`Edit ${state.activeRecord?.name} by ${state.activeRecord?.artist}`}
-            isOpen={state.editRecordModal}
-            onRequestClose={() => dispatch({ type: 'editRecordModal/close' })}
-            onImageSubmit={onRecordImageSubmit}
-          />
+          {state.activeRecord && (
+            <>
+              <DeletionModal
+                title={`Are you sure you want to delete ${state.activeRecord?.name} by ${state.activeRecord?.artist}`}
+                isOpen={state.deletionModal}
+                onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
+                onConfirm={onConfirmDelete}
+              />
+              <EditRecordModal
+                title={`Edit ${state.activeRecord?.name} by ${state.activeRecord?.artist}`}
+                isOpen={state.editRecordModal}
+                onRequestClose={() => dispatch({ type: 'editRecordModal/close' })}
+                onImageSubmit={onRecordImageSubmit}
+                recordsRefetch={recordsRefetch}
+                record={state.activeRecord}
+              />
+            </>
+          )}
         </>
       )}
     </CollectionStyled>

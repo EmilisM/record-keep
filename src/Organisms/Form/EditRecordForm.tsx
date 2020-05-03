@@ -4,22 +4,18 @@ import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import FormError from 'Atoms/Error/FormError';
 import InputLabel from 'Atoms/Input/InputLabel';
 import styled from 'styled-components/macro';
-import ImagePicker from 'Molecules/ImagePicker';
-import { PercentCrop } from 'react-image-crop';
-import FormInput from 'Atoms/Input/FormInput';
 import Select from 'Molecules/Select/Select';
 import { useQuery, useMutation } from 'react-query';
 import { getRecordTypes } from 'API/RecordType';
 import { SelectOption } from 'Types/Select';
 import { getStyles } from 'API/Style';
 import { getGenres } from 'API/Genre';
-import { createImage as createImageAPI } from 'API/Image';
-import { createRecord as createRecordAPI } from 'API/Record';
+import { updateRecord as updateRecordAPI } from 'API/Record';
 import GlobalFormError from 'Atoms/Error/GlobalFormError';
 import moment from 'moment';
-import { ImageResponse, getImageCreateRequest } from 'Types/Image';
+import { UpdateRecordModel, Record } from 'Types/Record';
 import { toast } from 'react-toastify';
-import { AxiosError } from 'axios';
+import FieldInput from 'Molecules/FieldInput';
 
 const FormStyled = styled(Form)`
   display: flex;
@@ -34,7 +30,7 @@ const InputLabelStyled = styled(InputLabel)`
   }
 `;
 
-const FormInputStyled = styled(FormInput)`
+const FieldInputStyled = styled(FieldInput)`
   width: 300px;
   margin-top: 10px;
 
@@ -52,10 +48,6 @@ const ButtonStyled = styled(ButtonDashboard)`
   }
 `;
 
-const ImagePickerStyled = styled(ImagePicker)`
-  margin-top: 10px;
-`;
-
 const SelectStyled = styled(Select)`
   width: 300px;
 
@@ -68,12 +60,10 @@ const SelectStyled = styled(Select)`
   margin-top: 10px;
 `;
 
-export interface CreateRecordFields {
+export interface UpdateRecordFields {
   artist: string;
   name: string;
   description?: string;
-  crop: PercentCrop;
-  image?: string;
   recordType: SelectOption | null;
   genre: SelectOption | null;
   style: SelectOption[];
@@ -82,8 +72,8 @@ export interface CreateRecordFields {
   form?: string;
 }
 
-const validate = (values: CreateRecordFields): FormikErrors<CreateRecordFields> => {
-  const errors: FormikErrors<CreateRecordFields> = {};
+const validate = (values: UpdateRecordFields): FormikErrors<UpdateRecordFields> => {
+  const errors: FormikErrors<UpdateRecordFields> = {};
 
   if (!values.artist) {
     errors.artist = 'Artist is required';
@@ -122,30 +112,20 @@ const validate = (values: CreateRecordFields): FormikErrors<CreateRecordFields> 
 
 type Props = {
   className?: string;
-  collectionId: number;
   recordsRefetch: () => void;
-  onRequestClose: () => void;
+  record: Record;
 };
 
-const EditRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose }: Props): ReactElement => {
+const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElement => {
   const { data: recordTypes } = useQuery('recordTypes', getRecordTypes);
   const { data: genres } = useQuery('genres', getGenres);
 
-  const [genreId, setGenreId] = useState<string>();
-  const { data: styles } = useQuery(['styles', genreId], (key, gId) => getStyles(gId));
-  const [createImage] = useMutation(createImageAPI);
-  const [createRecord] = useMutation(createRecordAPI);
+  const selectedGenre = record.recordStyles[0].style.genre;
 
-  const initialValues: CreateRecordFields = {
-    artist: '',
-    name: '',
-    crop: { aspect: 1, x: 0, y: 0, height: 25, width: 25, unit: '%' },
-    label: '',
-    year: '',
-    recordType: null,
-    genre: null,
-    style: [],
-  };
+  const [genreId, setGenreId] = useState<string>(selectedGenre.id.toString());
+  const { data: styles } = useQuery(['styles', genreId], (key, gId) => getStyles(gId));
+
+  const [updateRecord] = useMutation(updateRecordAPI);
 
   const recordTypeOptions = recordTypes
     ? recordTypes.map(rt => ({
@@ -168,7 +148,74 @@ const EditRecordForm = ({ className, recordsRefetch, collectionId, onRequestClos
       }))
     : [];
 
-  const onSubmit = (values: CreateRecordFields, helpers: FormikHelpers<CreateRecordFields>): void => {};
+  const initialValues: UpdateRecordFields = {
+    artist: record.artist,
+    name: record.name,
+    label: record.label,
+    year: moment(record.year)
+      .year()
+      .toString(),
+    recordType: { value: record.recordType.id.toString(), label: record.recordType.name },
+    genre: { value: selectedGenre.id.toString(), label: selectedGenre.name },
+    style: record.recordStyles.map(rs => ({ value: rs.style.id.toString(), label: rs.style.name })),
+  };
+
+  const onSubmit = (values: UpdateRecordFields, helpers: FormikHelpers<UpdateRecordFields>): void => {
+    const { recordType } = values;
+    if (!recordType) {
+      return;
+    }
+
+    const updateRecordReq: UpdateRecordModel = {
+      id: record.id,
+      operations: [
+        {
+          op: 'add',
+          path: '/artist',
+          value: values.artist,
+        },
+        {
+          op: 'add',
+          path: '/name',
+          value: values.name,
+        },
+        {
+          op: 'add',
+          path: '/label',
+          value: values.label,
+        },
+        {
+          op: 'add',
+          path: '/description',
+          value: values.description || null,
+        },
+        {
+          op: 'add',
+          path: '/year',
+          value: moment()
+            .utc()
+            .startOf('year')
+            .year(parseInt(values.year)),
+        },
+        {
+          op: 'add',
+          path: '/recordTypeId',
+          value: recordType.value,
+        },
+        {
+          op: 'add',
+          path: '/styleIds',
+          value: values.style.map(s => s.value),
+        },
+      ],
+    };
+
+    updateRecord(updateRecordReq).then(() => {
+      helpers.setSubmitting(false);
+      recordsRefetch();
+      toast.success('Record update completed');
+    });
+  };
 
   return (
     <Formik onSubmit={onSubmit} initialValues={initialValues} validate={validate}>
@@ -177,27 +224,27 @@ const EditRecordForm = ({ className, recordsRefetch, collectionId, onRequestClos
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Artist
           </InputLabelStyled>
-          <FormInputStyled name="artist" placeholder="Artist" />
+          <FieldInputStyled name="artist" placeholder="Artist" />
           <FormError name="artist" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Name
           </InputLabelStyled>
-          <FormInputStyled name="name" placeholder="Name" />
+          <FieldInputStyled name="name" placeholder="Name" />
           <FormError name="name" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Description
           </InputLabelStyled>
-          <FormInputStyled name="description" placeholder="Description" />
+          <FieldInputStyled name="description" placeholder="Description" />
           <FormError name="description" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Label
           </InputLabelStyled>
-          <FormInputStyled name="label" placeholder="Label" />
+          <FieldInputStyled name="label" placeholder="Label" />
           <FormError name="label" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Year
           </InputLabelStyled>
-          <FormInputStyled name="year" placeholder="Ex. 2008" />
+          <FieldInputStyled name="year" placeholder="Ex. 2008" />
           <FormError name="year" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Record type
@@ -240,7 +287,7 @@ const EditRecordForm = ({ className, recordsRefetch, collectionId, onRequestClos
           )}
           <GlobalFormError />
           <ButtonStyled type="submit" fontWeight="light" disabled={isSubmitting}>
-            Create new record
+            Update record
           </ButtonStyled>
         </FormStyled>
       )}

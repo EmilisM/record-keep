@@ -4,6 +4,7 @@ import ImageForm from 'Organisms/Form/ImageForm';
 import { ImageCreateModel } from 'Types/Image';
 import CollectionEditForm from 'Organisms/Form/CollectionEditForm';
 import { Collection } from 'Types/Collection';
+import FormSeparator from 'Atoms/Form/FormSeparator';
 
 type Props = {
   className?: string;
@@ -37,6 +38,7 @@ const EditCollectionModal = ({
       inputLabel="Choose an image"
       buttonLabel="Change collection image"
     />
+    <FormSeparator />
     <CollectionEditForm collection={collection} refetch={refetch} />
   </Modal>
 );
