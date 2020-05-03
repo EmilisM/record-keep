@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string;
   showSearch?: boolean;
   isSearchable?: boolean;
-  value?: SelectOption | SelectOption[];
+  value?: SelectOption | SelectOption[] | null;
   isMulti?: boolean;
   options: SelectOption[];
   onChange: (option: SelectOption) => void | ((options: SelectOption[]) => void);

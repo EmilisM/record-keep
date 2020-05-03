@@ -15,6 +15,8 @@ import { getStyles } from 'API/Style';
 import { getGenres } from 'API/Genre';
 import { createImage as createImageAPI } from 'API/Image';
 import { createRecord as createRecordAPI } from 'API/Record';
+import GlobalFormError from 'Atoms/Error/GlobalFormError';
+import moment from 'moment';
 
 const FormStyled = styled(Form)`
   display: flex;
@@ -24,7 +26,9 @@ const FormStyled = styled(Form)`
 `;
 
 const InputLabelStyled = styled(InputLabel)`
-  margin-top: 10px;
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
 `;
 
 const FormInputStyled = styled(FormInput)`
@@ -67,9 +71,11 @@ export interface CreateRecordFields {
   description?: string;
   crop: PercentCrop;
   image?: string;
-  recordType?: SelectOption;
-  genre?: SelectOption;
+  recordType: SelectOption | null;
+  genre: SelectOption | null;
   style: SelectOption[];
+  label: string;
+  year: string;
   form?: string;
 }
 
@@ -92,8 +98,20 @@ const validate = (values: CreateRecordFields): FormikErrors<CreateRecordFields> 
     errors.genre = 'Genre is required';
   }
 
-  if (!values.style) {
+  if (!values.style && values.genre) {
     errors.style = 'Style is required';
+  }
+
+  if (!values.label) {
+    errors.label = 'Label is required';
+  }
+
+  if (!values.year) {
+    errors.year = 'Year is required';
+  } else if (!values.year.match('^\\d{4}$')) {
+    errors.year = 'Year is not in correct format';
+  } else if (parseInt(values.year) > moment().year()) {
+    errors.year = 'Year is in the future';
   }
 
   return errors;
@@ -119,6 +137,10 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
     artist: '',
     name: '',
     crop: { aspect: 1, x: 0, y: 0, height: 25, width: 25, unit: '%' },
+    label: '',
+    year: '',
+    recordType: null,
+    genre: null,
     style: [],
   };
 
@@ -144,13 +166,14 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
     : [];
 
   const onSubmit = (values: CreateRecordFields, helpers: FormikHelpers<CreateRecordFields>): void => {
-    const { crop, image, artist, name, description, recordType, style } = values;
+    const { crop, image, artist, name, description, recordType, style, label, year } = values;
 
     if (!recordType) {
       return;
     }
 
     const styleIds = style.map(s => s.value);
+    const yearDate = moment().year(parseInt(year));
 
     if (image) {
       const dataReq = {
@@ -171,11 +194,13 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
             collectionId: collectionId,
             imageId: image.id,
             styleIds,
+            label,
+            year: yearDate,
           }),
         )
         .then(() => {
-          helpers.setSubmitting(false);
           recordsRefetch();
+          helpers.setSubmitting(false);
           onRequestClose();
         });
     } else {
@@ -186,9 +211,11 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
         recordTypeId: recordType.value,
         collectionId: collectionId,
         styleIds,
+        label,
+        year: yearDate,
       }).then(() => {
-        helpers.setSubmitting(false);
         recordsRefetch();
+        helpers.setSubmitting(false);
         onRequestClose();
       });
     }
@@ -226,6 +253,16 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
           <FormInputStyled name="description" placeholder="Description" />
           <FormError name="description" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+            Label
+          </InputLabelStyled>
+          <FormInputStyled name="label" placeholder="Label" />
+          <FormError name="label" />
+          <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+            Year
+          </InputLabelStyled>
+          <FormInputStyled name="year" placeholder="Ex. 2008" />
+          <FormError name="year" />
+          <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Record type
           </InputLabelStyled>
           <SelectStyled
@@ -249,18 +286,22 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
             value={values.genre}
           />
           <FormError name="genre" />
-          <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
-            Style or subgenre
-          </InputLabelStyled>
-          <SelectStyled
-            placeholder="Style"
-            options={values.genre ? styleOptions : []}
-            onChange={options => setFieldValue('style', options)}
-            value={values.style}
-            isMulti
-          />
-          <FormError name="style" />
-          <FormError name="form" />
+          {values.genre && (
+            <>
+              <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+                Style or subgenre
+              </InputLabelStyled>
+              <SelectStyled
+                placeholder="Style"
+                options={values.genre ? styleOptions : []}
+                onChange={options => setFieldValue('style', options)}
+                value={values.style}
+                isMulti
+              />
+              <FormError name="style" />
+            </>
+          )}
+          <GlobalFormError />
           <ButtonStyled type="submit" fontWeight="light" disabled={isSubmitting}>
             Create new record
           </ButtonStyled>

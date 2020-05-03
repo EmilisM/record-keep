@@ -99,9 +99,12 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { data: collectionData, status: collectionStatus, refetch: collectionRefetch } = useQuery(
     ['collection', match.params.collectionId],
-    (key, id) => getCollection(id),
+    (key, collectionId) => getCollection(collectionId),
   );
-  const { data: recordsData, status: recordsStatus, refetch: recordsRefetch } = useQuery('records', getRecords);
+  const { data: recordsData, status: recordsStatus, refetch: recordsRefetch } = useQuery(
+    ['records', match.params.collectionId],
+    (key, collectionId) => getRecords(collectionId),
+  );
 
   const [mutateUpdateImage] = useMutation(updateImage);
   const [mutateCreateImage] = useMutation(createImage);
@@ -119,7 +122,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     }
   };
 
-  const onImageSubmit = (createModel: ImageCreateModel): Promise<void> =>
+  const onCollectionImageSubmit = (createModel: ImageCreateModel): Promise<void> =>
     new Promise(resolve => {
       if (!collectionData) {
         return resolve();
@@ -181,7 +184,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
             collection={collectionData}
             isOpen={state.editModal}
             onRequestClose={() => dispatch({ type: 'editModal/close' })}
-            onImageSubmit={onImageSubmit}
+            onImageSubmit={onCollectionImageSubmit}
           />
           <NewRecordModal
             isOpen={state.newRecordModal}

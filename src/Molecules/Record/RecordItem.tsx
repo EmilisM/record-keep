@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
-import H from 'Atoms/Text/H';
 import Image from 'Atoms/Image';
 import Link from 'Atoms/Link/Link';
 import { ReactComponent as Arrow } from 'Assets/Arrow.svg';
@@ -8,6 +7,9 @@ import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { getDefaultResourceImage } from 'Services/image';
 import { Record } from 'Types/Record';
+import Span from 'Atoms/Text/Span';
+import P from 'Atoms/Text/P';
+import moment from 'moment';
 
 const RecordItemStyled = styled(Link)`
   display: flex;
@@ -72,6 +74,11 @@ const ActionMenuStyled = styled(ActionMenu)`
   margin: 0 0 0 auto;
 `;
 
+const RowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 export type Props = {
   className?: string;
   to: string;
@@ -85,12 +92,32 @@ const RecordItem = ({ className, to, accountMenuOptions, accountMenuOnChange, re
     <RecordItemStyled className={className} to={to}>
       <ImageStyled src={getDefaultResourceImage(record.image?.data)} />
       <TitleContainer>
-        <H level="2" fontSize="normal" fontWeight="semiBold" color="primaryDarker">
-          {record.artist}
-        </H>
-        <H level="3" fontSize="normal" fontWeight="light" color="primaryDarker">
-          {record.name}
-        </H>
+        <RowContainer>
+          <P>
+            <Span color="primaryDarker" fontSize="regular" fontWeight="regular">
+              {record.artist}
+            </Span>
+            <Span color="primaryDarker" fontSize="regular" fontWeight="regular">
+              {' - '}
+            </Span>
+            <Span color="primaryDarker" fontSize="regular" fontWeight="semiBold">
+              {record.name}
+            </Span>
+          </P>
+        </RowContainer>
+        <RowContainer>
+          <P>
+            <Span color="primaryDarker" fontSize="regular" fontWeight="light">
+              {moment(record.year).format('YYYY')}
+            </Span>
+            <Span color="primaryDarker" fontSize="regular" fontWeight="light">
+              {' - '}
+            </Span>
+            <Span color="primaryDarker" fontSize="regular" fontWeight="light">
+              {record.recordType.name}
+            </Span>
+          </P>
+        </RowContainer>
       </TitleContainer>
       <ActionMenuStyled options={accountMenuOptions} onChange={accountMenuOnChange} />
       <ArrowStyled />

@@ -188,6 +188,16 @@ const Collections = (): ReactElement => {
     });
   };
 
+  const getCollectionItemSubTitle = (count: number): string => {
+    if (count === 1) {
+      return `${count} record`;
+    } else if (count > 1) {
+      return `${count} records`;
+    } else {
+      return 'No records';
+    }
+  };
+
   return (
     <CollectionsStyled>
       <FirstRow>
@@ -208,7 +218,7 @@ const Collections = (): ReactElement => {
               to={`${RouteConfig.Dashboard.Collections.Root}/${item.id}`}
               key={item.id}
               title={item.name}
-              subTitle={item.recordCount > 0 ? `${item.recordCount} record` : 'No records'}
+              subTitle={getCollectionItemSubTitle(item.recordCount)}
               accountMenuOptions={accountMenuOptions}
               accountMenuOnChange={option => accountMenuOnChange(option, index)}
               image={item.image?.data}

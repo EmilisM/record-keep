@@ -1,4 +1,6 @@
 import { Image } from './Image';
+import { RecordType } from './RecordType';
+import { Moment } from 'moment';
 
 export interface Record {
   id: number;
@@ -6,8 +8,11 @@ export interface Record {
   name: string;
   description: string | null;
   creationDate: Date;
+  year: Date;
+  label: string;
   collectionId: number;
   image: Image | null;
+  recordType: RecordType;
 }
 
 export interface CreateRecordModel {
@@ -18,4 +23,6 @@ export interface CreateRecordModel {
   imageId?: number;
   recordTypeId: string;
   styleIds: string[];
+  label: string;
+  year: Moment;
 }
