@@ -44,6 +44,8 @@ const ActionMenuStyled = styled(ActionMenu)`
 const ImageStyled = styled(Image)`
   width: 128px;
   height: 128px;
+
+  margin-bottom: 10px;
 `;
 
 type Props = {
