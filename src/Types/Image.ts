@@ -1,4 +1,4 @@
-import { Crop } from 'react-image-crop';
+import { Crop, PercentCrop } from 'react-image-crop';
 
 export interface Image {
   id: number;
@@ -35,3 +35,8 @@ export const getImageCreateRequest = (crop: Crop, image: string): ImageCreateMod
   y: crop.y || 0,
   data: image.split(',')[1],
 });
+
+export interface ImageFormFields {
+  crop: PercentCrop;
+  image: string | null;
+}

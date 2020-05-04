@@ -11,10 +11,12 @@ import P from 'Atoms/Text/P';
 import moment from 'moment';
 import EditUserInfoModal from 'Organisms/Modal/EditUserInfoModal';
 import UserImage from 'Atoms/UserImage';
-import { ImageCreateModel } from 'Types/Image';
+import { getImageCreateRequest, ImageFormFields } from 'Types/Image';
 import { useMutation } from 'react-query';
 import { updateImage, createImage } from 'API/Image';
 import { updateUserInfo } from 'API/User';
+import { FormikHelpers } from 'formik';
+import { toast } from 'react-toastify';
 
 const CardStyled = styled(Card)`
   width: 100%;
@@ -99,22 +101,29 @@ const UserCard = ({ className }: Props): ReactElement => {
     }
   };
 
-  const onSubmitImage = (imageData: ImageCreateModel): Promise<void> =>
+  const onSubmitImage = (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>): void => {
+    if (!values.image) {
+      return;
+    }
+
+    const request = getImageCreateRequest(values.crop, values.image);
+
     new Promise(resolve => {
       if (data?.profileImage?.id) {
-        mutateUpdateImage({ ...imageData, id: data.profileImage.id }).then(() => {
-          refetch();
-          resolve();
-        });
+        mutateUpdateImage({ ...request, id: data.profileImage.id }).then(() => resolve());
       } else {
-        mutateCreateImage(imageData)
+        mutateCreateImage(request)
           .then(image => mutateUserInfo([{ op: 'add', path: '/imageId', value: image.id }]))
-          .then(() => {
-            refetch();
-            resolve();
-          });
+          .then(() => resolve());
       }
-    });
+    })
+      .then(() => refetch())
+      .then(() => {
+        helpers.setSubmitting(false);
+        helpers.resetForm();
+        toast.success('User image update complete');
+      });
+  };
 
   return (
     <CardStyled className={className} isLoading={status === 'loading' && !data}>

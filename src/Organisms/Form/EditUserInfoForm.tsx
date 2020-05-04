@@ -6,7 +6,7 @@ import FieldInput from 'Molecules/FieldInput';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { useMutation } from 'react-query';
 import { updateUserInfo as updateUserInfoAPI } from 'API/User';
-import { UpdateUserInfo } from 'Types/User';
+import { UpdateUserInfo, UserInfo } from 'Types/User';
 import { toast } from 'react-toastify';
 
 const FormStyled = styled(Form)`
@@ -41,7 +41,7 @@ interface UserInfoFields {
 type Props = {
   className?: string;
   displayName?: string | null;
-  userInfoRefetch: () => void;
+  userInfoRefetch: () => Promise<UserInfo>;
 };
 
 const EditUserInfoForm = ({ className, displayName, userInfoRefetch }: Props): ReactElement => {
@@ -61,8 +61,8 @@ const EditUserInfoForm = ({ className, displayName, userInfoRefetch }: Props): R
     ];
 
     updateUserInfo(updateRequest)
+      .then(() => userInfoRefetch())
       .then(() => {
-        userInfoRefetch();
         helpers.setSubmitting(false);
         toast.success('User update complete');
       })

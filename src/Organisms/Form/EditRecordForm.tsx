@@ -112,7 +112,7 @@ const validate = (values: UpdateRecordFields): FormikErrors<UpdateRecordFields> 
 
 type Props = {
   className?: string;
-  recordsRefetch: () => void;
+  recordsRefetch: () => Promise<Record[]>;
   record: Record;
 };
 
@@ -210,11 +210,12 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
       ],
     };
 
-    updateRecord(updateRecordReq).then(() => {
-      helpers.setSubmitting(false);
-      recordsRefetch();
-      toast.success('Record update completed');
-    });
+    updateRecord(updateRecordReq)
+      .then(() => recordsRefetch())
+      .then(() => {
+        helpers.setSubmitting(false);
+        toast.success('Record update completed');
+      });
   };
 
   return (

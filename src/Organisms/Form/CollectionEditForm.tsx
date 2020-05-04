@@ -46,7 +46,7 @@ interface CollectionFields {
 
 type Props = {
   className?: string;
-  refetch: () => void;
+  refetch: () => Promise<Collection | Collection[]>;
   collection: Collection;
 };
 
@@ -86,8 +86,8 @@ const CollectionEditForm = ({ className, refetch, collection }: Props): ReactEle
     };
 
     updateCollection(updateRequest)
+      .then(() => refetch())
       .then(() => {
-        refetch();
         helpers.setSubmitting(false);
         toast.success('Collection update complete');
       })

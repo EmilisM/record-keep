@@ -20,6 +20,7 @@ import moment from 'moment';
 import { ImageResponse, getImageCreateRequest } from 'Types/Image';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import { Record } from 'Types/Record';
 
 const FormStyled = styled(Form)`
   display: flex;
@@ -123,7 +124,7 @@ const validate = (values: CreateRecordFields): FormikErrors<CreateRecordFields> 
 type Props = {
   className?: string;
   collectionId: number;
-  recordsRefetch: () => void;
+  recordsRefetch: () => Promise<Record[]>;
   onRequestClose: () => void;
 };
 
@@ -204,8 +205,8 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
           year: yearDate,
         }),
       )
+      .then(() => recordsRefetch())
       .then(() => {
-        recordsRefetch();
         helpers.setSubmitting(false);
         onRequestClose();
         toast.success('New record created');

@@ -1,18 +1,19 @@
 import React, { ReactElement } from 'react';
 import Modal from 'Atoms/Modal';
 import ImageForm from 'Organisms/Form/ImageForm';
-import { ImageCreateModel } from 'Types/Image';
 import CollectionEditForm from 'Organisms/Form/CollectionEditForm';
 import { Collection } from 'Types/Collection';
 import FormSeparator from 'Atoms/Form/FormSeparator';
+import { ImageFormFields } from 'Types/Image';
+import { FormikHelpers } from 'formik';
 
 type Props = {
   className?: string;
   isLoading?: boolean;
   isOpen: boolean;
   onRequestClose: () => void;
-  onImageSubmit: (data: ImageCreateModel) => Promise<void>;
-  refetch: () => void;
+  onImageSubmit: (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>) => void;
+  refetch: () => Promise<Collection[] | Collection>;
   collection: Collection;
 };
 

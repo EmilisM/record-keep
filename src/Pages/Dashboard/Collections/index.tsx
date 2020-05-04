@@ -17,7 +17,7 @@ import {
 import Loader from 'Atoms/Loader/Loader';
 import { toast } from 'react-toastify';
 import EditCollectionModal from 'Organisms/Modal/EditCollectionModal';
-import { ImageCreateModel } from 'Types/Image';
+import { ImageFormFields, getImageCreateRequest, ImageResponse } from 'Types/Image';
 import { updateImage, createImage } from 'API/Image';
 import CollectionDeleteModal from 'Organisms/Modal/CollectionDeleteModal';
 import { Collection, CollectionDeleteFields } from 'Types/Collection';
@@ -117,12 +117,13 @@ const Collections = (): ReactElement => {
 
   const onSubmitNewCollection = (): void => {
     if (newCollectionName) {
-      createCollection({ name: newCollectionName }).then(() => {
-        setNewCollectionName('');
-        setIsEditable(false);
-        toast.success('New collection created');
-        refetch();
-      });
+      createCollection({ name: newCollectionName })
+        .then(() => refetch())
+        .then(() => {
+          setNewCollectionName('');
+          setIsEditable(false);
+          toast.success('New collection created');
+        });
     }
   };
 
@@ -144,31 +145,35 @@ const Collections = (): ReactElement => {
     }
   };
 
-  const onImageSubmit = (imageData: ImageCreateModel): Promise<void> =>
-    new Promise<void>(resolve => {
-      if (!data || !activeCollection) {
-        return resolve();
-      }
+  const onImageSubmit = (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>): void => {
+    if (!data || !activeCollection || !values.image) {
+      return;
+    }
 
+    const imageReq = getImageCreateRequest(values.crop, values.image);
+
+    new Promise<ImageResponse | null>(resolve => {
       if (activeCollection.image?.id) {
-        mutateUpdateImage({ ...imageData, id: activeCollection.image?.id }).then(() => {
-          refetch();
-          resolve();
-        });
+        mutateUpdateImage({ ...imageReq, id: activeCollection.image?.id }).then(() => resolve(null));
       } else {
-        mutateCreateImage(imageData)
-          .then(image =>
-            updateCollection({
+        mutateCreateImage(imageReq).then(image => resolve(image));
+      }
+    })
+      .then(image =>
+        image
+          ? updateCollection({
               id: activeCollection.id,
               operations: [{ op: 'add', path: '/imageId', value: image.id }],
-            }),
-          )
-          .then(() => {
-            refetch();
-            resolve();
-          });
-      }
-    });
+            })
+          : null,
+      )
+      .then(() => refetch())
+      .then(() => {
+        helpers.setSubmitting(false);
+        helpers.resetForm();
+        toast.success('Collection image update complete');
+      });
+  };
 
   const onSubmitDelete = (values: CollectionDeleteFields, helpers: FormikHelpers<CollectionDeleteFields>): void => {
     if (!activeCollection) {
@@ -177,13 +182,14 @@ const Collections = (): ReactElement => {
 
     const id = activeCollection.id;
 
-    deleteCollection({ id, destinationId: values.toCollection && values.toCollection.value }).then(() => {
-      helpers.setSubmitting(false);
-      helpers.resetForm();
-      refetch();
-      toast.success('Collection delete completed');
-      setDeletionModalOpen(false);
-    });
+    deleteCollection({ id, destinationId: values.toCollection && values.toCollection.value })
+      .then(() => refetch())
+      .then(() => {
+        helpers.setSubmitting(false);
+        helpers.resetForm();
+        toast.success('Collection delete completed');
+        setDeletionModalOpen(false);
+      });
   };
 
   const getCollectionItemSubTitle = (count: number): string => {

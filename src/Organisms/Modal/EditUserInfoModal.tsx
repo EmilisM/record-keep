@@ -3,8 +3,10 @@ import Modal from 'Atoms/Modal';
 import ChangePasswordForm from 'Organisms/Form/ChangePasswordForm';
 import EditUserInfoForm from 'Organisms/Form/EditUserInfoForm';
 import ImageForm from 'Organisms/Form/ImageForm';
-import { ImageCreateModel } from 'Types/Image';
 import FormSeparator from 'Atoms/Form/FormSeparator';
+import { ImageFormFields } from 'Types/Image';
+import { FormikHelpers } from 'formik';
+import { UserInfo } from 'Types/User';
 
 type Props = {
   className?: string;
@@ -12,8 +14,8 @@ type Props = {
   displayName?: string | null;
   isOpen: boolean;
   onRequestClose: () => void;
-  userInfoRefetch: () => void;
-  onSubmitImage: (data: ImageCreateModel) => Promise<void>;
+  userInfoRefetch: () => Promise<UserInfo>;
+  onSubmitImage: (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>) => void;
 };
 
 const EditUserInfoModal = ({

@@ -2,13 +2,14 @@ import React, { ReactElement } from 'react';
 import Modal from 'Atoms/Modal';
 import NewRecordForm from 'Organisms/Form/NewRecordForm';
 import styled from 'styled-components/macro';
+import { Record } from 'Types/Record';
 
 type Props = {
   className?: string;
   isOpen: boolean;
   onRequestClose: () => void;
   collectionId: number;
-  recordsRefetch: () => void;
+  recordsRefetch: () => Promise<Record[]>;
 };
 
 const ModalStyled = styled(Modal)`

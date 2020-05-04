@@ -10,7 +10,7 @@ import CollectionInfoCard from 'Molecules/Card/CollectionInfoCard';
 import { reducer, initialState } from 'State/Collection';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import EditCollectionModal from 'Organisms/Modal/EditCollectionModal';
-import { ImageCreateModel } from 'Types/Image';
+import { ImageFormFields, getImageCreateRequest, ImageResponse } from 'Types/Image';
 import RecordItem from 'Molecules/Record/RecordItem';
 import { ReactComponent as Delete } from 'Assets/Add.svg';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
@@ -23,6 +23,7 @@ import DeletionModal from 'Organisms/Modal/DeletionModal';
 import { Record } from 'Types/Record';
 import { toast } from 'react-toastify';
 import EditRecordModal from 'Organisms/Modal/EditRecordModal';
+import { FormikHelpers } from 'formik';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -128,32 +129,6 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     }
   };
 
-  const onCollectionImageSubmit = (createModel: ImageCreateModel): Promise<void> =>
-    new Promise(resolve => {
-      if (!collectionData) {
-        return resolve();
-      }
-
-      if (collectionData?.image?.id) {
-        mutateUpdateImage({ ...createModel, id: collectionData.image.id }).then(() => {
-          collectionRefetch();
-          resolve();
-        });
-      } else {
-        mutateCreateImage(createModel)
-          .then(image =>
-            mutateCollection({
-              id: collectionData.id,
-              operations: [{ op: 'add', path: '/imageId', value: image.id }],
-            }),
-          )
-          .then(() => {
-            collectionRefetch();
-            resolve();
-          });
-      }
-    });
-
   const onChange = (options: ActionMenuOption, activeRecord: Record): void => {
     dispatch({ type: 'activeRecord/set', payload: activeRecord });
 
@@ -176,31 +151,64 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     });
   };
 
-  const onRecordImageSubmit = (data: ImageCreateModel): Promise<void> =>
-    new Promise<void>(resolve => {
-      const { activeRecord } = state;
+  const onCollectionImageSubmit = (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>): void => {
+    if (!collectionData || !values.image) {
+      return;
+    }
 
-      if (!activeRecord) {
-        resolve();
-        return;
-      }
+    const imageRequest = getImageCreateRequest(values.crop, values.image);
 
-      if (activeRecord.image) {
-        mutateUpdateImage({ id: activeRecord.image.id, ...data }).then(() => {
-          recordsRefetch();
-          resolve();
-        });
+    new Promise<ImageResponse | null>(resolve => {
+      if (collectionData?.image?.id) {
+        mutateUpdateImage({ ...imageRequest, id: collectionData.image.id }).then(() => resolve(null));
       } else {
-        mutateCreateImage(data)
-          .then(image =>
-            updateRecord({ id: activeRecord.id, operations: [{ op: 'add', path: '/imageId', value: image.id }] }),
-          )
-          .then(() => {
-            recordsRefetch();
-            resolve();
-          });
+        mutateCreateImage(imageRequest).then(image => resolve(image));
       }
-    });
+    })
+      .then(image =>
+        image
+          ? mutateCollection({
+              id: collectionData.id,
+              operations: [{ op: 'add', path: '/imageId', value: image.id }],
+            })
+          : null,
+      )
+      .then(() => collectionRefetch())
+      .then(() => {
+        helpers.setSubmitting(false);
+        helpers.resetForm();
+        toast.success('Collection image update complete');
+      });
+  };
+
+  const onRecordImageSubmit = (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>): void => {
+    const { activeRecord } = state;
+
+    if (!activeRecord || !values.image) {
+      return;
+    }
+
+    const imageReq = getImageCreateRequest(values.crop, values.image);
+
+    new Promise<ImageResponse | null>(resolve => {
+      if (activeRecord.image) {
+        mutateUpdateImage({ id: activeRecord.image.id, ...imageReq }).then(() => resolve(null));
+      } else {
+        mutateCreateImage(imageReq).then(resolve);
+      }
+    })
+      .then(image =>
+        image
+          ? updateRecord({ id: activeRecord.id, operations: [{ op: 'add', path: '/imageId', value: image.id }] })
+          : null,
+      )
+      .then(() => recordsRefetch())
+      .then(() => {
+        helpers.setSubmitting(false);
+        helpers.resetForm();
+        toast.success('Record image update complete');
+      });
+  };
 
   return (
     <CollectionStyled>

@@ -1,11 +1,10 @@
-import React, { ReactElement, useState, FormEvent } from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import InputLabel from 'Atoms/Input/InputLabel';
-import { Crop } from 'react-image-crop';
 import ImagePicker from 'Molecules/ImagePicker';
-import { toast } from 'react-toastify';
-import { ImageCreateModel, getImageCreateRequest } from 'Types/Image';
+import { Formik, FormikHelpers } from 'formik';
+import { ImageFormFields } from 'Types/Image';
 
 const FormStyled = styled.form`
   display: flex;
@@ -32,52 +31,37 @@ type Props = {
   title: string;
   buttonLabel: string;
   inputLabel: string;
-  onSubmit: (data: ImageCreateModel) => Promise<void>;
+  onSubmit: (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>) => void;
 };
 
 const ImageForm = ({ className, title, buttonLabel, inputLabel, onSubmit }: Props): ReactElement => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [image, setImage] = useState<string | null>(null);
-  const [crop, setCrop] = useState<Crop>({ aspect: 1, x: 0, y: 0, height: 25, width: 25, unit: '%' });
-
-  const onAfterUpdate = (): void => {
-    setIsLoading(false);
-    toast.success('Image update complete');
-    setImage(null);
-    setCrop({ ...crop, x: 0, y: 0 });
-  };
-
-  const onSubmitForm = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-
-    if (!image) {
-      return;
-    }
-
-    const dataReq = getImageCreateRequest(crop, image);
-
-    setIsLoading(true);
-    onSubmit(dataReq).then(() => onAfterUpdate());
+  const initialValues: ImageFormFields = {
+    crop: { aspect: 1, x: 0, y: 0, height: 25, width: 25, unit: '%' },
+    image: null,
   };
 
   return (
-    <FormStyled className={className} onSubmit={onSubmitForm}>
-      <InputLabel color="primaryDarker" fontWeight="semiBold" fontSize="normal">
-        {title}
-      </InputLabel>
-      <ImagePickerStyled
-        crop={crop}
-        image={image}
-        onImageChange={setImage}
-        onCropChange={(crop, percentCrop) => setCrop(percentCrop)}
-        onImageClear={() => setImage(null)}
-      >
-        {inputLabel}
-      </ImagePickerStyled>
-      <ButtonStyled type="submit" fontWeight="light" disabled={isLoading}>
-        {buttonLabel}
-      </ButtonStyled>
-    </FormStyled>
+    <Formik onSubmit={onSubmit} initialValues={initialValues}>
+      {({ values, setFieldValue, handleSubmit, isSubmitting }) => (
+        <FormStyled className={className} onSubmit={handleSubmit}>
+          <InputLabel color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+            {title}
+          </InputLabel>
+          <ImagePickerStyled
+            crop={values.crop}
+            image={values.image}
+            onImageChange={image => setFieldValue('image', image)}
+            onCropChange={(crop, percentCrop) => setFieldValue('crop', percentCrop)}
+            onImageClear={() => setFieldValue('image', null)}
+          >
+            {inputLabel}
+          </ImagePickerStyled>
+          <ButtonStyled type="submit" fontWeight="light" disabled={isSubmitting}>
+            {buttonLabel}
+          </ButtonStyled>
+        </FormStyled>
+      )}
+    </Formik>
   );
 };
 
