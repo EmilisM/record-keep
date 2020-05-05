@@ -1,10 +1,11 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
-import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
-import { FormikErrors, Formik, Form, FormikHelpers } from 'formik';
-import FormInput from 'Atoms/Input/FormInput';
+import { FormikErrors, Formik, FormikHelpers } from 'formik';
+import FormInput from 'Atoms/Form/FormInput';
 import FormError from 'Atoms/Error/FormError';
+import FormButton from 'Atoms/Form/FormButton';
+import Form from 'Atoms/Form/Form';
 import { useMutation } from 'react-query';
 import { changePassword as changePasswordAPI } from 'API/User';
 import { ChangePasswordErrorResponse } from 'Types/User';
@@ -16,26 +17,6 @@ import { toast } from 'react-toastify';
 type Props = {
   className?: string;
 };
-
-const FormContent = styled(Form)`
-  display: flex;
-  flex-direction: column;
-
-  margin: 20px 0;
-`;
-
-const ButtonStyled = styled(ButtonDashboard)`
-  width: 300px;
-  margin-top: 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-const FormInputStyled = styled(FormInput)`
-  margin-top: 20px;
-`;
 
 const FormErrorStyled = styled(FormError)`
   margin-top: 10px;
@@ -103,11 +84,11 @@ const ChangePasswordForm = ({ className }: Props): ReactElement => {
   return (
     <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
       {({ isSubmitting }) => (
-        <FormContent className={className}>
+        <Form className={className}>
           <H color="primaryDarker" fontSize="regular" fontWeight="semiBold" level="3">
             Change your password
           </H>
-          <FormInputStyled
+          <FormInput
             id="existingPassword"
             placeholder="Existing password"
             name="existingPassword"
@@ -115,7 +96,7 @@ const ChangePasswordForm = ({ className }: Props): ReactElement => {
             label="Existing password"
           />
           <FormErrorStyled name="existingPassword" />
-          <FormInputStyled
+          <FormInput
             id="newPassword"
             placeholder="New password"
             name="newPassword"
@@ -123,7 +104,7 @@ const ChangePasswordForm = ({ className }: Props): ReactElement => {
             label="New password"
           />
           <FormErrorStyled name="newPassword" />
-          <FormInputStyled
+          <FormInput
             id="repeatNewPassword"
             placeholder="Repeat new password"
             name="repeatNewPassword"
@@ -132,10 +113,10 @@ const ChangePasswordForm = ({ className }: Props): ReactElement => {
           />
           <FormErrorStyled name="repeatNewPassword" />
           <GlobalFormErrorStyled />
-          <ButtonStyled disabled={isSubmitting} type="submit" fontWeight="light">
+          <FormButton disabled={isSubmitting} type="submit" fontWeight="light">
             Change password
-          </ButtonStyled>
-        </FormContent>
+          </FormButton>
+        </Form>
       )}
     </Formik>
   );

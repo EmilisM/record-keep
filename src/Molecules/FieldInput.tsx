@@ -17,15 +17,21 @@ const ContainerStyled = styled.div<StyleProps>`
   flex-direction: row;
   justify-content: space-between;
   padding: 6px 10px;
+  width: 300px;
+  margin-top: 10px;
 
   border: 1px solid ${props => (props.isEditMode ? props.theme.colors.text.primaryDarker : 'none')};
-  border-radius: 8px;
+  border-radius: 4px;
 
   &:hover {
     background: ${props => !props.isEditMode && props.theme.colors.background.primaryDarker};
   }
 
   transition: background-color 300ms ease;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 100%;
+  }
 `;
 
 const EditStyled = styled(Edit)`

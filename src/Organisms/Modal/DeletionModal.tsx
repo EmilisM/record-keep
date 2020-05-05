@@ -4,12 +4,8 @@ import styled from 'styled-components/macro';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 
 const ButtonDashboardStyled = styled(ButtonDashboard)`
-  width: 100px;
+  width: 150px;
   justify-content: center;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
 
   &:first-child {
     margin-right: 10px;
@@ -19,7 +15,7 @@ const ButtonDashboardStyled = styled(ButtonDashboard)`
 const Content = styled.div`
   display: flex;
 
-  padding: 20px 0;
+  padding: 20px 0 0;
 `;
 
 type Props = {

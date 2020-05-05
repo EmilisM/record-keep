@@ -1,42 +1,20 @@
 import React, { ReactElement } from 'react';
-import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
+import { Formik, FormikHelpers, FormikErrors } from 'formik';
 import styled from 'styled-components/macro';
 import InputLabel from 'Atoms/Input/InputLabel';
-import FieldInput from 'Molecules/FieldInput';
-import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { updateCollection as updateCollectionAPI } from 'API/Collection';
 import { UpdateCollection, Collection } from 'Types/Collection';
 import FormError from 'Atoms/Error/FormError';
-
-const FormStyled = styled(Form)`
-  display: flex;
-  flex-direction: column;
-
-  margin: 20px 0;
-`;
-
-const ButtonStyled = styled(ButtonDashboard)`
-  width: 300px;
-  margin-top: 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-const FieldInputStyled = styled(FieldInput)`
-  width: 300px;
-  margin-top: 10px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
+import FormButton from 'Atoms/Form/FormButton';
+import FieldInput from 'Molecules/FieldInput';
+import Form from 'Atoms/Form/Form';
 
 const InputLabelStyled = styled(InputLabel)`
-  margin-top: 10px;
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
 `;
 
 interface CollectionFields {
@@ -99,21 +77,21 @@ const CollectionEditForm = ({ className, refetch, collection }: Props): ReactEle
   return (
     <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
       {({ isSubmitting }) => (
-        <FormStyled className={className}>
+        <Form className={className}>
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Name
           </InputLabelStyled>
-          <FieldInputStyled name="name" placeholder="Name" />
+          <FieldInput name="name" placeholder="Name" />
           <FormError name="name" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Description
           </InputLabelStyled>
-          <FieldInputStyled name="description" placeholder="Description" />
+          <FieldInput name="description" placeholder="Description" />
           <FormError name="description" />
-          <ButtonStyled type="submit" fontWeight="light" disabled={isSubmitting}>
+          <FormButton type="submit" fontWeight="light" disabled={isSubmitting}>
             Change collection info
-          </ButtonStyled>
-        </FormStyled>
+          </FormButton>
+        </Form>
       )}
     </Formik>
   );

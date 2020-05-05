@@ -66,7 +66,7 @@ const Input = styled(InputBase)`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
   font-size: ${props => fontSizes[props.fontSize || 'normal'].desktop}px;
-  border-radius: 8px;
+  border-radius: 4px;
   border: 1px solid ${props => props.theme.colors.border.primary};
   padding: 6px 10px;
   background-color: transparent;

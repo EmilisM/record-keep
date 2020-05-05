@@ -21,6 +21,10 @@ type Props = {
 
 const ModalStyled = styled(Modal)`
   overflow: unset;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    overflow-y: auto;
+  }
 `;
 
 const EditRecordModal = ({

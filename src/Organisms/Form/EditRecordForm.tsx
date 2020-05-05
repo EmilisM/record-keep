@@ -1,10 +1,9 @@
 import React, { ReactElement, useState } from 'react';
-import { Formik, FormikErrors, Form, FormikHelpers } from 'formik';
-import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
+import { Formik, FormikErrors, FormikHelpers } from 'formik';
+import FormButton from 'Atoms/Form/FormButton';
 import FormError from 'Atoms/Error/FormError';
 import InputLabel from 'Atoms/Input/InputLabel';
 import styled from 'styled-components/macro';
-import Select from 'Molecules/Select/Select';
 import { useQuery, useMutation } from 'react-query';
 import { getRecordTypes } from 'API/RecordType';
 import { SelectOption } from 'Types/Select';
@@ -16,48 +15,13 @@ import moment from 'moment';
 import { UpdateRecordModel, Record } from 'Types/Record';
 import { toast } from 'react-toastify';
 import FieldInput from 'Molecules/FieldInput';
-
-const FormStyled = styled(Form)`
-  display: flex;
-  flex-direction: column;
-
-  margin: 20px 0;
-`;
+import FormSelect from 'Atoms/Form/FormSelect';
+import Form from 'Atoms/Form/Form';
 
 const InputLabelStyled = styled(InputLabel)`
   &:not(:first-child) {
     margin-top: 10px;
   }
-`;
-
-const FieldInputStyled = styled(FieldInput)`
-  width: 300px;
-  margin-top: 10px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-const ButtonStyled = styled(ButtonDashboard)`
-  width: 300px;
-  margin-top: 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-const SelectStyled = styled(Select)`
-  width: 300px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-
-  border: 1px solid ${props => props.theme.colors.border.cardShadow};
-  border-radius: 4px;
-  margin-top: 10px;
 `;
 
 export interface UpdateRecordFields {
@@ -222,36 +186,36 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
   return (
     <Formik onSubmit={onSubmit} initialValues={initialValues} validate={validate}>
       {({ isSubmitting, values, setFieldValue }) => (
-        <FormStyled className={className}>
+        <Form className={className}>
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Artist
           </InputLabelStyled>
-          <FieldInputStyled name="artist" placeholder="Artist" />
+          <FieldInput name="artist" placeholder="Artist" />
           <FormError name="artist" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Name
           </InputLabelStyled>
-          <FieldInputStyled name="name" placeholder="Name" />
+          <FieldInput name="name" placeholder="Name" />
           <FormError name="name" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Description
           </InputLabelStyled>
-          <FieldInputStyled name="description" placeholder="Description" />
+          <FieldInput name="description" placeholder="Description" />
           <FormError name="description" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Label
           </InputLabelStyled>
-          <FieldInputStyled name="label" placeholder="Label" />
+          <FieldInput name="label" placeholder="Label" />
           <FormError name="label" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Year
           </InputLabelStyled>
-          <FieldInputStyled name="year" placeholder="Ex. 2008" />
+          <FieldInput name="year" placeholder="Ex. 2008" />
           <FormError name="year" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Record type
           </InputLabelStyled>
-          <SelectStyled
+          <FormSelect
             placeholder="Record type"
             options={recordTypeOptions}
             onChange={option => setFieldValue('recordType', option)}
@@ -261,7 +225,7 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Genre
           </InputLabelStyled>
-          <SelectStyled
+          <FormSelect
             placeholder="Genre"
             options={genreOptions}
             onChange={option => {
@@ -277,7 +241,7 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
               <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
                 Style or subgenre
               </InputLabelStyled>
-              <SelectStyled
+              <FormSelect
                 placeholder="Style"
                 options={values.genre ? styleOptions : []}
                 onChange={options => setFieldValue('style', options)}
@@ -288,10 +252,10 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
             </>
           )}
           <GlobalFormError />
-          <ButtonStyled type="submit" fontWeight="light" disabled={isSubmitting}>
+          <FormButton type="submit" fontWeight="light" disabled={isSubmitting}>
             Update record
-          </ButtonStyled>
-        </FormStyled>
+          </FormButton>
+        </Form>
       )}
     </Formik>
   );

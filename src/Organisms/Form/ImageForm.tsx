@@ -1,26 +1,11 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
-import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import InputLabel from 'Atoms/Input/InputLabel';
 import ImagePicker from 'Molecules/ImagePicker';
 import { Formik, FormikHelpers } from 'formik';
 import { ImageFormFields } from 'Types/Image';
-
-const FormStyled = styled.form`
-  display: flex;
-  flex-direction: column;
-
-  margin: 20px 0;
-`;
-
-const ButtonStyled = styled(ButtonDashboard)`
-  width: 300px;
-  margin-top: 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
+import Form from 'Atoms/Form/Form';
+import FormButton from 'Atoms/Form/FormButton';
 
 const ImagePickerStyled = styled(ImagePicker)`
   margin-top: 10px;
@@ -43,7 +28,7 @@ const ImageForm = ({ className, title, buttonLabel, inputLabel, onSubmit }: Prop
   return (
     <Formik onSubmit={onSubmit} initialValues={initialValues}>
       {({ values, setFieldValue, handleSubmit, isSubmitting }) => (
-        <FormStyled className={className} onSubmit={handleSubmit}>
+        <Form className={className} onSubmit={handleSubmit}>
           <InputLabel color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             {title}
           </InputLabel>
@@ -56,10 +41,10 @@ const ImageForm = ({ className, title, buttonLabel, inputLabel, onSubmit }: Prop
           >
             {inputLabel}
           </ImagePickerStyled>
-          <ButtonStyled type="submit" fontWeight="light" disabled={isSubmitting}>
+          <FormButton type="submit" fontWeight="light" disabled={isSubmitting}>
             {buttonLabel}
-          </ButtonStyled>
-        </FormStyled>
+          </FormButton>
+        </Form>
       )}
     </Formik>
   );

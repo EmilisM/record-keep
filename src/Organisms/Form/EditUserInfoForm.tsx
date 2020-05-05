@@ -1,37 +1,17 @@
 import React, { ReactElement } from 'react';
-import { Formik, Form, FormikHelpers } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import styled from 'styled-components/macro';
 import InputLabel from 'Atoms/Input/InputLabel';
 import FieldInput from 'Molecules/FieldInput';
-import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { useMutation } from 'react-query';
 import { updateUserInfo as updateUserInfoAPI } from 'API/User';
 import { UpdateUserInfo, UserInfo } from 'Types/User';
 import { toast } from 'react-toastify';
-
-const FormStyled = styled(Form)`
-  display: flex;
-  flex-direction: column;
-
-  margin: 20px 0;
-`;
-
-const ButtonStyled = styled(ButtonDashboard)`
-  width: 300px;
-  margin-top: 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
+import Form from 'Atoms/Form/Form';
+import FormButton from 'Atoms/Form/FormButton';
 
 const FieldInputStyled = styled(FieldInput)`
-  width: 300px;
   margin-top: 10px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
 `;
 
 interface UserInfoFields {
@@ -74,15 +54,15 @@ const EditUserInfoForm = ({ className, displayName, userInfoRefetch }: Props): R
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({ isSubmitting }) => (
-        <FormStyled className={className}>
+        <Form className={className}>
           <InputLabel color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Display name
           </InputLabel>
           <FieldInputStyled name="displayName" placeholder="Display name" />
-          <ButtonStyled type="submit" fontWeight="light" disabled={isSubmitting}>
+          <FormButton type="submit" fontWeight="light" disabled={isSubmitting}>
             Change user info
-          </ButtonStyled>
-        </FormStyled>
+          </FormButton>
+        </Form>
       )}
     </Formik>
   );

@@ -1,13 +1,11 @@
 import React, { ReactElement, useState } from 'react';
-import { Formik, FormikErrors, Form, FormikHelpers } from 'formik';
-import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
+import { Formik, FormikErrors, FormikHelpers } from 'formik';
 import FormError from 'Atoms/Error/FormError';
 import InputLabel from 'Atoms/Input/InputLabel';
 import styled from 'styled-components/macro';
 import ImagePicker from 'Molecules/ImagePicker';
 import { PercentCrop } from 'react-image-crop';
-import FormInput from 'Atoms/Input/FormInput';
-import Select from 'Molecules/Select/Select';
+import FormInput from 'Atoms/Form/FormInput';
 import { useQuery, useMutation } from 'react-query';
 import { getRecordTypes } from 'API/RecordType';
 import { SelectOption } from 'Types/Select';
@@ -21,52 +19,18 @@ import { ImageResponse, getImageCreateRequest } from 'Types/Image';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { Record } from 'Types/Record';
+import FormSelect from 'Atoms/Form/FormSelect';
+import FormButton from 'Atoms/Form/FormButton';
+import Form from 'Atoms/Form/Form';
 
-const FormStyled = styled(Form)`
-  display: flex;
-  flex-direction: column;
-
-  margin: 20px 0;
+const ImagePickerStyled = styled(ImagePicker)`
+  margin-top: 10px;
 `;
 
 const InputLabelStyled = styled(InputLabel)`
   &:not(:first-child) {
     margin-top: 10px;
   }
-`;
-
-const FormInputStyled = styled(FormInput)`
-  width: 300px;
-  margin-top: 10px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-const ButtonStyled = styled(ButtonDashboard)`
-  width: 300px;
-  margin-top: 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-`;
-
-const ImagePickerStyled = styled(ImagePicker)`
-  margin-top: 10px;
-`;
-
-const SelectStyled = styled(Select)`
-  width: 300px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
-
-  border: 1px solid ${props => props.theme.colors.border.cardShadow};
-  border-radius: 4px;
-  margin-top: 10px;
 `;
 
 export interface CreateRecordFields {
@@ -220,7 +184,7 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
   return (
     <Formik onSubmit={onSubmit} initialValues={initialValues} validate={validate}>
       {({ isSubmitting, values, setFieldValue }) => (
-        <FormStyled className={className}>
+        <Form className={className}>
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Image
           </InputLabelStyled>
@@ -236,32 +200,32 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Artist
           </InputLabelStyled>
-          <FormInputStyled name="artist" placeholder="Artist" />
+          <FormInput name="artist" placeholder="Artist" />
           <FormError name="artist" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Name
           </InputLabelStyled>
-          <FormInputStyled name="name" placeholder="Name" />
+          <FormInput name="name" placeholder="Name" />
           <FormError name="name" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Description
           </InputLabelStyled>
-          <FormInputStyled name="description" placeholder="Description" />
+          <FormInput name="description" placeholder="Description" />
           <FormError name="description" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Label
           </InputLabelStyled>
-          <FormInputStyled name="label" placeholder="Label" />
+          <FormInput name="label" placeholder="Label" />
           <FormError name="label" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Year
           </InputLabelStyled>
-          <FormInputStyled name="year" placeholder="Ex. 2008" />
+          <FormInput name="year" placeholder="Ex. 2008" />
           <FormError name="year" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Record type
           </InputLabelStyled>
-          <SelectStyled
+          <FormSelect
             placeholder="Record type"
             options={recordTypeOptions}
             onChange={option => setFieldValue('recordType', option)}
@@ -271,7 +235,7 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Genre
           </InputLabelStyled>
-          <SelectStyled
+          <FormSelect
             placeholder="Genre"
             options={genreOptions}
             onChange={option => {
@@ -287,7 +251,7 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
               <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
                 Style or subgenre
               </InputLabelStyled>
-              <SelectStyled
+              <FormSelect
                 placeholder="Style"
                 options={values.genre ? styleOptions : []}
                 onChange={options => setFieldValue('style', options)}
@@ -298,10 +262,10 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
             </>
           )}
           <GlobalFormError />
-          <ButtonStyled type="submit" fontWeight="light" disabled={isSubmitting}>
+          <FormButton type="submit" fontWeight="light" disabled={isSubmitting}>
             Create new record
-          </ButtonStyled>
-        </FormStyled>
+          </FormButton>
+        </Form>
       )}
     </Formik>
   );

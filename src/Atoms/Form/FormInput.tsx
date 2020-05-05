@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react';
 import { useField } from 'formik';
-import Input, { Props as InputProps } from './Input';
+import Input, { Props as InputProps } from 'Atoms/Input/Input';
 import styled from 'styled-components/macro';
 
 const InputStyled = styled(Input)`
   border: 1px solid ${props => props.theme.colors.text.primaryDarker};
   width: 300px;
+  margin-top: 10px;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     width: 100%;

@@ -61,6 +61,15 @@ const SelectStyle = styled(ReactSelect)<Props>`
 
     z-index: 100;
   }
+
+  .${props => props.classNamePrefix}__multi-value {
+    background: ${props => props.theme.colors.background.secondaryDark};
+    font-weight: ${props => props.theme.font.fontWeight.light};
+  }
+
+  .${props => props.classNamePrefix}__multi-value__label, .${props => props.classNamePrefix}__multi-value__remove {
+    color: ${props => props.theme.colors.text.primaryLight};
+  }
 `;
 
 export default SelectStyle;
