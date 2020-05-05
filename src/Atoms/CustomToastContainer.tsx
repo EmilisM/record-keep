@@ -6,6 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 const ToastContainerStyled = styled(ToastContainer)`
   top: 80px;
 
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    top: unset;
+    bottom: 0px;
+    left: 0px;
+  }
+
   .Toastify__toast {
     background: ${props => props.theme.colors.background.secondaryDark};
     font-family: ${props => props.theme.font.fontFamily.primary};
