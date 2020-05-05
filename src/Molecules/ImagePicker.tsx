@@ -20,24 +20,34 @@ const InputLabelStyled = styled(InputLabel)`
   display: block;
 
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  transition: all 300ms ease;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 100%;
+  }
 `;
 
 const InputStyled = styled(Input)`
   display: none;
+  width: 100%;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 300px;
-
-  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
-    width: 100%;
-  }
 
   &[data-has-image='true'] {
     margin-top: 10px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    flex-direction: column;
   }
 `;
 
@@ -59,18 +69,42 @@ const CloseStyled = styled(Close)`
 
 const InvisibleButtonStyled = styled(InvisibleButton)`
   display: flex;
-  margin-left: 20px;
+  margin: 0 0 0 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    display: none;
+  }
+`;
+
+const InvisibleButtonMobileStyled = styled(InvisibleButton)`
+  display: flex;
+  margin: 0 0 0 20px;
+
+  @media (min-width: ${props => props.theme.breakpoints.mobile}) {
+    display: none;
+  }
+`;
+
+const LabelContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 100%;
+  }
 `;
 
 type Props = {
   className?: string;
   onCropComplete?: () => void;
-  children: ReactNode;
+  children?: ReactNode;
   crop: Crop;
   image?: string | null;
   onCropChange: (crop: Crop, percentCrop: PercentCrop) => void;
   onImageChange: (image: string) => void;
   onImageClear?: () => void;
+  inputLabel: string;
 };
 
 const ImagePicker = ({
@@ -82,6 +116,7 @@ const ImagePicker = ({
   onCropChange,
   onImageChange,
   onImageClear,
+  inputLabel,
 }: Props): ReactElement => {
   const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (!event.target.files || event.target.files.length <= 0) {
@@ -116,15 +151,23 @@ const ImagePicker = ({
         />
       )}
       <ButtonContainer data-has-image={!!image}>
-        <InputLabelStyled htmlFor="image-picker" color="primaryLight" fontWeight="light">
-          {children}
-        </InputLabelStyled>
+        <LabelContainer>
+          <InputLabelStyled htmlFor="image-picker" color="primaryLight" fontWeight="light">
+            {inputLabel}
+          </InputLabelStyled>
+          {onImageClear && image && (
+            <InvisibleButtonMobileStyled onClick={onImageClear}>
+              <CloseStyled />
+            </InvisibleButtonMobileStyled>
+          )}
+        </LabelContainer>
+        {children}
+        <InputStyled name="image-picker" id="image-picker" type="file" accept="image/*" onChange={onChange} />
         {onImageClear && image && (
           <InvisibleButtonStyled onClick={onImageClear}>
             <CloseStyled />
           </InvisibleButtonStyled>
         )}
-        <InputStyled name="image-picker" id="image-picker" type="file" accept="image/*" onChange={onChange} />
       </ButtonContainer>
     </ImagePickerStyled>
   );

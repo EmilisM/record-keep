@@ -194,9 +194,8 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
             crop={values.crop}
             image={values.image}
             onImageClear={() => setFieldValue('image', '')}
-          >
-            Choose an image
-          </ImagePickerStyled>
+            inputLabel="Choose an image"
+          />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Artist
           </InputLabelStyled>

@@ -153,6 +153,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
 
   const onCollectionImageSubmit = (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>): void => {
     if (!collectionData || !values.image) {
+      helpers.setSubmitting(false);
       return;
     }
 
@@ -185,6 +186,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     const { activeRecord } = state;
 
     if (!activeRecord || !values.image) {
+      helpers.setSubmitting(false);
       return;
     }
 
