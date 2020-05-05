@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useReducer } from 'react';
 import styled from 'styled-components/macro';
 import FilterCard from 'Molecules/Card/FilterCard';
 import CollectionItem from 'Molecules/Collection/CollectionItem';
@@ -17,9 +17,10 @@ import Loader from 'Atoms/Loader/Loader';
 import { toast } from 'react-toastify';
 import EditCollectionModal from 'Organisms/Modal/EditCollectionModal';
 import CollectionDeleteModal from 'Organisms/Modal/CollectionDeleteModal';
-import { Collection, CollectionDeleteFields } from 'Types/Collection';
+import { CollectionDeleteFields } from 'Types/Collection';
 import { FormikHelpers } from 'formik';
 import useDebounce from 'Services/Hooks/useDebounce';
+import { reducer, initialState } from 'State/Collections';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -88,41 +89,34 @@ const accountMenuOptions: ActionMenuOption[] = [
 ];
 
 const Collections = (): ReactElement => {
-  const [isEditable, setIsEditable] = useState(false);
-  const [newCollectionName, setNewCollectionName] = useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [deletionModalOpen, setDeletionModalOpen] = useState(false);
-
-  const [nameSearch, setNameSearch] = useState<string>('');
-  const nameSearchDebounced = useDebounce(nameSearch, 300);
-
-  const [activeCollection, setActiveCollection] = useState<Collection | null>(null);
-  const { data, status, refetch } = useQuery(['collections', nameSearchDebounced], (key, name) => getCollections(name));
+  const searchQueryDebounced = useDebounce(state.searchQuery, 300);
+  const { data, status, refetch } = useQuery(['collections', searchQueryDebounced], (key, name) =>
+    getCollections(name),
+  );
 
   const [createCollection] = useMutation(createCollectionAPI, { throwOnError: true });
   const [deleteCollection] = useMutation(deleteCollectionAPI);
 
   const onClickNewCollection = (): void => {
-    if (!isEditable) {
-      setIsEditable(true);
+    if (!state.isCreating) {
+      dispatch({ type: 'isCreating/set', payload: true });
     }
   };
 
   const onSubmitNewCollection = (): void => {
-    if (newCollectionName) {
-      createCollection({ name: newCollectionName })
-        .then(() => refetch())
-        .then(() => {
-          setNewCollectionName('');
-          setIsEditable(false);
-          toast.success('New collection created');
-        });
-    }
+    createCollection({ name: state.newCollectionName })
+      .then(() => refetch())
+      .then(() => {
+        dispatch({ type: 'newCollectionName/set', payload: '' });
+        dispatch({ type: 'isCreating/set', payload: false });
+        toast.success('New collection created');
+      });
   };
 
   const onClearNewCollection = (): void => {
-    setIsEditable(false);
+    dispatch({ type: 'isCreating/set', payload: false });
   };
 
   const accountMenuOnChange = (option: ActionMenuOption, index: number): void => {
@@ -130,21 +124,21 @@ const Collections = (): ReactElement => {
       return;
     }
 
-    setActiveCollection(data[index]);
+    dispatch({ type: 'activeCollection/set', payload: data[index] });
 
     if (option.value === 'edit') {
-      setEditModalOpen(true);
+      dispatch({ type: 'editModal/open' });
     } else if (option.value === 'delete') {
-      setDeletionModalOpen(true);
+      dispatch({ type: 'deletionModal/open' });
     }
   };
 
   const onSubmitDelete = (values: CollectionDeleteFields, helpers: FormikHelpers<CollectionDeleteFields>): void => {
-    if (!activeCollection) {
+    if (!state.activeCollection) {
       return;
     }
 
-    const id = activeCollection.id;
+    const id = state.activeCollection.id;
 
     deleteCollection({ id, destinationId: values.destination && values.destination.value })
       .then(() => refetch())
@@ -152,7 +146,8 @@ const Collections = (): ReactElement => {
         helpers.setSubmitting(false);
         helpers.resetForm();
         toast.success('Collection delete completed');
-        setDeletionModalOpen(false);
+
+        dispatch({ type: 'deletionModal/close' });
       });
   };
 
@@ -172,17 +167,17 @@ const Collections = (): ReactElement => {
         <FilterCardStyled
           label="Search for collections"
           placeholder="Collection name"
-          value={nameSearch}
-          onChange={event => setNameSearch(event.target.value)}
+          value={state.searchQuery}
+          onChange={event => dispatch({ type: 'searchQuery/set', payload: event.target.value })}
         />
       </FirstRow>
       <SecondRow>
         <NewCollectionItemStyled
           onClick={onClickNewCollection}
           onSubmit={onSubmitNewCollection}
-          isEditable={isEditable}
-          value={newCollectionName}
-          onChange={event => setNewCollectionName(event.target.value)}
+          isEditable={state.isCreating}
+          value={state.newCollectionName}
+          onChange={event => dispatch({ type: 'newCollectionName/set', payload: event.target.value })}
           onClear={onClearNewCollection}
         />
         {data &&
@@ -203,19 +198,19 @@ const Collections = (): ReactElement => {
           <Loader />
         </LoaderContainer>
       ) : null}
-      {data && activeCollection ? (
+      {data && state.activeCollection ? (
         <>
           <EditCollectionModal
-            isOpen={editModalOpen}
-            onRequestClose={() => setEditModalOpen(false)}
+            isOpen={state.editModal}
+            onRequestClose={() => dispatch({ type: 'editModal/close' })}
             refetch={refetch}
-            collection={activeCollection}
+            collection={state.activeCollection}
           />
           <CollectionDeleteModal
-            isOpen={deletionModalOpen}
-            onRequestClose={() => setDeletionModalOpen(false)}
+            isOpen={state.deletionModal}
+            onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
             onSubmit={onSubmitDelete}
-            activeCollection={activeCollection}
+            activeCollection={state.activeCollection}
             collections={data}
           />
         </>
