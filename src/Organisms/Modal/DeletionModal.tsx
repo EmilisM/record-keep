@@ -10,6 +10,10 @@ const ButtonDashboardStyled = styled(ButtonDashboard)`
   &:first-child {
     margin-right: 10px;
   }
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    width: 100%;
+  }
 `;
 
 const Content = styled.div`

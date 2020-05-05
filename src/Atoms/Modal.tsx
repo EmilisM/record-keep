@@ -16,7 +16,7 @@ const ModalStyled = styled(ReactModal)`
   transform: translate(-50%, -20%);
   overflow-y: auto;
 
-  width: 70%;
+  width: 80%;
   max-height: calc(100vh - 20px);
 
   background: ${props => props.theme.colors.background.primary};

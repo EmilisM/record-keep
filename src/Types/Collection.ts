@@ -59,8 +59,8 @@ export interface CollectionOption {
 }
 
 export interface CollectionDeleteFields {
-  delete: CollectionDelete;
-  toCollection?: CollectionOption;
+  action: CollectionDelete;
+  destination: CollectionOption;
 }
 
 export interface CollectionDeleteRequest {

@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 const ButtonDashboardStyled = styled(ButtonDashboard)`
-  width: 100px;
+  width: 150px;
   justify-content: center;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
@@ -48,16 +48,10 @@ const SelectStyled = styled(Select)`
   margin-top: 10px;
 `;
 
-const deleteOptions: CollectionDeleteOption[] = [
-  {
-    label: 'Delete',
-    value: 'delete',
-  },
-  {
-    label: 'Move',
-    value: 'move',
-  },
-];
+const InputLabelStyled = styled(InputLabel)`
+  display: block;
+  margin-top: 10px;
+`;
 
 type Props = {
   isOpen: boolean;
@@ -74,14 +68,28 @@ const CollectionDeleteModal = ({
   activeCollection,
   collections,
 }: Props): ReactElement => {
-  const collectionsMoveTo = collections
+  const destinationCollections = collections
     .filter(c => c.id !== activeCollection.id)
     .map(c => ({ value: c.id.toString(), label: c.name }));
 
   const initialValues: CollectionDeleteFields = {
-    delete: 'delete',
-    toCollection: collectionsMoveTo[0],
+    action: 'delete',
+    destination: destinationCollections[0],
   };
+
+  const deleteOptions: CollectionDeleteOption[] = [
+    {
+      label: 'Delete',
+      value: 'delete',
+    },
+  ];
+
+  if (destinationCollections.length > 0) {
+    deleteOptions.push({
+      label: 'Move',
+      value: 'move',
+    });
+  }
 
   return (
     <DeletionModalStyled
@@ -92,25 +100,25 @@ const CollectionDeleteModal = ({
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ values, setFieldValue, isSubmitting }) => (
           <Form>
-            {activeCollection.recordCount > 1 && (
+            {activeCollection.recordCount > 0 && (
               <Container>
                 <InputLabel color="primaryDarker">What do you want to do with your records ?</InputLabel>
                 <SelectStyled
                   placeholder="Select action"
                   options={deleteOptions}
                   isSearchable={false}
-                  onChange={option => setFieldValue('delete', option.value)}
-                  value={deleteOptions.find(o => o.value === values.delete)}
+                  onChange={option => setFieldValue('action', option.value)}
+                  value={deleteOptions.find(o => o.value === values.action)}
                 />
-                {values.delete === 'move' && (
+                {values.action === 'move' && (
                   <>
-                    <InputLabel color="primaryDarker">To</InputLabel>
+                    <InputLabelStyled color="primaryDarker">to</InputLabelStyled>
                     <SelectStyled
                       placeholder="Select collection"
-                      options={collectionsMoveTo}
-                      onChange={option => setFieldValue('toCollection', option)}
+                      options={destinationCollections}
+                      onChange={option => setFieldValue('destination', option)}
                       isSearchable={false}
-                      value={values.toCollection}
+                      value={values.destination}
                     />
                   </>
                 )}

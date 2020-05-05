@@ -146,7 +146,7 @@ const Collections = (): ReactElement => {
 
     const id = activeCollection.id;
 
-    deleteCollection({ id, destinationId: values.toCollection && values.toCollection.value })
+    deleteCollection({ id, destinationId: values.destination && values.destination.value })
       .then(() => refetch())
       .then(() => {
         helpers.setSubmitting(false);
