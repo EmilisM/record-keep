@@ -2,6 +2,10 @@ type BaseRoute = {
   Root: string;
 };
 
+type RecordsRoutes = BaseRoute & {
+  Record: string;
+};
+
 type CollectionsRoutes = BaseRoute & {
   Collection: string;
 };
@@ -10,6 +14,7 @@ type DashboardRoutes = BaseRoute & {
   Home: string;
   Analysis: string;
   Collections: CollectionsRoutes;
+  Records: RecordsRoutes;
 };
 
 type RouteType = BaseRoute & {
@@ -31,6 +36,10 @@ export const RouteConfig: RouteType = {
     Collections: {
       Root: '/dashboard/collections',
       Collection: '/dashboard/collections/:collectionId',
+    },
+    Records: {
+      Root: '/dashboard/records',
+      Record: '/dashboard/records/:recordId',
     },
   },
 };

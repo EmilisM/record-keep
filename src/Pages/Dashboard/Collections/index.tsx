@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import styled from 'styled-components/macro';
-import CollectionsFilterCard from 'Molecules/Card/CollectionsFilterCard';
+import FilterCard from 'Molecules/Card/FilterCard';
 import CollectionItem from 'Molecules/Collection/CollectionItem';
 import NewCollectionItem from 'Molecules/Collection/NewCollectionItem';
 import { ReactComponent as Delete } from 'Assets/Add.svg';
@@ -11,14 +11,11 @@ import { useQuery, useMutation } from 'react-query';
 import {
   getCollections,
   createCollection as createCollectionAPI,
-  updateCollection as updateCollectionAPI,
   deleteCollection as deleteCollectionAPI,
 } from 'API/Collection';
 import Loader from 'Atoms/Loader/Loader';
 import { toast } from 'react-toastify';
 import EditCollectionModal from 'Organisms/Modal/EditCollectionModal';
-import { ImageFormFields, getImageCreateRequest, ImageResponse } from 'Types/Image';
-import { updateImage, createImage } from 'API/Image';
 import CollectionDeleteModal from 'Organisms/Modal/CollectionDeleteModal';
 import { Collection, CollectionDeleteFields } from 'Types/Collection';
 import { FormikHelpers } from 'formik';
@@ -45,7 +42,7 @@ const SecondRow = styled.div`
   width: 100%;
 `;
 
-const CollectionsFilterCardStyled = styled(CollectionsFilterCard)`
+const FilterCardStyled = styled(FilterCard)`
   width: 100%;
 `;
 
@@ -104,9 +101,6 @@ const Collections = (): ReactElement => {
   const { data, status, refetch } = useQuery(['collections', nameSearchDebounced], (key, name) => getCollections(name));
 
   const [createCollection] = useMutation(createCollectionAPI, { throwOnError: true });
-  const [mutateUpdateImage] = useMutation(updateImage);
-  const [mutateCreateImage] = useMutation(createImage);
-  const [updateCollection] = useMutation(updateCollectionAPI);
   const [deleteCollection] = useMutation(deleteCollectionAPI);
 
   const onClickNewCollection = (): void => {
@@ -145,36 +139,6 @@ const Collections = (): ReactElement => {
     }
   };
 
-  const onImageSubmit = (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>): void => {
-    if (!data || !activeCollection || !values.image) {
-      return;
-    }
-
-    const imageReq = getImageCreateRequest(values.crop, values.image);
-
-    new Promise<ImageResponse | null>(resolve => {
-      if (activeCollection.image?.id) {
-        mutateUpdateImage({ ...imageReq, id: activeCollection.image?.id }).then(() => resolve(null));
-      } else {
-        mutateCreateImage(imageReq).then(image => resolve(image));
-      }
-    })
-      .then(image =>
-        image
-          ? updateCollection({
-              id: activeCollection.id,
-              operations: [{ op: 'add', path: '/imageId', value: image.id }],
-            })
-          : null,
-      )
-      .then(() => refetch())
-      .then(() => {
-        helpers.setSubmitting(false);
-        helpers.resetForm();
-        toast.success('Collection image update complete');
-      });
-  };
-
   const onSubmitDelete = (values: CollectionDeleteFields, helpers: FormikHelpers<CollectionDeleteFields>): void => {
     if (!activeCollection) {
       return;
@@ -205,7 +169,12 @@ const Collections = (): ReactElement => {
   return (
     <CollectionsStyled>
       <FirstRow>
-        <CollectionsFilterCardStyled value={nameSearch} onChange={event => setNameSearch(event.target.value)} />
+        <FilterCardStyled
+          label="Search for collections"
+          placeholder="Collection name"
+          value={nameSearch}
+          onChange={event => setNameSearch(event.target.value)}
+        />
       </FirstRow>
       <SecondRow>
         <NewCollectionItemStyled
@@ -237,7 +206,6 @@ const Collections = (): ReactElement => {
       {data && activeCollection ? (
         <>
           <EditCollectionModal
-            onImageSubmit={onImageSubmit}
             isOpen={editModalOpen}
             onRequestClose={() => setEditModalOpen(false)}
             refetch={refetch}

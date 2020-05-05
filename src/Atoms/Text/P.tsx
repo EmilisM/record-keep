@@ -4,9 +4,9 @@ import { FontSizes } from 'Types/Style';
 type Sizes = 'small' | 'normal' | 'medium' | 'regular' | 'big';
 const fontSizes: FontSizes<Sizes> = {
   small: {
-    desktop: 16,
-    tablet: 16,
-    mobile: 16,
+    desktop: 19,
+    tablet: 17,
+    mobile: 15,
   },
   normal: {
     desktop: 20,
@@ -15,8 +15,8 @@ const fontSizes: FontSizes<Sizes> = {
   },
   medium: {
     desktop: 22,
-    tablet: 21,
-    mobile: 20,
+    tablet: 20,
+    mobile: 18,
   },
   regular: {
     desktop: 20,

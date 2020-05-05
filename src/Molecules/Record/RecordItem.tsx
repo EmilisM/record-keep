@@ -90,7 +90,7 @@ export type Props = {
 const RecordItem = ({ className, to, accountMenuOptions, accountMenuOnChange, record }: Props): ReactElement => {
   return (
     <RecordItemStyled className={className} to={to}>
-      <ImageStyled src={getDefaultResourceImage(record.image?.data)} />
+      <ImageStyled className="record-item__image" src={getDefaultResourceImage(record.image?.data)} />
       <TitleContainer>
         <RowContainer>
           <P>

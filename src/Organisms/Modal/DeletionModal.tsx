@@ -31,7 +31,7 @@ const DeletionModal = ({ className, isLoading, isOpen, title, onRequestClose, on
   <Modal className={className} isOpen={isOpen} onRequestClose={onRequestClose} title={title} isLoading={isLoading}>
     <Content>
       <ButtonDashboardStyled onClick={onConfirm}>Yes</ButtonDashboardStyled>
-      <ButtonDashboardStyled>No</ButtonDashboardStyled>
+      <ButtonDashboardStyled onClick={onRequestClose}>No</ButtonDashboardStyled>
     </Content>
   </Modal>
 );

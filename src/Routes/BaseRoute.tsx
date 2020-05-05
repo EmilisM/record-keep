@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import NotFound from 'Pages/NotFound';
 import Home from 'Pages/Home';
 import Login from 'Pages/Login';
 import LandingLayout from 'Layouts/LandingLayout';
 import About from 'Pages/About';
 import { RouteConfig } from './RouteConfig';
 import DashboardRoute from './DashboardRoute';
+import LandingNotFound from 'Pages/LandingNotFound';
 
 const BaseRoute: FC = () => (
   <Switch>
@@ -16,7 +16,7 @@ const BaseRoute: FC = () => (
     <LandingLayout exact path={RouteConfig.Login} component={Login} />
     <LandingLayout exact path={RouteConfig.About} component={About} />
     <Route path={RouteConfig.Dashboard.Root} component={DashboardRoute} />
-    <Route component={NotFound} />
+    <LandingLayout component={LandingNotFound} />
   </Switch>
 );
 

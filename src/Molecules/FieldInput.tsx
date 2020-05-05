@@ -59,6 +59,8 @@ const InvisibleButtonStyled = styled(InvisibleButton)`
 const InputStyled = styled(Input)`
   padding: 0;
   border: none;
+
+  width: 100%;
 `;
 
 type Props = {

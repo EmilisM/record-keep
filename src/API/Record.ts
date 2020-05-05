@@ -1,8 +1,8 @@
 import { Record, CreateRecordModel, UpdateRecordModel } from 'Types/Record';
 import API from 'API';
 
-export const getRecords = async (collectionId?: string): Promise<Record[]> => {
-  const records = await API.get<Record[]>(`/api/record?collectionId=${collectionId || ''}`);
+export const getRecords = async (collectionId?: string, query?: string): Promise<Record[]> => {
+  const records = await API.get<Record[]>(`/api/record?collectionId=${collectionId || ''}&query=${query || ''}`);
 
   return records.data;
 };

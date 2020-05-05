@@ -4,12 +4,6 @@ import InputDashboard from 'Atoms/Input/InputDashboard';
 import Card from 'Atoms/Card/Card';
 import H from 'Atoms/Text/H';
 
-type Props = {
-  className?: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-};
-
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,16 +28,24 @@ const InputDashboardStyled = styled(InputDashboard)`
   margin-top: 10px;
 `;
 
-const CollectionsFilterCard = ({ className, onChange, value }: Props): ReactElement => (
+type Props = {
+  className?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  label: string;
+  placeholder: string;
+};
+
+const FilterCard = ({ className, onChange, value, label, placeholder }: Props): ReactElement => (
   <CardStyled className={className}>
     <Column>
-      <H key="description" fontWeight="semiBold" color="primaryLight" fontSize="regular" level="2">
-        Search for collections
+      <H key="description" fontWeight="regular" color="primaryLight" fontSize="regular" level="2">
+        {label}
       </H>
       <InputDashboardStyled
         id="input"
         name="input"
-        placeholder="Record name"
+        placeholder={placeholder}
         color="primaryLight"
         fontWeight="regular"
         fontSize="normal"
@@ -54,4 +56,4 @@ const CollectionsFilterCard = ({ className, onChange, value }: Props): ReactElem
   </CardStyled>
 );
 
-export default CollectionsFilterCard;
+export default FilterCard;

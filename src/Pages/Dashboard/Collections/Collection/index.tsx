@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useReducer } from 'react';
 import styled from 'styled-components/macro';
 import { RouteComponentProps } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-query';
-import { getCollection, updateCollection } from 'API/Collection';
+import { getCollection } from 'API/Collection';
 import { CollectionMatchParams } from 'Types/Collection';
 import Loader from 'Atoms/Loader/Loader';
 import { RecordCountCard } from 'Molecules/Card/RecordCountCard';
@@ -10,20 +10,17 @@ import CollectionInfoCard from 'Molecules/Card/CollectionInfoCard';
 import { reducer, initialState } from 'State/Collection';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import EditCollectionModal from 'Organisms/Modal/EditCollectionModal';
-import { ImageFormFields, getImageCreateRequest, ImageResponse } from 'Types/Image';
 import RecordItem from 'Molecules/Record/RecordItem';
 import { ReactComponent as Delete } from 'Assets/Add.svg';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { RouteConfig } from 'Routes/RouteConfig';
-import { updateImage, createImage } from 'API/Image';
-import { getRecords, deleteRecord as deleteRecordAPI, updateRecord as updateRecordAPI } from 'API/Record';
+import { getRecords, deleteRecord as deleteRecordAPI } from 'API/Record';
 import NewRecorditem from 'Molecules/Record/NewRecordItem';
 import NewRecordModal from 'Organisms/Modal/NewRecordModal';
 import DeletionModal from 'Organisms/Modal/DeletionModal';
 import { Record } from 'Types/Record';
 import { toast } from 'react-toastify';
 import EditRecordModal from 'Organisms/Modal/EditRecordModal';
-import { FormikHelpers } from 'formik';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -111,11 +108,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     (key, collectionId) => getRecords(collectionId),
   );
 
-  const [mutateUpdateImage] = useMutation(updateImage);
-  const [mutateCreateImage] = useMutation(createImage);
-  const [mutateCollection] = useMutation(updateCollection);
   const [deleteRecord] = useMutation(deleteRecordAPI);
-  const [updateRecord] = useMutation(updateRecordAPI);
 
   useEffect(() => {
     if (collectionData) {
@@ -149,67 +142,6 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
       dispatch({ type: 'deletionModal/close' });
       toast.success('Record delete complete');
     });
-  };
-
-  const onCollectionImageSubmit = (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>): void => {
-    if (!collectionData || !values.image) {
-      helpers.setSubmitting(false);
-      return;
-    }
-
-    const imageRequest = getImageCreateRequest(values.crop, values.image);
-
-    new Promise<ImageResponse | null>(resolve => {
-      if (collectionData?.image?.id) {
-        mutateUpdateImage({ ...imageRequest, id: collectionData.image.id }).then(() => resolve(null));
-      } else {
-        mutateCreateImage(imageRequest).then(image => resolve(image));
-      }
-    })
-      .then(image =>
-        image
-          ? mutateCollection({
-              id: collectionData.id,
-              operations: [{ op: 'add', path: '/imageId', value: image.id }],
-            })
-          : null,
-      )
-      .then(() => collectionRefetch())
-      .then(() => {
-        helpers.setSubmitting(false);
-        helpers.resetForm();
-        toast.success('Collection image update complete');
-      });
-  };
-
-  const onRecordImageSubmit = (values: ImageFormFields, helpers: FormikHelpers<ImageFormFields>): void => {
-    const { activeRecord } = state;
-
-    if (!activeRecord || !values.image) {
-      helpers.setSubmitting(false);
-      return;
-    }
-
-    const imageReq = getImageCreateRequest(values.crop, values.image);
-
-    new Promise<ImageResponse | null>(resolve => {
-      if (activeRecord.image) {
-        mutateUpdateImage({ id: activeRecord.image.id, ...imageReq }).then(() => resolve(null));
-      } else {
-        mutateCreateImage(imageReq).then(resolve);
-      }
-    })
-      .then(image =>
-        image
-          ? updateRecord({ id: activeRecord.id, operations: [{ op: 'add', path: '/imageId', value: image.id }] })
-          : null,
-      )
-      .then(() => recordsRefetch())
-      .then(() => {
-        helpers.setSubmitting(false);
-        helpers.resetForm();
-        toast.success('Record image update complete');
-      });
   };
 
   return (
@@ -246,7 +178,6 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
             collection={collectionData}
             isOpen={state.editModal}
             onRequestClose={() => dispatch({ type: 'editModal/close' })}
-            onImageSubmit={onCollectionImageSubmit}
           />
           <NewRecordModal
             isOpen={state.newRecordModal}
@@ -257,16 +188,15 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
           {state.activeRecord && (
             <>
               <DeletionModal
-                title={`Are you sure you want to delete ${state.activeRecord?.name} by ${state.activeRecord?.artist}`}
+                title={`Are you sure you want to delete ${state.activeRecord.name} by ${state.activeRecord.artist}`}
                 isOpen={state.deletionModal}
                 onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
                 onConfirm={onConfirmDelete}
               />
               <EditRecordModal
-                title={`Edit ${state.activeRecord?.name} by ${state.activeRecord?.artist}`}
+                title={`Edit ${state.activeRecord.name} by ${state.activeRecord.artist}`}
                 isOpen={state.editRecordModal}
                 onRequestClose={() => dispatch({ type: 'editRecordModal/close' })}
-                onImageSubmit={onRecordImageSubmit}
                 recordsRefetch={recordsRefetch}
                 record={state.activeRecord}
               />
