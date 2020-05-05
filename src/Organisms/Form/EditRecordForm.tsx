@@ -155,6 +155,7 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
     year: moment(record.year)
       .year()
       .toString(),
+    description: record.description || '',
     recordType: { value: record.recordType.id.toString(), label: record.recordType.name },
     genre: { value: selectedGenre.id.toString(), label: selectedGenre.name },
     style: record.recordStyles.map(rs => ({ value: rs.style.id.toString(), label: rs.style.name })),
