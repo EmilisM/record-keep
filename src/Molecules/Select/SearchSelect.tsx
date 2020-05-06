@@ -5,6 +5,16 @@ import SelectMenu from 'Atoms/Select/SelectMenu';
 import SelectControl from 'Atoms/Select/SelectControl';
 import { useHistory } from 'react-router-dom';
 import { RouteConfig } from 'Routes/RouteConfig';
+import { ReactComponent as Home } from 'Assets/Home.svg';
+import { ReactComponent as CollectionIcon } from 'Assets/Collections.svg';
+import { ReactComponent as RecordIcon } from 'Assets/Records.svg';
+import { ReactComponent as Analysis } from 'Assets/Analysis.svg';
+import { SearchSelectOption as SearchSelectOptionType } from 'Types/Select';
+import SearchSelectOption from 'Atoms/Select/SearchSelectOption';
+import { useQuery } from 'react-query';
+import { getCollections } from 'API/Collection';
+import { getRecords } from 'API/Record';
+import Loader from 'Atoms/Loader/Loader';
 
 type Props = {
   className?: string;
@@ -26,30 +36,60 @@ const SelectStyled = styled(SelectStyle)`
   }
 `;
 
-type SearchSelectOption = {
-  value: string;
-  label: string;
-};
-
-const options: SearchSelectOption[] = [
+const optionsDefault: SearchSelectOptionType[] = [
   {
     value: RouteConfig.Dashboard.Home,
     label: 'Home',
+    Icon: Home,
+    type: 'page',
   },
   {
     value: RouteConfig.Dashboard.Collections.Root,
     label: 'Collections',
+    Icon: CollectionIcon,
+    type: 'page',
+  },
+  {
+    value: RouteConfig.Dashboard.Records.Root,
+    label: 'Records',
+    Icon: RecordIcon,
+    type: 'page',
   },
   {
     value: RouteConfig.Dashboard.Analysis,
     label: 'Analysis',
+    Icon: Analysis,
+    type: 'page',
   },
 ];
 
 const SearchSelect = ({ className }: Props): ReactElement => {
   const { push } = useHistory();
 
-  const onChange = (option: SearchSelectOption): void => {
+  const { data: collections, status: collectionsStatus } = useQuery('collections', () => getCollections());
+  const { data: records, status: recordsStatus } = useQuery('records', () => getRecords());
+
+  if (!collections || collectionsStatus === 'loading' || !records || recordsStatus === 'loading') {
+    return <Loader />;
+  }
+
+  const collectionOptions = collections.map<SearchSelectOptionType>(c => ({
+    label: c.name,
+    type: 'collection',
+    value: `${RouteConfig.Dashboard.Collections.Root}/${c.id}`,
+    Icon: c.image?.data || CollectionIcon,
+  }));
+
+  const recordsOptions = records.map<SearchSelectOptionType>(c => ({
+    label: c.name,
+    type: 'record',
+    value: `${RouteConfig.Dashboard.Records.Root}/${c.id}`,
+    Icon: c.image?.data || RecordIcon,
+  }));
+
+  const options = collectionOptions.concat(recordsOptions).concat(optionsDefault);
+
+  const onChange = (option: SearchSelectOptionType): void => {
     push(option.value);
   };
 
@@ -62,11 +102,13 @@ const SearchSelect = ({ className }: Props): ReactElement => {
       components={{
         Menu: SelectMenu,
         Control: SelectControl,
+        Option: SearchSelectOption,
       }}
       options={options}
       onChange={onChange}
       isSearchable
       value={null}
+      openMenuOnClick={false}
     />
   );
 };
