@@ -33,6 +33,7 @@ declare module 'styled-components' {
         loaderSecond: string;
         success: string;
         error: string;
+        chartColorsPrimary: string[];
       };
     };
     font: {

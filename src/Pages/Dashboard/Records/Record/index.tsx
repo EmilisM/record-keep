@@ -109,7 +109,7 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
         <CollectionItem
           image={collection.image?.data}
           title={collection.name}
-          subTitle={collection.description || collection.recordCount.toString()}
+          subTitle={collection.description || ''}
           to={`${RouteConfig.Dashboard.Collections.Root}/${collection.id}`}
         />
       </SecondColumn>

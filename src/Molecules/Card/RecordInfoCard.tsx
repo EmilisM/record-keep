@@ -92,12 +92,14 @@ const RecordInfoCard = ({ className, onActionMenuClick, record }: Props): ReactE
     <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
       {record.recordType.name}
     </P>
-    <HStyled fontWeight="light" color="primaryLight" fontSize="normal" level="2">
-      Description
-    </HStyled>
-    <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
-      {record.description}
-    </P>
+    {record.description && [
+      <HStyled key="description" fontWeight="light" color="primaryLight" fontSize="normal" level="2">
+        Description
+      </HStyled>,
+      <P key="descriptionValue" fontWeight="semiBold" color="primaryLight" fontSize="regular">
+        {record.description}
+      </P>,
+    ]}
     {record.recordStyles[0] && [
       <HStyled key="genre" fontWeight="light" color="primaryLight" fontSize="normal" level="2">
         Genre

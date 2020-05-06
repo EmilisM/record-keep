@@ -18,9 +18,6 @@ const CardStyled = styled(Card)`
   flex-direction: column;
 
   width: 100%;
-
-  position: sticky;
-  top: 20px;
 `;
 
 const PStyled = styled(P)`

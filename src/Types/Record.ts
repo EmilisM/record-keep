@@ -96,3 +96,8 @@ export interface UpdateRecordModel {
 export interface RecordMatchParams {
   recordId: string;
 }
+
+export interface RecordGenre {
+  name: string;
+  value: number;
+}

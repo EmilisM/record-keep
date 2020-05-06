@@ -41,7 +41,7 @@ export interface CreateRecordFields {
   image?: string;
   recordType: SelectOption | null;
   genre: SelectOption | null;
-  style: SelectOption[];
+  style: SelectOption[] | null;
   label: string;
   year: string;
   form?: string;
@@ -109,7 +109,7 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
     year: '',
     recordType: null,
     genre: null,
-    style: [],
+    style: null,
   };
 
   const recordTypeOptions = recordTypes
@@ -145,7 +145,7 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
   const onSubmit = (values: CreateRecordFields, helpers: FormikHelpers<CreateRecordFields>): void => {
     const { artist, name, description, recordType, style, label, year } = values;
 
-    if (!recordType) {
+    if (!recordType || !style) {
       return;
     }
 

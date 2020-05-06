@@ -21,6 +21,7 @@ import { CollectionDeleteFields } from 'Types/Collection';
 import { FormikHelpers } from 'formik';
 import useDebounce from 'Services/Hooks/useDebounce';
 import { reducer, initialState } from 'State/Collections';
+import { getCollectionItemSubTitle } from 'Services/collection';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -149,16 +150,6 @@ const Collections = (): ReactElement => {
 
         dispatch({ type: 'deletionModal/close' });
       });
-  };
-
-  const getCollectionItemSubTitle = (count: number): string => {
-    if (count === 1) {
-      return `${count} record`;
-    } else if (count > 1) {
-      return `${count} records`;
-    } else {
-      return 'No records';
-    }
   };
 
   return (
