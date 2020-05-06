@@ -12,6 +12,7 @@ type Props = {
   isMulti?: boolean;
   options: SelectOption[];
   onChange: (option: SelectOption) => void | ((options: SelectOption[]) => void);
+  menuIsOpen?: boolean;
 };
 
 const Select = ({
@@ -24,6 +25,7 @@ const Select = ({
   isSearchable,
   value,
   isMulti,
+  menuIsOpen,
 }: Props): ReactElement => (
   <SelectStyle
     className={className}
@@ -35,6 +37,7 @@ const Select = ({
     isSearchable={isSearchable}
     value={value}
     isMulti={isMulti}
+    menuIsOpen={menuIsOpen}
   />
 );
 

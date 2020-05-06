@@ -15,6 +15,7 @@ import DeletionModal from 'Organisms/Modal/DeletionModal';
 import { deleteRecord } from 'API/Record';
 import { Record } from 'Types/Record';
 import { toast } from 'react-toastify';
+import EditRecordModal from 'Organisms/Modal/EditRecordModal';
 
 const RecordsStyled = styled.div`
   display: flex;
@@ -138,14 +139,23 @@ const Records = (): ReactElement => {
           </LoaderContainer>
         )}
       </RecordRow>
-      {activeRecord && (
+      {activeRecord && [
         <DeletionModal
+          key="deletionModal"
           isOpen={state.deleteModal}
           onRequestClose={() => dispatch({ type: 'deleteModal/close' })}
           onConfirm={() => onRecordDelete(activeRecord)}
           title={`Are you sure you want to delete ${activeRecord.name} by ${activeRecord.artist}`}
-        />
-      )}
+        />,
+        <EditRecordModal
+          key="editRecordModal"
+          record={activeRecord}
+          recordsRefetch={refetch}
+          title="Edit record"
+          isOpen={state.editModal}
+          onRequestClose={() => dispatch({ type: 'editModal/close' })}
+        />,
+      ]}
     </RecordsStyled>
   );
 };

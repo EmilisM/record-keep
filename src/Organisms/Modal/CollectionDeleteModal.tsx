@@ -7,12 +7,6 @@ import Modal from 'Atoms/Modal';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { Formik, Form, FormikHelpers } from 'formik';
 
-const DeletionModalStyled = styled(Modal)`
-  @media (min-width: ${props => props.theme.breakpoints.mobile}) {
-    overflow: unset;
-  }
-`;
-
 const Container = styled.div`
   margin-top: 10px;
 `;
@@ -92,7 +86,7 @@ const CollectionDeleteModal = ({
   }
 
   return (
-    <DeletionModalStyled
+    <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       title={`Are you sure you want to delete collection ${activeCollection.name}?`}
@@ -135,7 +129,7 @@ const CollectionDeleteModal = ({
           </Form>
         )}
       </Formik>
-    </DeletionModalStyled>
+    </Modal>
   );
 };
 

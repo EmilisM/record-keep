@@ -72,7 +72,7 @@ const LoaderContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: 100%;
+  margin-top: 20px;
 `;
 
 const accountMenuOptions: ActionMenuOption[] = [

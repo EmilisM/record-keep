@@ -76,7 +76,7 @@ const validate = (values: UpdateRecordFields): FormikErrors<UpdateRecordFields> 
 
 type Props = {
   className?: string;
-  recordsRefetch: () => Promise<Record[]>;
+  recordsRefetch: () => Promise<Record[] | Record>;
   record: Record;
 };
 

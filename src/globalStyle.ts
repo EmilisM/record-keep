@@ -16,9 +16,23 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
   }
 
+  .ReactModal__Body--open {
+    overflow: hidden;
+  }
+
   .ReactModal__Overlay {
     opacity: 0;
     transition: opacity 200ms ease;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: auto;
+
+    @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+      overflow: hidden;
+    }
   }
 
   .ReactModal__Overlay--after-open {

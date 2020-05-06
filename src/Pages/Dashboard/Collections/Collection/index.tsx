@@ -159,66 +159,66 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     });
   };
 
+  if (!collectionData || collectionStatus === 'loading' || !recordsData || recordsStatus === 'loading') {
+    return (
+      <LoaderContainer>
+        <Loader />
+      </LoaderContainer>
+    );
+  }
+
   return (
     <CollectionStyled>
-      {!collectionData || collectionStatus === 'loading' || !recordsData || recordsStatus === 'loading' ? (
-        <LoaderContainer>
-          <Loader />
-        </LoaderContainer>
-      ) : (
-        <>
-          <ColumnFirst>
-            <CollectionInfoCard
-              image={collectionData.image?.data}
-              description={collectionData.description}
-              creationDate={collectionData.creationDate}
-              onActionMenuClick={onCollectionActionClick}
-            />
-          </ColumnFirst>
-          <ColumnSecond>
-            <RecordCountCard count={collectionData.recordCount} />
-            <NewRecorditemStyled onClick={() => dispatch({ type: 'newRecordModal/open' })} />
-            {recordsData.map(record => (
-              <RecordItemStyled
-                key={record.id}
-                to={`${RouteConfig.Dashboard.Records.Root}/${record.id}`}
-                accountMenuOptions={accountMenuOptions}
-                accountMenuOnChange={option => onChange(option, record)}
-                record={record}
-              />
-            ))}
-          </ColumnSecond>
-          <EditCollectionModal
-            refetch={collectionRefetch}
-            collection={collectionData}
-            isOpen={state.editModal}
-            onRequestClose={() => dispatch({ type: 'editModal/close' })}
+      <ColumnFirst>
+        <CollectionInfoCard
+          image={collectionData.image?.data}
+          description={collectionData.description}
+          creationDate={collectionData.creationDate}
+          onActionMenuClick={onCollectionActionClick}
+        />
+      </ColumnFirst>
+      <ColumnSecond>
+        <RecordCountCard count={collectionData.recordCount} />
+        <NewRecorditemStyled onClick={() => dispatch({ type: 'newRecordModal/open' })} />
+        {recordsData.map(record => (
+          <RecordItemStyled
+            key={record.id}
+            to={`${RouteConfig.Dashboard.Records.Root}/${record.id}`}
+            accountMenuOptions={accountMenuOptions}
+            accountMenuOnChange={option => onChange(option, record)}
+            record={record}
           />
-          <NewRecordModal
-            isOpen={state.newRecordModal}
-            onRequestClose={() => dispatch({ type: 'newRecordModal/close' })}
-            recordsRefetch={recordsRefetch}
-            collectionId={collectionData.id}
-          />
-          {state.activeRecord && (
-            <>
-              <DeletionModal
-                title={`Are you sure you want to delete ${state.activeRecord.name} by ${state.activeRecord.artist}`}
-                isOpen={state.deletionModal}
-                onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
-                onConfirm={onConfirmDelete}
-              />
-              <EditRecordModal
-                title={`Edit ${state.activeRecord.name} by ${state.activeRecord.artist}`}
-                isOpen={state.editRecordModal}
-                onRequestClose={() => dispatch({ type: 'editRecordModal/close' })}
-                recordsRefetch={recordsRefetch}
-                record={state.activeRecord}
-              />
-            </>
-          )}
-        </>
-      )}
+        ))}
+      </ColumnSecond>
+      <EditCollectionModal
+        refetch={collectionRefetch}
+        collection={collectionData}
+        isOpen={state.editModal}
+        onRequestClose={() => dispatch({ type: 'editModal/close' })}
+      />
+      <NewRecordModal
+        isOpen={state.newRecordModal}
+        onRequestClose={() => dispatch({ type: 'newRecordModal/close' })}
+        recordsRefetch={recordsRefetch}
+        collectionId={collectionData.id}
+      />
+      {state.activeRecord && [
+        <DeletionModal
+          key="deletionModal"
+          title={`Are you sure you want to delete ${state.activeRecord.name} by ${state.activeRecord.artist}`}
+          isOpen={state.deletionModal}
+          onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
+          onConfirm={onConfirmDelete}
+        />,
+        <EditRecordModal
+          key="editRecordModal"
+          title="Edit record"
+          isOpen={state.editRecordModal}
+          onRequestClose={() => dispatch({ type: 'editRecordModal/close' })}
+          recordsRefetch={recordsRefetch}
+          record={state.activeRecord}
+        />,
+      ]}
     </CollectionStyled>
   );
 };

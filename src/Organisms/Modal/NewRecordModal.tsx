@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import Modal from 'Atoms/Modal';
 import NewRecordForm from 'Organisms/Form/NewRecordForm';
-import styled from 'styled-components/macro';
 import { Record } from 'Types/Record';
 
 type Props = {
@@ -12,14 +11,10 @@ type Props = {
   recordsRefetch: () => Promise<Record[]>;
 };
 
-const ModalStyled = styled(Modal)`
-  overflow: unset;
-`;
-
 const NewRecordModal = ({ className, isOpen, onRequestClose, collectionId, recordsRefetch }: Props): ReactElement => (
-  <ModalStyled className={className} isOpen={isOpen} onRequestClose={onRequestClose} title="Create a new record">
+  <Modal className={className} isOpen={isOpen} onRequestClose={onRequestClose} title="Create a new record">
     <NewRecordForm collectionId={collectionId} recordsRefetch={recordsRefetch} onRequestClose={onRequestClose} />
-  </ModalStyled>
+  </Modal>
 );
 
 export default NewRecordModal;

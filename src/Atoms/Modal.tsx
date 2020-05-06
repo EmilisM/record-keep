@@ -7,17 +7,8 @@ import InvisibleButton from './Button/InvisibleButton';
 import { PageLoader } from './Loader/PageLoader';
 
 const ModalStyled = styled(ReactModal)`
-  position: absolute;
-
-  top: 20%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  transform: translate(-50%, -20%);
-  overflow-y: auto;
-
   width: 80%;
-  max-height: calc(100vh - 20px);
+  margin: 80px 0 20px 0;
 
   background: ${props => props.theme.colors.background.primary};
   border-radius: 8px;
@@ -27,8 +18,9 @@ const ModalStyled = styled(ReactModal)`
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     width: 100%;
     height: 100%;
-    max-height: 100%;
     border-radius: 0px;
+    margin: 0;
+    overflow-y: auto;
   }
 `;
 

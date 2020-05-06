@@ -11,7 +11,7 @@ import { getDefaultResourceImage } from 'Services/image';
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin: 0 auto 0 20px;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     margin-left: 10px;
@@ -75,10 +75,10 @@ export type Props = {
   className?: string;
   image?: string;
   to: string;
-  accountMenuOptions: ActionMenuOption[];
   title: string;
   subTitle: string;
-  accountMenuOnChange: (option: ActionMenuOption) => void;
+  accountMenuOptions?: ActionMenuOption[];
+  accountMenuOnChange?: (option: ActionMenuOption) => void;
 };
 
 const CollectionItem = ({
@@ -101,7 +101,9 @@ const CollectionItem = ({
           {subTitle}
         </H>
       </TitleContainer>
-      <ActionMenuStyled options={accountMenuOptions} onChange={accountMenuOnChange} />
+      {accountMenuOptions && accountMenuOnChange && (
+        <ActionMenuStyled options={accountMenuOptions} onChange={accountMenuOnChange} />
+      )}
       <ArrowStyled />
     </CollectionItemStyled>
   );
