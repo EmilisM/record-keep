@@ -37,9 +37,11 @@ const RecordRow = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+
   margin-top: 20px;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    margin-top: 10px;
     flex-wrap: wrap-reverse;
   }
 `;
@@ -54,7 +56,9 @@ const LoaderContainer = styled.div`
 `;
 
 const RecordItemStyled = styled(RecordItem)`
-  margin-top: 10px;
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
 
   .record-item__image {
     width: 64px;

@@ -7,8 +7,7 @@ import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import P from 'Atoms/Text/P';
-import Image from 'Atoms/Image';
-import { getDefaultResourceImage } from 'Services/image';
+import { Record } from 'Types/Record';
 
 const CardStyled = styled(Card)`
   background-color: ${props => props.theme.colors.background.secondaryDarker};
@@ -18,13 +17,6 @@ const CardStyled = styled(Card)`
   flex-direction: column;
 
   width: 100%;
-
-  position: sticky;
-  top: 20px;
-`;
-
-const PStyled = styled(P)`
-  margin: 0 0 20px;
 `;
 
 const ActionMenuStyled = styled(ActionMenu)`
@@ -41,19 +33,14 @@ const ActionMenuStyled = styled(ActionMenu)`
   }
 `;
 
-const ImageStyled = styled(Image)`
-  width: 128px;
-  height: 128px;
-
-  margin-bottom: 10px;
+const HStyled = styled(H)`
+  margin-top: 10px;
 `;
 
 type Props = {
   className?: string;
-  description?: string | null;
-  image?: string;
-  creationDate: Date;
   onActionMenuClick: (options: ActionMenuOption) => void;
+  record: Record;
 };
 
 const options: ActionMenuOption[] = [
@@ -64,31 +51,34 @@ const options: ActionMenuOption[] = [
   },
 ];
 
-const CollectionInfoCard = ({
-  className,
-  description,
-  creationDate,
-  onActionMenuClick,
-  image,
-}: Props): ReactElement => (
+const RecordInfoCard = ({ className, onActionMenuClick, record }: Props): ReactElement => (
   <CardStyled className={className}>
-    <ImageStyled src={getDefaultResourceImage(image)} />
     <ActionMenuStyled onChange={onActionMenuClick} options={options} />
-    {description && [
-      <H key="description" fontWeight="light" color="primaryLight" fontSize="normal" level="2">
-        Description
-      </H>,
-      <PStyled key="description-value" fontWeight="semiBold" color="primaryLight" fontSize="regular">
-        {description}
-      </PStyled>,
-    ]}
     <H fontWeight="light" color="primaryLight" fontSize="normal" level="2">
-      Creation date
+      Artist
     </H>
     <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
-      {moment(creationDate).format('YYYY-MM-DD')}
+      {record.artist}
+    </P>
+    <HStyled fontWeight="light" color="primaryLight" fontSize="normal" level="2">
+      Record name
+    </HStyled>
+    <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
+      {record.name}
+    </P>
+    <HStyled fontWeight="light" color="primaryLight" fontSize="normal" level="2">
+      Record label
+    </HStyled>
+    <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
+      {record.label}
+    </P>
+    <HStyled fontWeight="light" color="primaryLight" fontSize="normal" level="2">
+      Creation date
+    </HStyled>
+    <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
+      {moment(record.creationDate).format('YYYY-MM-DD')}
     </P>
   </CardStyled>
 );
 
-export default CollectionInfoCard;
+export default RecordInfoCard;

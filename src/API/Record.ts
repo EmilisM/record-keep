@@ -7,7 +7,7 @@ export const getRecords = async (collectionId?: string, query?: string): Promise
   return records.data;
 };
 
-export const getRecord = async (id: number): Promise<Record> => {
+export const getRecord = async (id: string): Promise<Record> => {
   const records = await API.get<Record>(`/api/record/${id}`);
 
   return records.data;

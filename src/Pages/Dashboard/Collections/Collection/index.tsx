@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useReducer } from 'react';
 import styled from 'styled-components/macro';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-query';
 import { getCollection } from 'API/Collection';
 import { CollectionMatchParams } from 'Types/Collection';
@@ -21,6 +21,7 @@ import DeletionModal from 'Organisms/Modal/DeletionModal';
 import { Record } from 'Types/Record';
 import { toast } from 'react-toastify';
 import EditRecordModal from 'Organisms/Modal/EditRecordModal';
+import { isAxiosError } from 'Types/Error';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -28,8 +29,11 @@ const CollectionStyled = styled.div`
 
   width: 100%;
 
+  grid-gap: 20px;
+
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     flex-direction: column;
+    grid-gap: 10px;
   }
 `;
 
@@ -43,11 +47,9 @@ const ColumnFirst = styled.div`
 
 const ColumnSecond = styled.div`
   width: 66%;
-  margin: 0 0 0 20px;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     width: 100%;
-    margin: 20px 0 0 0;
   }
 `;
 
@@ -99,10 +101,23 @@ type Props = RouteComponentProps<CollectionMatchParams> & {
 
 const Collection = ({ setTitle, match }: Props): ReactElement => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { push } = useHistory();
+
+  const onCollectionError = (err: unknown): void => {
+    if (isAxiosError(err) && err.response?.status === 404) {
+      push(RouteConfig.Dashboard.NotFound);
+    }
+  };
+
   const { data: collectionData, status: collectionStatus, refetch: collectionRefetch } = useQuery(
     ['collection', match.params.collectionId],
     (key, collectionId) => getCollection(collectionId),
+    {
+      onError: onCollectionError,
+      retry: false,
+    },
   );
+
   const { data: recordsData, status: recordsStatus, refetch: recordsRefetch } = useQuery(
     ['records', match.params.collectionId],
     (key, collectionId) => getRecords(collectionId),
@@ -166,7 +181,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
             {recordsData.map(record => (
               <RecordItemStyled
                 key={record.id}
-                to={RouteConfig.Dashboard.Collections.Root}
+                to={`${RouteConfig.Dashboard.Records.Root}/${record.id}`}
                 accountMenuOptions={accountMenuOptions}
                 accountMenuOnChange={option => onChange(option, record)}
                 record={record}

@@ -15,6 +15,7 @@ type DashboardRoutes = BaseRoute & {
   Analysis: string;
   Collections: CollectionsRoutes;
   Records: RecordsRoutes;
+  NotFound: string;
 };
 
 type RouteType = BaseRoute & {
@@ -41,5 +42,6 @@ export const RouteConfig: RouteType = {
       Root: '/dashboard/records',
       Record: '/dashboard/records/:recordId',
     },
+    NotFound: '/dashboard/404',
   },
 };

@@ -10,6 +10,8 @@ import Collections from 'Pages/Dashboard/Collections';
 import Collection from 'Pages/Dashboard/Collections/Collection';
 import { CollectionMatchParams } from 'Types/Collection';
 import Records from 'Pages/Dashboard/Records';
+import Record from 'Pages/Dashboard/Records/Record';
+import { RecordMatchParams } from 'Types/Record';
 
 const DashboardRoute = (): ReactElement => (
   <Switch>
@@ -23,8 +25,15 @@ const DashboardRoute = (): ReactElement => (
       component={Collection}
     />
     <DashboardLayout exact path={RouteConfig.Dashboard.Records.Root} title="Records" component={Records} />
+    <DashboardLayout<RecordMatchParams>
+      exact
+      path={RouteConfig.Dashboard.Records.Record}
+      title="Record"
+      component={Record}
+    />
     <DashboardLayout exact path={RouteConfig.Dashboard.Analysis} title="Analysis" component={Analysis} />
-    <DashboardLayout title="Not found" component={NotFound} />
+    <DashboardLayout exact path={RouteConfig.Dashboard.NotFound} title="Not found" component={NotFound} />
+    <Redirect from="*" to={RouteConfig.Dashboard.NotFound} />
   </Switch>
 );
 

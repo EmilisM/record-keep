@@ -28,6 +28,10 @@ const ToastContainerStyled = styled(ToastContainer)`
     }
   }
 
+  .Toastify__toast-body {
+    margin: 0;
+  }
+
   .Toastify__progress-bar--success {
     background: ${props => props.theme.colors.special.success};
   }

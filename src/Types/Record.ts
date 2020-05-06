@@ -92,3 +92,7 @@ export interface UpdateRecordModel {
   id: number;
   operations: RecordUpdates[];
 }
+
+export interface RecordMatchParams {
+  recordId: string;
+}
