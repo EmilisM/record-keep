@@ -172,14 +172,16 @@ const Collections = (): ReactElement => {
         />
       </FirstRow>
       <SecondRow>
-        <NewCollectionItemStyled
-          onClick={onClickNewCollection}
-          onSubmit={onSubmitNewCollection}
-          isEditable={state.isCreating}
-          value={state.newCollectionName}
-          onChange={event => dispatch({ type: 'newCollectionName/set', payload: event.target.value })}
-          onClear={onClearNewCollection}
-        />
+        {searchQueryDebounced.length === 0 && (
+          <NewCollectionItemStyled
+            onClick={onClickNewCollection}
+            onSubmit={onSubmitNewCollection}
+            isEditable={state.isCreating}
+            value={state.newCollectionName}
+            onChange={event => dispatch({ type: 'newCollectionName/set', payload: event.target.value })}
+            onClear={onClearNewCollection}
+          />
+        )}
         {data &&
           data.map((item, index) => (
             <CollectionItemStyled
