@@ -1,4 +1,4 @@
-export const getCollectionItemSubTitle = (count: number): string => {
+export const getRecordCountText = (count: number): string => {
   if (count === 1) {
     return `${count} record`;
   } else if (count > 1) {

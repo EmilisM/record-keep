@@ -21,7 +21,7 @@ import { CollectionDeleteFields } from 'Types/Collection';
 import { FormikHelpers } from 'formik';
 import useDebounce from 'Services/Hooks/useDebounce';
 import { reducer, initialState } from 'State/Collections';
-import { getCollectionItemSubTitle } from 'Services/collection';
+import { getRecordCountText } from 'Services/collection';
 
 const CollectionsStyled = styled.div`
   display: flex;
@@ -179,7 +179,7 @@ const Collections = (): ReactElement => {
               to={`${RouteConfig.Dashboard.Collections.Root}/${item.id}`}
               key={item.id}
               title={item.name}
-              subTitle={getCollectionItemSubTitle(item.recordCount)}
+              subTitle={getRecordCountText(item.recordCount)}
               accountMenuOptions={accountMenuOptions}
               accountMenuOnChange={option => accountMenuOnChange(option, index)}
               image={item.image?.data}

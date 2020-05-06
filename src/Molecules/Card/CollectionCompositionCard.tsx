@@ -5,7 +5,7 @@ import H from 'Atoms/Text/H';
 import { ResponsiveContainer, PolarGrid, PolarAngleAxis, Radar, RadarChart, Tooltip, TooltipFormatter } from 'recharts';
 import { RecordGenre } from 'Types/Record';
 import Loader from 'Atoms/Loader/Loader';
-import { getCollectionItemSubTitle } from 'Services/collection';
+import { getRecordCountText } from 'Services/collection';
 
 const CardStyled = styled(Card)`
   padding: 20px;
@@ -36,7 +36,7 @@ const CollectionCompositionCard = ({ className, genres }: Props): ReactElement =
       return [name, value];
     }
 
-    return [getCollectionItemSubTitle(name)];
+    return [getRecordCountText(name)];
   };
 
   return (
