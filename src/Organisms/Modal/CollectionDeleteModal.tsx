@@ -104,18 +104,19 @@ const CollectionDeleteModal = ({
                   onChange={option => setFieldValue('action', option.value)}
                   value={deleteOptions.find(o => o.value === values.action)}
                 />
-                {values.action === 'move' && (
-                  <>
-                    <InputLabelStyled color="primaryDarker">to</InputLabelStyled>
-                    <SelectStyled
-                      placeholder="Select collection"
-                      options={destinationCollections}
-                      onChange={option => setFieldValue('destination', option)}
-                      isSearchable={false}
-                      value={values.destination}
-                    />
-                  </>
-                )}
+                {values.action === 'move' && [
+                  <InputLabelStyled key="destinationLabel" color="primaryDarker">
+                    to
+                  </InputLabelStyled>,
+                  <SelectStyled
+                    key="destinationSelect"
+                    placeholder="Select collection"
+                    options={destinationCollections}
+                    onChange={option => setFieldValue('destination', option)}
+                    isSearchable={false}
+                    value={values.destination}
+                  />,
+                ]}
               </Container>
             )}
             <Content>

@@ -7,6 +7,7 @@ import { ReactComponent as RecordIcon } from 'Assets/Records.svg';
 import { ReactComponent as User } from 'Assets/User.svg';
 import { ReactComponent as Image } from 'Assets/Image.svg';
 import moment from 'moment';
+import { RouteConfig } from 'Routes/RouteConfig';
 
 export const getActivityItemTime = (timestamp: Date): string => {
   return moment(timestamp).fromNow();
@@ -22,7 +23,13 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
       }
 
       return (
-        <ListItem image={activity.collection.image?.data} key={index} time={time} Icon={CollectionIcon}>
+        <ListItem
+          to={`${RouteConfig.Dashboard.Collections.Root}/${activity.collection.id}`}
+          image={activity.collection.image?.data}
+          key={index}
+          time={time}
+          Icon={CollectionIcon}
+        >
           Created collecion {activity.collection?.name}
         </ListItem>
       );
@@ -40,7 +47,13 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
       }
 
       return (
-        <ListItem image={activity.collection.image?.data} key={index} time={time} Icon={CollectionIcon}>
+        <ListItem
+          to={`${RouteConfig.Dashboard.Collections.Root}/${activity.collection.id}`}
+          image={activity.collection.image?.data}
+          key={index}
+          time={time}
+          Icon={CollectionIcon}
+        >
           Updated collecion {activity.collection?.name}
         </ListItem>
       );
@@ -51,7 +64,13 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
       }
 
       return (
-        <ListItem image={activity.collection.image?.data} key={index} time={time} Icon={CollectionIcon}>
+        <ListItem
+          to={`${RouteConfig.Dashboard.Collections.Root}/${activity.collection.id}`}
+          image={activity.collection.image?.data}
+          key={index}
+          time={time}
+          Icon={CollectionIcon}
+        >
           Deleted collecion and moved records to {activity.collection?.name}
         </ListItem>
       );
@@ -90,7 +109,13 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
       }
 
       return (
-        <ListItem image={activity.record.image?.data} key={index} time={time} Icon={RecordIcon}>
+        <ListItem
+          to={`${RouteConfig.Dashboard.Records.Root}/${activity.record.id}`}
+          image={activity.record.image?.data}
+          key={index}
+          time={time}
+          Icon={RecordIcon}
+        >
           Created record {activity.record.name} by {activity.record.artist}
         </ListItem>
       );
@@ -108,7 +133,13 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
       }
 
       return (
-        <ListItem image={activity.record.image?.data} key={index} time={time} Icon={RecordIcon}>
+        <ListItem
+          to={`${RouteConfig.Dashboard.Records.Root}/${activity.record.id}`}
+          image={activity.record.image?.data}
+          key={index}
+          time={time}
+          Icon={RecordIcon}
+        >
           Updated record {activity.record.name} by {activity.record.artist}
         </ListItem>
       );

@@ -2,6 +2,7 @@ import React, { ReactElement, FC, ReactNode } from 'react';
 import styled from 'styled-components/macro';
 import P from 'Atoms/Text/P';
 import Image from 'Atoms/Image';
+import { useHistory } from 'react-router-dom';
 
 const ListItemStyled = styled.li`
   display: flex;
@@ -19,6 +20,10 @@ const ListItemStyled = styled.li`
 
   &:hover {
     background-color: ${props => props.theme.colors.background.primaryDarker};
+  }
+
+  &[data-clickable='true'] {
+    cursor: pointer;
   }
 
   & > svg {
@@ -51,20 +56,25 @@ export type Props = {
   image?: string;
   Icon: FC;
   time: string;
+  to?: string;
 };
 
-const ListItem = ({ className, Icon, children, time, image }: Props): ReactElement => (
-  <ListItemStyled className={className}>
-    {image ? <ImageStyled src={`data:image;base64,${image}`} /> : <Icon />}
-    <ContentContainer>
-      <P color="primaryDarker" fontSize="normal" fontWeight="semiBold">
-        {children}
-      </P>
-      <PStyled color="primaryDarker" fontSize="normal">
-        {time}
-      </PStyled>
-    </ContentContainer>
-  </ListItemStyled>
-);
+const ListItem = ({ className, Icon, children, time, image, to }: Props): ReactElement => {
+  const { push } = useHistory();
+
+  return (
+    <ListItemStyled className={className} onClick={() => to && push(to)} data-clickable={!!to}>
+      {image ? <ImageStyled src={`data:image;base64,${image}`} /> : <Icon />}
+      <ContentContainer>
+        <P color="primaryDarker" fontSize="normal" fontWeight="semiBold">
+          {children}
+        </P>
+        <PStyled color="primaryDarker" fontSize="normal">
+          {time}
+        </PStyled>
+      </ContentContainer>
+    </ListItemStyled>
+  );
+};
 
 export default ListItem;

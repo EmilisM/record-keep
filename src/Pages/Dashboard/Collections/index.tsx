@@ -141,7 +141,12 @@ const Collections = (): ReactElement => {
 
     const id = state.activeCollection.id;
 
-    deleteCollection({ id, destinationId: values.destination && values.destination.value })
+    const destinationId = values.action === 'move' ? values.destination.value : undefined;
+
+    deleteCollection({
+      id,
+      destinationId,
+    })
       .then(() => refetch())
       .then(() => {
         helpers.setSubmitting(false);
@@ -191,23 +196,25 @@ const Collections = (): ReactElement => {
           <Loader />
         </LoaderContainer>
       ) : null}
-      {data && state.activeCollection ? (
-        <>
-          <EditCollectionModal
-            isOpen={state.editModal}
-            onRequestClose={() => dispatch({ type: 'editModal/close' })}
-            refetch={refetch}
-            collection={state.activeCollection}
-          />
-          <CollectionDeleteModal
-            isOpen={state.deletionModal}
-            onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
-            onSubmit={onSubmitDelete}
-            activeCollection={state.activeCollection}
-            collections={data}
-          />
-        </>
-      ) : null}
+      {data && state.activeCollection
+        ? [
+            <EditCollectionModal
+              key="editCollectionModal"
+              isOpen={state.editModal}
+              onRequestClose={() => dispatch({ type: 'editModal/close' })}
+              refetch={refetch}
+              collection={state.activeCollection}
+            />,
+            <CollectionDeleteModal
+              key="collectionDeleteModal"
+              isOpen={state.deletionModal}
+              onRequestClose={() => dispatch({ type: 'deletionModal/close' })}
+              onSubmit={onSubmitDelete}
+              activeCollection={state.activeCollection}
+              collections={data}
+            />,
+          ]
+        : null}
     </CollectionsStyled>
   );
 };
