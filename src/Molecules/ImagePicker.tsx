@@ -6,6 +6,7 @@ import ReactCrop, { Crop, PercentCrop } from 'react-image-crop';
 import { ReactComponent as Close } from 'Assets/Close.svg';
 import 'react-image-crop/dist/ReactCrop.css';
 import InvisibleButton from 'Atoms/Button/InvisibleButton';
+import { isString } from 'Types/General';
 
 const ImagePickerStyled = styled.div`
   display: flex;
@@ -127,7 +128,7 @@ const ImagePicker = ({
     reader.addEventListener(
       'load',
       () => {
-        if (typeof reader.result === 'string') {
+        if (isString(reader.result)) {
           onImageChange(reader.result);
         }
       },

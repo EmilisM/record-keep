@@ -6,6 +6,7 @@ import { ResponsiveContainer, PolarGrid, PolarAngleAxis, Radar, RadarChart, Tool
 import { RecordGenre } from 'Types/Record';
 import Loader from 'Atoms/Loader/Loader';
 import { getRecordCountText } from 'Services/collection';
+import { isNumber } from 'Types/General';
 
 const CardStyled = styled(Card)`
   padding: 20px;
@@ -32,7 +33,7 @@ const CollectionCompositionCard = ({ className, genres }: Props): ReactElement =
   }
 
   const formatter: TooltipFormatter = (name, value) => {
-    if (typeof name !== 'number') {
+    if (!isNumber(name)) {
       return [name, value];
     }
 

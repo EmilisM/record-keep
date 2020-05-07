@@ -4,6 +4,7 @@ import { SearchSelectOption as SearchSelectOptionType } from 'Types/Select';
 import styled from 'styled-components/macro';
 import P from 'Atoms/Text/P';
 import Image from 'Atoms/Image';
+import { isString } from 'Types/General';
 
 const { Option } = components;
 
@@ -61,9 +62,7 @@ const SearchSelectOption = (props: OptionProps<SearchSelectOptionType>): ReactEl
   return (
     <Option {...props}>
       <OptionContainer>
-        <ImageContainer>
-          {typeof Icon === 'string' ? <ImageStyled src={`data:image;base64,${Icon}`} /> : <Icon />}
-        </ImageContainer>
+        <ImageContainer>{isString(Icon) ? <ImageStyled src={`data:image;base64,${Icon}`} /> : <Icon />}</ImageContainer>
         <ContentContainer>
           <P fontSize="normal" fontWeight="semiBold" color="primaryDarker">
             {label}
