@@ -1,6 +1,7 @@
 import { ErrorResponse, ErrorsBase } from 'Types/Error';
 import { Image } from 'Types/Image';
 import { PatchOperations } from 'Types/API';
+import { UserActivity } from './UserActivities';
 
 export interface TokenRequest {
   email: string;
@@ -33,6 +34,7 @@ export interface UserInfo {
   displayName: string | null;
   creationDate: Date;
   profileImage: Image | null;
+  userActivities: UserActivity[];
 }
 
 export interface CreateUserErrors extends ErrorsBase {
