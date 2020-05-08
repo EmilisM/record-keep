@@ -8,7 +8,7 @@ const NewRecorditemStyled = styled(Card)`
   display: flex;
   align-items: center;
 
-  padding: 10px 20px;
+  padding: 6px 20px;
 
   cursor: pointer;
 
@@ -28,8 +28,8 @@ const NewRecorditemStyled = styled(Card)`
 `;
 
 const ImageContainer = styled.div`
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
 
   display: flex;
   justify-content: center;
