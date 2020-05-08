@@ -31,6 +31,6 @@ export const dashboardMenuItems: DashboardMenuItem[] = [
   {
     label: 'Analysis',
     icon: Analysis,
-    to: RouteConfig.Dashboard.Analysis,
+    to: RouteConfig.Dashboard.Analysis.Root,
   },
 ];

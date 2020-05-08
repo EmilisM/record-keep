@@ -56,7 +56,7 @@ const optionsDefault: SearchSelectOptionType[] = [
     type: 'page',
   },
   {
-    value: RouteConfig.Dashboard.Analysis,
+    value: RouteConfig.Dashboard.Analysis.Root,
     label: 'Analysis',
     Icon: Analysis,
     type: 'page',

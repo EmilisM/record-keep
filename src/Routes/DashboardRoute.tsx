@@ -4,7 +4,7 @@ import { Switch, Redirect } from 'react-router-dom';
 import DashboardLayout from 'Layouts/DashboardLayout';
 import { RouteConfig } from './RouteConfig';
 import Home from 'Pages/Dashboard/Home';
-import Analysis from 'Pages/Dashboard/Analysis';
+import Analysis from 'Pages/Analysis';
 import NotFound from 'Pages/NotFound';
 import Collections from 'Pages/Dashboard/Collections';
 import Collection from 'Pages/Dashboard/Collections/Collection';
@@ -12,6 +12,7 @@ import { CollectionMatchParams } from 'Types/Collection';
 import Records from 'Pages/Dashboard/Records';
 import Record from 'Pages/Dashboard/Records/Record';
 import { RecordMatchParams } from 'Types/Record';
+import Analyze from 'Pages/Analysis/Analyze';
 
 const DashboardRoute = (): ReactElement => (
   <Switch>
@@ -31,7 +32,8 @@ const DashboardRoute = (): ReactElement => (
       title="Record"
       component={Record}
     />
-    <DashboardLayout exact path={RouteConfig.Dashboard.Analysis} title="Analysis" component={Analysis} />
+    <DashboardLayout exact path={RouteConfig.Dashboard.Analysis.Root} title="Analysis" component={Analysis} />
+    <DashboardLayout exact path={RouteConfig.Dashboard.Analysis.Analyze} title="Analysis" component={Analyze} />
     <DashboardLayout exact path={RouteConfig.Dashboard.NotFound} title="Not found" component={NotFound} />
     <Redirect from="*" to={RouteConfig.Dashboard.NotFound} />
   </Switch>

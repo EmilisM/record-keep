@@ -116,7 +116,7 @@ const Records = (): ReactElement => {
     <RecordsStyled>
       <Row>
         <FilterCard
-          label="Search for records"
+          label="Search records"
           placeholder="Search query"
           value={state.searchQuery}
           onChange={e => dispatch({ type: 'searchQuery/set', payload: e.target.value })}

@@ -2,6 +2,10 @@ type BaseRoute = {
   Root: string;
 };
 
+type AnalysisRoutes = BaseRoute & {
+  Analyze: string;
+};
+
 type RecordsRoutes = BaseRoute & {
   Record: string;
 };
@@ -12,7 +16,7 @@ type CollectionsRoutes = BaseRoute & {
 
 type DashboardRoutes = BaseRoute & {
   Home: string;
-  Analysis: string;
+  Analysis: AnalysisRoutes;
   Collections: CollectionsRoutes;
   Records: RecordsRoutes;
   NotFound: string;
@@ -33,7 +37,10 @@ export const RouteConfig: RouteType = {
   Dashboard: {
     Root: '/dashboard',
     Home: '/dashboard/home',
-    Analysis: '/dashboard/analysis',
+    Analysis: {
+      Root: '/dashboard/analysis',
+      Analyze: '/dashboard/analysis/:analysisId',
+    },
     Collections: {
       Root: '/dashboard/collections',
       Collection: '/dashboard/collections/:collectionId',

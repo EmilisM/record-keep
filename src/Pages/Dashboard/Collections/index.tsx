@@ -161,7 +161,7 @@ const Collections = (): ReactElement => {
     <CollectionsStyled>
       <FirstRow>
         <FilterCardStyled
-          label="Search for collections"
+          label="Search collections"
           placeholder="Collection name"
           value={state.searchQuery}
           onChange={event => dispatch({ type: 'searchQuery/set', payload: event.target.value })}
