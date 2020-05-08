@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import ActionMenuItem from 'Molecules/ActionMenuItem';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Dots } from 'Assets/Dots.svg';
+import useClickOutside from 'Services/Hooks/useClickOutside';
 
 const DotsStyled = styled(Dots)`
   width: 100%;
@@ -68,6 +69,7 @@ type Props = {
 
 const ActionMenu = ({ className, options, onChange }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
+  const ref = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
 
   const onChangeWrapper = (option: ActionMenuOption): void => {
     onChange(option);
@@ -85,7 +87,7 @@ const ActionMenu = ({ className, options, onChange }: Props): ReactElement => {
     <ActionMenuIconContainer className={className} onClick={onClick} data-open={isOpen}>
       <DotsStyled className="action-menu__icon" />
       {isOpen && (
-        <ActionMenuStyled>
+        <ActionMenuStyled ref={ref}>
           <ActionMenuItems>
             {options.map(option => (
               <ActionMenuItem key={option.value} onClick={() => onChangeWrapper(option)} option={option} />
