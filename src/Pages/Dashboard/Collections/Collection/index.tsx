@@ -197,12 +197,12 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
       countBy(recordsData, r => r.recordStyles[0].style.genre.name),
       (i, j, k) => {
         const foundIndex = i.findIndex(f => f.name === k);
-        if (foundIndex) {
+        if (foundIndex >= 0) {
           i[foundIndex] = {
             ...i[foundIndex],
             value: i[foundIndex].value + j,
           };
-        } else {
+        } else if (foundIndex < 0) {
           i.push({
             name: k,
             value: j,

@@ -39,7 +39,7 @@ export const RouteConfig: RouteType = {
     Home: '/dashboard/home',
     Analysis: {
       Root: '/dashboard/analysis',
-      Analyze: '/dashboard/analysis/:analysisId',
+      Analyze: '/dashboard/analysis/:collectionId',
     },
     Collections: {
       Root: '/dashboard/collections',

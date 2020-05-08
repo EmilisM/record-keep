@@ -48,7 +48,7 @@ const CollectionCompositionCard = ({ className, genres }: Props): ReactElement =
       <ResponsiveContainer width="100%" height={250}>
         <RadarChart data={genres}>
           <Tooltip formatter={formatter} separator=" " />
-          <PolarGrid gridType="circle" />
+          <PolarGrid gridType="polygon" />
           <PolarAngleAxis dataKey="name" />
           <Radar
             dataKey="value"

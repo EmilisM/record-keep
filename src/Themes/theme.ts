@@ -32,7 +32,7 @@ const theme: DefaultTheme = {
       loaderSecond: '#764ba2',
       success: '#8bc34a',
       error: '#ff3333',
-      chartColorsPrimary: ['#9C7481', '#43364A', '#2F3043', '#302B3A'],
+      chartColorsPrimary: ['#8884d8', '#2f2d4f', '#8f8daf', '#5d5a9f', '#dfdef4', '#3f3d6a'],
     },
   },
   font: {
