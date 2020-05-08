@@ -4,7 +4,6 @@ import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-query';
 import { getCollection } from 'API/Collection';
 import { CollectionMatchParams } from 'Types/Collection';
-import { RecordGenre } from 'Types/Record';
 import Loader from 'Atoms/Loader/Loader';
 import { RecordCountCard } from 'Molecules/Card/RecordCountCard';
 import CollectionInfoCard from 'Molecules/Card/CollectionInfoCard';
@@ -23,9 +22,8 @@ import { Record } from 'Types/Record';
 import { toast } from 'react-toastify';
 import EditRecordModal from 'Organisms/Modal/EditRecordModal';
 import { isAxiosError } from 'Types/Error';
-import CollectionCompositionCard from 'Molecules/Card/CollectionCompositionCard';
-import { countBy, transform } from 'lodash';
 import { getGenres } from 'API/Genre';
+import LinkToAnalysisCard from 'Molecules/Card/LinkToAnalysisCard';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -96,7 +94,7 @@ const NewRecorditemStyled = styled(NewRecorditem)`
   }
 `;
 
-const CollectionCompositionCardStyled = styled(CollectionCompositionCard)`
+const LinkToAnalysisCardStyled = styled(LinkToAnalysisCard)`
   margin-top: 20px;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
@@ -183,38 +181,6 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     });
   };
 
-  const getRecordGenres = (): RecordGenre[] | null => {
-    if (!recordsData || !genres) {
-      return null;
-    }
-
-    const allGenres = genres.map<RecordGenre>(g => ({
-      name: g.name,
-      value: 0,
-    }));
-
-    const genreCounts = transform<number, RecordGenre[]>(
-      countBy(recordsData, r => r.recordStyles[0].style.genre.name),
-      (i, j, k) => {
-        const foundIndex = i.findIndex(f => f.name === k);
-        if (foundIndex >= 0) {
-          i[foundIndex] = {
-            ...i[foundIndex],
-            value: i[foundIndex].value + j,
-          };
-        } else if (foundIndex < 0) {
-          i.push({
-            name: k,
-            value: j,
-          });
-        }
-      },
-      allGenres,
-    );
-
-    return genreCounts;
-  };
-
   if (
     !collectionData ||
     collectionStatus === 'loading' ||
@@ -240,7 +206,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
             creationDate={collectionData.creationDate}
             onActionMenuClick={onCollectionActionClick}
           />
-          <CollectionCompositionCardStyled genres={getRecordGenres()} />
+          <LinkToAnalysisCardStyled collectionId={match.params.collectionId} />
         </StickyContainer>
       </ColumnFirst>
       <ColumnSecond>

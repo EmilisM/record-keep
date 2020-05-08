@@ -16,6 +16,10 @@ const CardStyled = styled(Card)`
   }
 `;
 
+const ResponsiveContainerStyled = styled(ResponsiveContainer)`
+  margin-top: 20px;
+`;
+
 type Props = {
   className?: string;
   genres: RecordGenre[] | null;
@@ -45,7 +49,7 @@ const CollectionCompositionCard = ({ className, genres }: Props): ReactElement =
       <H level="2" color="primaryDarker" fontWeight="semiBold" fontSize="regular">
         Collection genre composition
       </H>
-      <ResponsiveContainer width="100%" height={250}>
+      <ResponsiveContainerStyled width="100%" height={250}>
         <RadarChart data={genres}>
           <Tooltip formatter={formatter} separator=" " />
           <PolarGrid gridType="polygon" />
@@ -57,7 +61,7 @@ const CollectionCompositionCard = ({ className, genres }: Props): ReactElement =
             fillOpacity={0.8}
           />
         </RadarChart>
-      </ResponsiveContainer>
+      </ResponsiveContainerStyled>
     </CardStyled>
   );
 };

@@ -7,22 +7,67 @@ import { useQuery } from 'react-query';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { isAxiosError } from 'Types/Error';
 import Loader from 'Atoms/Loader/Loader';
-import { getCollection } from 'API/Collection';
+import { getCollection, getCollections } from 'API/Collection';
 import GenreProgressionCard from 'Molecules/Card/GenreProgressionCard';
 import { getGenres } from 'API/Genre';
-import { keyBy, mapValues, transform, mergeWith } from 'lodash';
+import { keyBy, mapValues, transform, mergeWith, countBy } from 'lodash';
 import { GenreProgression, Genres } from 'Types/Genre';
 import moment from 'moment';
 import { isNumber } from 'util';
-import { Record } from 'Types/Record';
+import { Record, RecordGenre } from 'Types/Record';
+import CollectionCompositionCard from 'Molecules/Card/CollectionCompositionCard';
+import CollectionSelectedCard from 'Molecules/Card/CollectionSelectedCard';
+import { SelectOption } from 'Types/Select';
 
-const AnalyzePage = styled.div``;
+const AnalyzePage = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+
+  grid-gap: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    grid-gap: 10px;
+    flex-direction: column;
+  }
+`;
 
 const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;
 
   width: 100%;
+`;
+
+const FirstColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 60%;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    width: 100%;
+  }
+`;
+
+const SecondColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 40%;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    width: 100%;
+  }
+`;
+
+const GenreProgressionCardStyled = styled(GenreProgressionCard)`
+  margin-top: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    margin-top: 10px;
+  }
 `;
 
 type Props = RouteComponentProps<CollectionMatchParams>;
@@ -52,13 +97,17 @@ const Analyze = ({ match }: Props): ReactElement => {
 
   const { data: genres, status: genreStatus } = useQuery('genres', getGenres);
 
+  const { data: collections, status: collectionsStatus } = useQuery('collections', () => getCollections());
+
   if (
     !records ||
     recordsStatus === 'loading' ||
     !collection ||
     collectionStatus === 'loading' ||
     !genres ||
-    genreStatus === 'loading'
+    genreStatus === 'loading' ||
+    !collections ||
+    collectionsStatus === 'loading'
   ) {
     return (
       <LoaderContainer>
@@ -66,6 +115,20 @@ const Analyze = ({ match }: Props): ReactElement => {
       </LoaderContainer>
     );
   }
+
+  const collectionsOptions = collections.map(c => ({
+    label: c.name,
+    value: c.id.toString(),
+  }));
+
+  const activeCollectionOption = {
+    value: collection.id.toString(),
+    label: collection.name,
+  };
+
+  const onChangeCollection = (option: SelectOption): void => {
+    push(`${RouteConfig.Dashboard.Analysis.Root}/${option.value}`);
+  };
 
   const sortedRecords = records.sort((one, two) => {
     const oneStamp = moment(one.creationDate);
@@ -135,9 +198,51 @@ const Analyze = ({ match }: Props): ReactElement => {
     return result;
   };
 
+  const getRecordGenres = (): RecordGenre[] | null => {
+    if (!records || !genres) {
+      return null;
+    }
+
+    const allGenres = genres.map<RecordGenre>(g => ({
+      name: g.name,
+      value: 0,
+    }));
+
+    const genreCounts = transform<number, RecordGenre[]>(
+      countBy(records, r => r.recordStyles[0].style.genre.name),
+      (i, j, k) => {
+        const foundIndex = i.findIndex(f => f.name === k);
+        if (foundIndex >= 0) {
+          i[foundIndex] = {
+            ...i[foundIndex],
+            value: i[foundIndex].value + j,
+          };
+        } else if (foundIndex < 0) {
+          i.push({
+            name: k,
+            value: j,
+          });
+        }
+      },
+      allGenres,
+    );
+
+    return genreCounts;
+  };
+
   return (
     <AnalyzePage>
-      <GenreProgressionCard genreProgression={getGenreProgression()} />
+      <FirstColumn>
+        <CollectionSelectedCard
+          collections={collectionsOptions}
+          onChangeCollection={onChangeCollection}
+          value={activeCollectionOption}
+        />
+        <GenreProgressionCardStyled genreProgression={getGenreProgression()} />
+      </FirstColumn>
+      <SecondColumn>
+        <CollectionCompositionCard genres={getRecordGenres()} />
+      </SecondColumn>
     </AnalyzePage>
   );
 };

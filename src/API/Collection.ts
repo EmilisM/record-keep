@@ -2,7 +2,7 @@ import { Collection, CreateCollection, UpdateCollection, CollectionDeleteRequest
 import API from 'API';
 
 export const getCollections = async (name?: string): Promise<Collection[]> => {
-  const collections = await API.get(`/api/collection?name=${name}`);
+  const collections = await API.get(`/api/collection?name=${name || ''}`);
 
   return collections.data;
 };

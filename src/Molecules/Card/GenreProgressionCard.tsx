@@ -21,7 +21,7 @@ const CardStyled = styled(Card)`
 `;
 
 const ResponsiveContainerStyled = styled(ResponsiveContainer)`
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 const HStyled = styled(H)`
