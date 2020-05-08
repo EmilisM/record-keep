@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { useMutation } from 'react-query';
 import { updateRecord as updateRecordAPI } from 'API/Record';
 import { updateImage as updateImageAPI, createImage as createImageAPI } from 'API/Image';
+import { ReactComponent as RecordIcon } from 'Assets/Records.svg';
 
 type Props = {
   className?: string;
@@ -61,7 +62,14 @@ const EditRecordModal = ({
   };
 
   return (
-    <Modal className={className} isOpen={isOpen} onRequestClose={onRequestClose} isLoading={isLoading} title={title}>
+    <Modal
+      Icon={RecordIcon}
+      className={className}
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      isLoading={isLoading}
+      title={title}
+    >
       <ImageForm
         onSubmit={onImageSubmit}
         title="Change record image"

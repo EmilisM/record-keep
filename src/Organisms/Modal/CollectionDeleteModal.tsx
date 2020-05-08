@@ -6,6 +6,7 @@ import { CollectionDeleteOption, Collection, CollectionDeleteFields } from 'Type
 import Modal from 'Atoms/Modal';
 import ButtonDashboard from 'Atoms/Button/ButtonDashboard';
 import { Formik, Form, FormikHelpers } from 'formik';
+import { ReactComponent as CollectionIcon } from 'Assets/Collections.svg';
 
 const Container = styled.div`
   margin-top: 10px;
@@ -90,6 +91,7 @@ const CollectionDeleteModal = ({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       title={`Are you sure you want to delete collection ${activeCollection.name}?`}
+      Icon={CollectionIcon}
     >
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ values, setFieldValue, isSubmitting }) => (

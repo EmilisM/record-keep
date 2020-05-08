@@ -10,6 +10,7 @@ import { updateCollection } from 'API/Collection';
 import { updateImage, createImage } from 'API/Image';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
+import { ReactComponent as CollectionIcon } from 'Assets/Collections.svg';
 
 type Props = {
   className?: string;
@@ -70,6 +71,7 @@ const EditCollectionModal = ({
       onRequestClose={onRequestClose}
       title="Edit collection"
       isLoading={isLoading}
+      Icon={CollectionIcon}
     >
       <ImageForm
         onSubmit={onImageSubmit}

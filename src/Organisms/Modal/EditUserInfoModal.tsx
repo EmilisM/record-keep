@@ -7,6 +7,7 @@ import FormSeparator from 'Atoms/Form/FormSeparator';
 import { ImageFormFields } from 'Types/Image';
 import { FormikHelpers } from 'formik';
 import { UserInfo } from 'Types/User';
+import { ReactComponent as UserIcon } from 'Assets/User.svg';
 
 type Props = {
   className?: string;
@@ -33,6 +34,7 @@ const EditUserInfoModal = ({
     onRequestClose={onRequestClose}
     title="Edit user info"
     isLoading={isLoading}
+    Icon={UserIcon}
   >
     <ImageForm
       onSubmit={onSubmitImage}

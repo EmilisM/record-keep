@@ -15,7 +15,7 @@ const RecordItemStyled = styled(Link)`
   display: flex;
   width: 100%;
   align-items: center;
-  padding: 10px 20px;
+  padding: 6px 20px;
   background: ${props => props.theme.colors.background.primary};
   border-radius: 4px;
   box-shadow: 0px 1px 2px 0 ${props => props.theme.colors.border.cardShadow};
@@ -61,8 +61,8 @@ const ArrowStyled = styled(Arrow)`
 `;
 
 const ImageStyled = styled(Image)`
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
 
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     width: 48px;

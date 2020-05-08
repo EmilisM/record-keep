@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, FC } from 'react';
 import ReactModal from 'react-modal';
 import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
@@ -27,7 +27,13 @@ const ModalStyled = styled(ReactModal)`
 const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
+  & > svg {
+    width: 30px;
+    height: 30px;
+
+    margin-right: 10px;
+  }
 `;
 
 const CloseIcon = styled(Close)`
@@ -46,21 +52,25 @@ const InvisibleButtonStyled = styled(InvisibleButton)`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  margin-left: auto;
 `;
 
 type Props = {
   className?: string;
   isLoading?: boolean;
+  Icon?: FC;
   children: ReactNode;
   onRequestClose: () => void;
   isOpen: boolean;
   title: string;
 };
 
-const Modal = ({ className, children, onRequestClose, isOpen, title, isLoading }: Props): ReactElement => (
+const Modal = ({ className, children, onRequestClose, isOpen, title, isLoading, Icon }: Props): ReactElement => (
   <ModalStyled className={className} onRequestClose={onRequestClose} isOpen={isOpen} closeTimeoutMS={200}>
     <PageLoader isLoading={isLoading} />
     <HeaderContainer>
+      {Icon && <Icon />}
       <H level="2" color="primaryDarker" fontSize="big" fontWeight="semiBold">
         {title}
       </H>
