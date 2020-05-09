@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import UserCard from 'Organisms/UserCard';
-import ErrorBoundary from 'ErrorBoundary';
 import UserActivityCard from 'Molecules/Card/UserActivityCard';
+import UserActivityGraphCard from 'Molecules/Card/UserActivityGraphCard';
 
 const HomeContainer = styled.div`
   width: 100%;
@@ -21,16 +21,18 @@ const HomeContainer = styled.div`
 const FirstColumn = styled.div`
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 65%;
 `;
 
 const SecondColumn = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 35%;
 `;
 
-const UserCardStyled = styled(UserCard)``;
+const UserActivityGraphCardStyled = styled(UserActivityGraphCard)`
+  margin-top: 10px;
+`;
 
 const Home = (): ReactElement => (
   <HomeContainer>
@@ -38,9 +40,8 @@ const Home = (): ReactElement => (
       <UserActivityCard />
     </FirstColumn>
     <SecondColumn>
-      <ErrorBoundary error={error => <div>Custom error here</div>}>
-        <UserCardStyled />
-      </ErrorBoundary>
+      <UserCard />
+      <UserActivityGraphCardStyled />
     </SecondColumn>
   </HomeContainer>
 );

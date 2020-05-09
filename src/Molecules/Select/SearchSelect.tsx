@@ -80,8 +80,6 @@ const SearchSelect = ({ className }: Props): ReactElement => {
     Icon: c.image?.data || CollectionIcon,
   }));
 
-  console.log(collections);
-
   const recordsOptions = records.map<SearchSelectOptionType>(c => ({
     label: c.name,
     type: 'record',

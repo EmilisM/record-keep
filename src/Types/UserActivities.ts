@@ -26,3 +26,8 @@ export interface UserActivity {
   collection: Collection | null;
   record: Record | null;
 }
+
+export interface UserActivityChart {
+  name: string;
+  count: number;
+}
