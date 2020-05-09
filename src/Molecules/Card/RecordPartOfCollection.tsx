@@ -8,6 +8,9 @@ const CardStyled = styled(Card)`
   display: flex;
   flex-direction: column;
   padding: 20px;
+
+  background-color: ${props => props.theme.colors.background.secondaryDarker};
+  border-radius: 4px 4px 0 0;
 `;
 
 type Props = {
@@ -16,7 +19,7 @@ type Props = {
 
 const RecordPartOfCollection = ({ className }: Props): ReactElement => (
   <CardStyled className={className}>
-    <H level="2" color="primaryDarker" fontSize="normal" fontWeight="semiBold">
+    <H level="2" color="primaryLight" fontSize="normal" fontWeight="semiBold">
       Part of collection
     </H>
   </CardStyled>

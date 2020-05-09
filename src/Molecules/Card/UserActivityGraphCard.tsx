@@ -21,6 +21,9 @@ const CardStyled = styled(Card)`
 const TitleContainer = styled.div`
   width: 100%;
   padding: 20px;
+
+  background-color: ${props => props.theme.colors.background.secondaryDark};
+  border-radius: 4px 4px 0 0;
 `;
 
 const ContentContainer = styled.div`
@@ -92,7 +95,7 @@ const UserActivityGraphCard = ({ className }: Props): ReactElement => {
   return (
     <CardStyled className={className}>
       <TitleContainer>
-        <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryDarker">
+        <H level="2" fontSize="regular" fontWeight="semiBold" color="primaryLight">
           Your activity velocity
         </H>
       </TitleContainer>

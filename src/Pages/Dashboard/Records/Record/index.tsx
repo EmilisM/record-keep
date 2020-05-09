@@ -51,6 +51,10 @@ const SecondColumn = styled.div`
   }
 `;
 
+const CollectionItemStyled = styled(CollectionItem)`
+  border-radius: 0 0 4px 4px;
+`;
+
 type Props = RouteComponentProps<RecordMatchParams> & {
   setTitle: (value: string) => void;
 };
@@ -106,7 +110,7 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
       </FirstColumn>
       <SecondColumn>
         <RecordPartOfCollection />
-        <CollectionItem
+        <CollectionItemStyled
           image={collection.image?.data}
           title={collection.name}
           subTitle={collection.description || ''}

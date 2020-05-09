@@ -22,12 +22,20 @@ const FirstColumn = styled.div`
   display: flex;
   flex-direction: column;
   width: 65%;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    width: 100%;
+  }
 `;
 
 const SecondColumn = styled.div`
   display: flex;
   flex-direction: column;
   width: 35%;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    width: 100%;
+  }
 `;
 
 const UserActivityGraphCardStyled = styled(UserActivityGraphCard)`

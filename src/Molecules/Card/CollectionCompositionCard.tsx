@@ -8,16 +8,14 @@ import Loader from 'Atoms/Loader/Loader';
 import { getRecordCountText } from 'Services/collection';
 import { isNumber } from 'Types/General';
 
-const CardStyled = styled(Card)`
+const TitleContainer = styled.div`
+  background-color: ${props => props.theme.colors.background.secondaryDarker};
   padding: 20px;
+  border-radius: 4px 4px 0 0;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     padding: 10px;
   }
-`;
-
-const ResponsiveContainerStyled = styled(ResponsiveContainer)`
-  margin-top: 20px;
 `;
 
 type Props = {
@@ -30,9 +28,9 @@ const CollectionCompositionCard = ({ className, genres }: Props): ReactElement =
 
   if (!genres) {
     return (
-      <CardStyled className={className}>
+      <Card className={className}>
         <Loader />
-      </CardStyled>
+      </Card>
     );
   }
 
@@ -45,11 +43,13 @@ const CollectionCompositionCard = ({ className, genres }: Props): ReactElement =
   };
 
   return (
-    <CardStyled className={className}>
-      <H level="2" color="primaryDarker" fontWeight="semiBold" fontSize="regular">
-        Collection genre composition
-      </H>
-      <ResponsiveContainerStyled width="100%" height={250}>
+    <Card className={className}>
+      <TitleContainer>
+        <H level="2" color="primaryLight" fontWeight="semiBold" fontSize="normal">
+          Collection genre composition
+        </H>
+      </TitleContainer>
+      <ResponsiveContainer width="100%" height={250}>
         <RadarChart data={genres}>
           <Tooltip formatter={formatter} separator=" " />
           <PolarGrid gridType="polygon" />
@@ -61,8 +61,8 @@ const CollectionCompositionCard = ({ className, genres }: Props): ReactElement =
             fillOpacity={0.8}
           />
         </RadarChart>
-      </ResponsiveContainerStyled>
-    </CardStyled>
+      </ResponsiveContainer>
+    </Card>
   );
 };
 
