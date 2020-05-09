@@ -1,10 +1,20 @@
 import React, { ReactElement, ReactNode, MouseEvent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styled, { DefaultTheme } from 'styled-components/macro';
+import { FontSizes } from 'Types/Style';
+
+type Sizes = 'normal';
+const fontSizes: FontSizes<Sizes> = {
+  normal: {
+    desktop: 20,
+    tablet: 18,
+    mobile: 16,
+  },
+};
 
 type Props = {
   fontWeight?: keyof DefaultTheme['font']['fontWeight'];
-  fontSize?: number;
+  fontSize?: Sizes;
   color?: keyof DefaultTheme['colors']['text'];
   className?: string;
   id?: string;
@@ -22,10 +32,22 @@ const LinkBase = ({ children, className, to, id, onClick }: Props): ReactElement
 const Link = styled(LinkBase)`
   font-family: ${props => props.theme.font.fontFamily.primary};
   font-weight: ${props => props.theme.font.fontWeight[props.fontWeight || 'regular']};
-  font-size: ${props => props.fontSize || 16}px;
   color: ${props => (props.color ? props.theme.colors.text[props.color] : props.theme.colors.text.primaryLight)};
+  font-size: ${props => fontSizes[props.fontSize || 'normal'].desktop}px;
   text-decoration: none;
   outline: none;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    font-size: ${props => fontSizes[props.fontSize || 'normal'].tablet}px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    font-size: ${props => fontSizes[props.fontSize || 'normal'].mobile}px;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
 
   transition: all 300ms ease;
 `;

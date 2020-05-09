@@ -16,6 +16,8 @@ import { deleteRecord } from 'API/Record';
 import { Record } from 'Types/Record';
 import { toast } from 'react-toastify';
 import EditRecordModal from 'Organisms/Modal/EditRecordModal';
+import H from 'Atoms/Text/H';
+import Link from 'Atoms/Link/Link';
 
 const RecordsStyled = styled.div`
   display: flex;
@@ -83,7 +85,9 @@ const accountMenuOptions: ActionMenuOption[] = [
 const Records = (): ReactElement => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const debouncedSearchQuery = useDebounce(state.searchQuery, 300);
-  const { data, refetch } = useQuery(['records', debouncedSearchQuery], (key, query) => getRecords(undefined, query));
+  const { data, status, refetch } = useQuery(['records', debouncedSearchQuery], (key, query) =>
+    getRecords(undefined, query),
+  );
 
   const [mutateDeleteRecord] = useMutation(deleteRecord);
 
@@ -112,6 +116,14 @@ const Records = (): ReactElement => {
       });
   };
 
+  if (!data || status === 'loading') {
+    return (
+      <LoaderContainer>
+        <Loader />
+      </LoaderContainer>
+    );
+  }
+
   return (
     <RecordsStyled>
       <Row>
@@ -123,20 +135,23 @@ const Records = (): ReactElement => {
         />
       </Row>
       <RecordRow>
-        {data ? (
-          data.map((d, index) => (
-            <RecordItemStyled
-              accountMenuOnChange={option => optionsOnChange(option, index)}
-              accountMenuOptions={accountMenuOptions}
-              key={d.id}
-              record={d}
-              to={`${RouteConfig.Dashboard.Records.Root}/${d.id}`}
-            />
-          ))
-        ) : (
-          <LoaderContainer>
-            <Loader />
-          </LoaderContainer>
+        {data.map((d, index) => (
+          <RecordItemStyled
+            accountMenuOnChange={option => optionsOnChange(option, index)}
+            accountMenuOptions={accountMenuOptions}
+            key={d.id}
+            record={d}
+            to={`${RouteConfig.Dashboard.Records.Root}/${d.id}`}
+          />
+        ))}
+        {data.length === 0 && (
+          <H level="2" color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+            You have no records, go to{' '}
+            <Link to={RouteConfig.Dashboard.Collections.Root} fontWeight="semiBold" color="primaryDarker">
+              collections page
+            </Link>{' '}
+            to create some.
+          </H>
         )}
       </RecordRow>
       {activeRecord && [
