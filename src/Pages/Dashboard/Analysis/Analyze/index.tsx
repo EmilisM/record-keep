@@ -152,7 +152,7 @@ const Analyze = ({ match }: Props): ReactElement => {
     const values = transform<Record, GenreProgression[]>(
       sortedRecords,
       (acc, r) => {
-        const genreName = r.recordStyles[0].style.genre.name;
+        const genreName = r.recordStyle[0].style.genre.name;
         const newItem: GenreProgression = {
           name: moment(r.creationDate).format('YYYY-MM-DD'),
           genres: {
@@ -209,7 +209,7 @@ const Analyze = ({ match }: Props): ReactElement => {
     }));
 
     const genreCounts = transform<number, RecordGenre[]>(
-      countBy(records, r => r.recordStyles[0].style.genre.name),
+      countBy(records, r => r.recordStyle[0].style.genre.name),
       (i, j, k) => {
         const foundIndex = i.findIndex(f => f.name === k);
         if (foundIndex >= 0) {

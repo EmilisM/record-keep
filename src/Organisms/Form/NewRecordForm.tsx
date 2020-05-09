@@ -8,6 +8,7 @@ import { PercentCrop } from 'react-image-crop';
 import FormInput from 'Atoms/Form/FormInput';
 import { useQuery, useMutation } from 'react-query';
 import { getRecordTypes } from 'API/RecordType';
+import { getRecordFormats } from 'API/RecordFormat';
 import { SelectOption } from 'Types/Select';
 import { getStyles } from 'API/Style';
 import { getGenres } from 'API/Genre';
@@ -40,11 +41,13 @@ export interface CreateRecordFields {
   crop: PercentCrop;
   image?: string;
   recordType: SelectOption | null;
+  recordFormat: SelectOption | null;
   genre: SelectOption | null;
   style: SelectOption[] | null;
   label: string;
   year: string;
   form?: string;
+  recordLength?: string;
 }
 
 const validate = (values: CreateRecordFields): FormikErrors<CreateRecordFields> => {
@@ -62,6 +65,10 @@ const validate = (values: CreateRecordFields): FormikErrors<CreateRecordFields> 
     errors.recordType = 'Record type is required';
   }
 
+  if (!values.recordFormat) {
+    errors.recordFormat = 'Record format is required';
+  }
+
   if (!values.genre) {
     errors.genre = 'Genre is required';
   }
@@ -72,6 +79,10 @@ const validate = (values: CreateRecordFields): FormikErrors<CreateRecordFields> 
 
   if (!values.label) {
     errors.label = 'Label is required';
+  }
+
+  if (values.recordLength && !values.recordLength.match('^(?:(?:([01]?\\d|2[0-3]):)?([0-5]?\\d):)?([0-5]?\\d)$')) {
+    errors.recordLength = 'Record length is not in correct format';
   }
 
   if (!values.year) {
@@ -95,6 +106,7 @@ type Props = {
 const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose }: Props): ReactElement => {
   const { data: recordTypes } = useQuery('recordTypes', getRecordTypes);
   const { data: genres } = useQuery('genres', getGenres);
+  const { data: recordFormats } = useQuery('recordFormats', getRecordFormats);
 
   const [genreId, setGenreId] = useState<string>();
   const { data: styles } = useQuery(['styles', genreId], (key, gId) => getStyles(gId));
@@ -108,6 +120,7 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
     label: '',
     year: '',
     recordType: null,
+    recordFormat: null,
     genre: null,
     style: null,
   };
@@ -116,6 +129,13 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
     ? recordTypes.map(rt => ({
         label: rt.name,
         value: rt.id.toString(),
+      }))
+    : [];
+
+  const recordFormatOptions = recordFormats
+    ? recordFormats.map(rf => ({
+        label: rf.name,
+        value: rf.id.toString(),
       }))
     : [];
 
@@ -143,9 +163,9 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
     });
 
   const onSubmit = (values: CreateRecordFields, helpers: FormikHelpers<CreateRecordFields>): void => {
-    const { artist, name, description, recordType, style, label, year } = values;
+    const { artist, name, description, recordType, style, label, year, recordLength, recordFormat } = values;
 
-    if (!recordType || !style) {
+    if (!recordType || !style || !recordFormat) {
       return;
     }
 
@@ -167,6 +187,8 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
           styleIds,
           label,
           year: yearDate,
+          recordFormatId: recordFormat?.value,
+          recordLength,
         }),
       )
       .then(() => recordsRefetch())
@@ -222,6 +244,11 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
           <FormInput name="year" placeholder="Ex. 2008" />
           <FormError name="year" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+            Record length
+          </InputLabelStyled>
+          <FormInput name="recordLength" placeholder="hh:mm:ss" />
+          <FormError name="recordLength" />
+          <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Record type
           </InputLabelStyled>
           <FormSelect
@@ -231,6 +258,16 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
             value={values.recordType}
           />
           <FormError name="recordType" />
+          <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+            Record format
+          </InputLabelStyled>
+          <FormSelect
+            placeholder="Record format"
+            options={recordFormatOptions}
+            onChange={option => setFieldValue('recordFormat', option)}
+            value={values.recordFormat}
+          />
+          <FormError name="recordFormat" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Genre
           </InputLabelStyled>

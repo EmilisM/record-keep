@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import FieldInput from 'Molecules/FieldInput';
 import FormSelect from 'Atoms/Form/FormSelect';
 import Form from 'Atoms/Form/Form';
+import { getRecordFormats } from 'API/RecordFormat';
 
 const InputLabelStyled = styled(InputLabel)`
   &:not(:first-child) {
@@ -28,11 +29,13 @@ export interface UpdateRecordFields {
   artist: string;
   name: string;
   description?: string;
-  recordType: SelectOption | null;
-  genre: SelectOption | null;
+  recordType: SelectOption;
+  recordFormat: SelectOption;
+  genre: SelectOption;
   style: SelectOption[];
   label: string;
   year: string;
+  recordLength?: string;
   form?: string;
 }
 
@@ -47,20 +50,16 @@ const validate = (values: UpdateRecordFields): FormikErrors<UpdateRecordFields> 
     errors.name = 'Name is required';
   }
 
-  if (!values.recordType) {
-    errors.recordType = 'Record type is required';
-  }
-
-  if (!values.genre) {
-    errors.genre = 'Genre is required';
-  }
-
   if (!values.style && values.genre) {
     errors.style = 'Style is required';
   }
 
   if (!values.label) {
     errors.label = 'Label is required';
+  }
+
+  if (values.recordLength && !values.recordLength.match('^(?:(?:([01]?\\d|2[0-3]):)?([0-5]?\\d):)?([0-5]?\\d)$')) {
+    errors.recordLength = 'Record length is not in correct format';
   }
 
   if (!values.year) {
@@ -83,13 +82,21 @@ type Props = {
 const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElement => {
   const { data: recordTypes } = useQuery('recordTypes', getRecordTypes);
   const { data: genres } = useQuery('genres', getGenres);
+  const { data: recordFormats } = useQuery('recordFormats', getRecordFormats);
 
-  const selectedGenre = record.recordStyles[0].style.genre;
+  const selectedGenre = record.recordStyle[0].style.genre;
 
   const [genreId, setGenreId] = useState<string>(selectedGenre.id.toString());
   const { data: styles } = useQuery(['styles', genreId], (key, gId) => getStyles(gId));
 
   const [updateRecord] = useMutation(updateRecordAPI);
+
+  const recordFormatOptions = recordFormats
+    ? recordFormats.map(rt => ({
+        label: rt.name,
+        value: rt.id.toString(),
+      }))
+    : [];
 
   const recordTypeOptions = recordTypes
     ? recordTypes.map(rt => ({
@@ -120,17 +127,14 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
       .year()
       .toString(),
     description: record.description || '',
+    recordLength: record.recordLength || '',
     recordType: { value: record.recordType.id.toString(), label: record.recordType.name },
     genre: { value: selectedGenre.id.toString(), label: selectedGenre.name },
-    style: record.recordStyles.map(rs => ({ value: rs.style.id.toString(), label: rs.style.name })),
+    style: record.recordStyle.map(rs => ({ value: rs.style.id.toString(), label: rs.style.name })),
+    recordFormat: { value: record.recordFormat.id.toString(), label: record.recordFormat.name },
   };
 
   const onSubmit = (values: UpdateRecordFields, helpers: FormikHelpers<UpdateRecordFields>): void => {
-    const { recordType } = values;
-    if (!recordType) {
-      return;
-    }
-
     const updateRecordReq: UpdateRecordModel = {
       id: record.id,
       operations: [
@@ -165,12 +169,22 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
         {
           op: 'add',
           path: '/recordTypeId',
-          value: recordType.value,
+          value: values.recordType.value,
         },
         {
           op: 'add',
           path: '/styleIds',
           value: values.style.map(s => s.value),
+        },
+        {
+          op: 'add',
+          path: '/recordFormatId',
+          value: values.recordFormat.value,
+        },
+        {
+          op: 'add',
+          path: '/recordLength',
+          value: values.recordLength || null,
         },
       ],
     };
@@ -213,6 +227,11 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
           <FieldInput name="year" placeholder="Ex. 2008" />
           <FormError name="year" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+            Record length
+          </InputLabelStyled>
+          <FieldInput name="recordLength" placeholder="Ex. 2008" />
+          <FormError name="recordLength" />
+          <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Record type
           </InputLabelStyled>
           <FormSelect
@@ -222,6 +241,16 @@ const EditRecordForm = ({ className, recordsRefetch, record }: Props): ReactElem
             value={values.recordType}
           />
           <FormError name="recordType" />
+          <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
+            Record format
+          </InputLabelStyled>
+          <FormSelect
+            placeholder="Record format"
+            options={recordFormatOptions}
+            onChange={option => setFieldValue('recordFormat', option)}
+            value={values.recordFormat}
+          />
+          <FormError name="recordFormat" />
           <InputLabelStyled color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             Genre
           </InputLabelStyled>

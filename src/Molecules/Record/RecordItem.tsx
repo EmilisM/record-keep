@@ -116,6 +116,12 @@ const RecordItem = ({ className, to, accountMenuOptions, accountMenuOnChange, re
             <Span color="primaryDarker" fontSize="regular" fontWeight="light">
               {record.recordType.name}
             </Span>
+            <Span color="primaryDarker" fontSize="regular" fontWeight="light">
+              {' - '}
+            </Span>
+            <Span color="primaryDarker" fontSize="regular" fontWeight="light">
+              {record.recordFormat.name}
+            </Span>
           </P>
         </RowContainer>
       </TitleContainer>

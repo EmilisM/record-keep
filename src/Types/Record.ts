@@ -3,6 +3,7 @@ import { RecordType } from './RecordType';
 import { Moment } from 'moment';
 import { PatchOperations } from './API';
 import { RecordStyle } from './RecordStyle';
+import { RecordFormat } from './RecordFormat';
 
 export interface Record {
   id: number;
@@ -11,11 +12,14 @@ export interface Record {
   description: string | null;
   creationDate: Date;
   year: Date;
+  rating: number | null;
+  recordLength: string | null;
   label: string;
   collectionId: number;
   image: Image | null;
   recordType: RecordType;
-  recordStyles: RecordStyle[];
+  recordFormat: RecordFormat;
+  recordStyle: RecordStyle[];
 }
 
 export interface CreateRecordModel {
@@ -25,9 +29,11 @@ export interface CreateRecordModel {
   collectionId: number;
   imageId?: number;
   recordTypeId: string;
+  recordFormatId: string;
   styleIds: string[];
   label: string;
   year: Moment;
+  recordLength?: string;
 }
 
 interface RecordNameUpdate {
@@ -78,6 +84,24 @@ interface RecordStylesUpdate {
   value: string[];
 }
 
+interface RecordFormatUpdate {
+  op: PatchOperations;
+  path: '/recordFormatId';
+  value: string;
+}
+
+interface RecordRatingUpdate {
+  op: PatchOperations;
+  path: '/rating';
+  value: number;
+}
+
+interface RecordLengthUpdate {
+  op: PatchOperations;
+  path: '/recordLength';
+  value: string | null;
+}
+
 export type RecordUpdates =
   | RecordNameUpdate
   | RecordArtistUpdate
@@ -86,7 +110,10 @@ export type RecordUpdates =
   | RecordYearUpdate
   | RecordImageUpdate
   | RecordTypeUpdate
-  | RecordStylesUpdate;
+  | RecordStylesUpdate
+  | RecordFormatUpdate
+  | RecordRatingUpdate
+  | RecordLengthUpdate;
 
 export interface UpdateRecordModel {
   id: number;

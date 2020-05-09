@@ -80,6 +80,22 @@ const RecordInfoCard = ({ className, onActionMenuClick, record }: Props): ReactE
     <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
       {record.label}
     </P>
+    {record.description && [
+      <HStyled key="description" fontWeight="light" color="primaryLight" fontSize="normal" level="2">
+        Description
+      </HStyled>,
+      <P key="descriptionValue" fontWeight="semiBold" color="primaryLight" fontSize="regular">
+        {record.description}
+      </P>,
+    ]}
+    {record.recordLength && [
+      <HStyled key="recordLength" fontWeight="light" color="primaryLight" fontSize="normal" level="2">
+        Record length
+      </HStyled>,
+      <P key="recordLengthValue" fontWeight="semiBold" color="primaryLight" fontSize="regular">
+        {record.recordLength}
+      </P>,
+    ]}
     <HStyled fontWeight="light" color="primaryLight" fontSize="normal" level="2">
       Production year
     </HStyled>
@@ -92,27 +108,25 @@ const RecordInfoCard = ({ className, onActionMenuClick, record }: Props): ReactE
     <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
       {record.recordType.name}
     </P>
-    {record.description && [
-      <HStyled key="description" fontWeight="light" color="primaryLight" fontSize="normal" level="2">
-        Description
-      </HStyled>,
-      <P key="descriptionValue" fontWeight="semiBold" color="primaryLight" fontSize="regular">
-        {record.description}
-      </P>,
-    ]}
-    {record.recordStyles[0] && [
+    <HStyled fontWeight="light" color="primaryLight" fontSize="normal" level="2">
+      Record format
+    </HStyled>
+    <P fontWeight="semiBold" color="primaryLight" fontSize="regular">
+      {record.recordFormat.name}
+    </P>
+    {record.recordStyle[0] && [
       <HStyled key="genre" fontWeight="light" color="primaryLight" fontSize="normal" level="2">
         Genre
       </HStyled>,
       <P key="genreValue" fontWeight="semiBold" color="primaryLight" fontSize="regular">
-        {record.recordStyles[0].style.genre.name}
+        {record.recordStyle[0].style.genre.name}
       </P>,
     ]}
     <HStyled key="genre" fontWeight="light" color="primaryLight" fontSize="normal" level="2">
       Styles
     </HStyled>
     <P key="genreValue" fontWeight="semiBold" color="primaryLight" fontSize="regular">
-      {record.recordStyles.map(style => style.style.name).join(', ')}
+      {record.recordStyle.map(style => style.style.name).join(', ')}
     </P>
     <HStyled fontWeight="light" color="primaryLight" fontSize="normal" level="2">
       Creation date

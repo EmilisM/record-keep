@@ -88,28 +88,15 @@ const ChangePasswordForm = ({ className }: Props): ReactElement => {
           <H color="primaryDarker" fontSize="regular" fontWeight="semiBold" level="3">
             Change your password
           </H>
-          <FormInput
-            id="existingPassword"
-            placeholder="Existing password"
-            name="existingPassword"
-            type="password"
-            label="Existing password"
-          />
+          <FormInput id="existingPassword" placeholder="Existing password" name="existingPassword" type="password" />
           <FormErrorStyled name="existingPassword" />
-          <FormInput
-            id="newPassword"
-            placeholder="New password"
-            name="newPassword"
-            type="password"
-            label="New password"
-          />
+          <FormInput id="newPassword" placeholder="New password" name="newPassword" type="password" />
           <FormErrorStyled name="newPassword" />
           <FormInput
             id="repeatNewPassword"
             placeholder="Repeat new password"
             name="repeatNewPassword"
             type="password"
-            label="Repeat new password"
           />
           <FormErrorStyled name="repeatNewPassword" />
           <GlobalFormErrorStyled />

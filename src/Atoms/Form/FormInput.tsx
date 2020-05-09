@@ -13,14 +13,19 @@ const InputStyled = styled(Input)`
   }
 `;
 
-type Props = InputProps & {
-  label?: string;
-};
-
-const FormInput = ({ fontSize, fontWeight, ...rest }: Props): ReactElement => {
+const FormInput = ({ fontSize, fontWeight, ...rest }: InputProps): ReactElement => {
   const [field] = useField(rest);
 
-  return <InputStyled {...field} {...rest} fontSize={fontSize} fontWeight={fontWeight} color="primaryDarker" />;
+  return (
+    <InputStyled
+      {...field}
+      value={field.value || ''}
+      {...rest}
+      fontSize={fontSize}
+      fontWeight={fontWeight}
+      color="primaryDarker"
+    />
+  );
 };
 
 export default FormInput;
