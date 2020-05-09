@@ -10,6 +10,7 @@ import P from 'Atoms/Text/P';
 import { Record } from 'Types/Record';
 import Image from 'Atoms/Image';
 import { getDefaultResourceImage } from 'Services/image';
+import { ReactComponent as Delete } from 'Assets/Add.svg';
 
 const CardStyled = styled(Card)`
   background-color: ${props => props.theme.colors.background.secondaryDarker};
@@ -44,11 +45,9 @@ const ImageStyled = styled(Image)`
   height: 192px;
 `;
 
-type Props = {
-  className?: string;
-  onActionMenuClick: (options: ActionMenuOption) => void;
-  record: Record;
-};
+const DeleteStyled = styled(Delete)`
+  transform: rotateZ(45deg);
+`;
 
 const options: ActionMenuOption[] = [
   {
@@ -56,7 +55,18 @@ const options: ActionMenuOption[] = [
     label: 'Edit',
     Icon: Edit,
   },
+  {
+    value: 'delete',
+    label: 'Delete',
+    Icon: DeleteStyled,
+  },
 ];
+
+type Props = {
+  className?: string;
+  onActionMenuClick: (options: ActionMenuOption) => void;
+  record: Record;
+};
 
 const RecordInfoCard = ({ className, onActionMenuClick, record }: Props): ReactElement => (
   <CardStyled className={className}>

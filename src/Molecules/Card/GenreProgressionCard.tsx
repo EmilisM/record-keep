@@ -42,8 +42,8 @@ const GenreProgressionCard = ({ className, genreProgression }: Props): ReactElem
           Collection genre progression
         </H>
       </TitleContainer>
-      {genreProgression.length !== 0 ? (
-        <ContentContainer>
+      <ContentContainer>
+        {genreProgression.length !== 0 ? (
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={genreProgression} stackOffset="expand">
               <XAxis dataKey="name" stroke={theme.colors.text.primaryLight} interval="preserveStartEnd" />
@@ -61,12 +61,12 @@ const GenreProgressionCard = ({ className, genreProgression }: Props): ReactElem
               <Tooltip />
             </AreaChart>
           </ResponsiveContainer>
-        </ContentContainer>
-      ) : (
-        <HStyled level="3" color="primaryLight" fontWeight="regular" fontSize="normal">
-          No records in your collection
-        </HStyled>
-      )}
+        ) : (
+          <HStyled level="3" color="primaryLight" fontWeight="regular" fontSize="normal">
+            No records in your collection
+          </HStyled>
+        )}
+      </ContentContainer>
     </CardStyled>
   );
 };

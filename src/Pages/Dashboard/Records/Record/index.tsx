@@ -2,8 +2,8 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { RecordMatchParams } from 'Types/Record';
 import styled from 'styled-components/macro';
-import { useQuery } from 'react-query';
-import { getRecord } from 'API/Record';
+import { useQuery, useMutation } from 'react-query';
+import { getRecord, deleteRecord } from 'API/Record';
 import { getCollection } from 'API/Collection';
 import { isAxiosError } from 'Types/Error';
 import { RouteConfig } from 'Routes/RouteConfig';
@@ -13,6 +13,8 @@ import { ActionMenuOption } from 'Types/ActionMenu';
 import RecordPartOfCollection from 'Molecules/Card/RecordPartOfCollection';
 import CollectionItem from 'Molecules/Collection/CollectionItem';
 import EditRecordModal from 'Organisms/Modal/EditRecordModal';
+import DeletionModal from 'Organisms/Modal/DeletionModal';
+import { toast } from 'react-toastify';
 
 const RecordStyled = styled.div`
   display: flex;
@@ -62,6 +64,8 @@ type Props = RouteComponentProps<RecordMatchParams> & {
 const Record = ({ setTitle, match }: Props): ReactElement => {
   const { push } = useHistory();
   const [editModal, setEditModal] = useState(false);
+  const [deletionModal, setDeletionModal] = useState(false);
+  const [mutateDeleteRecord] = useMutation(deleteRecord);
 
   const onRecordError = (err: unknown): void => {
     if (isAxiosError(err) && err.response?.status === 404) {
@@ -92,6 +96,8 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
   const onActionMenuClick = (option: ActionMenuOption): void => {
     if (option.value === 'edit') {
       setEditModal(true);
+    } else if (option.value === 'delete') {
+      setDeletionModal(true);
     }
   };
 
@@ -102,6 +108,13 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
       </LoadingContainer>
     );
   }
+
+  const onRecordDelete = (recordId: number, collectionId: number): void => {
+    mutateDeleteRecord(recordId).then(() => {
+      toast.success('Record delete successful');
+      push(`${RouteConfig.Dashboard.Collections.Root}/${collectionId}`);
+    });
+  };
 
   return (
     <RecordStyled>
@@ -123,6 +136,12 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
         title="Edit record"
         recordsRefetch={refetch}
         record={record}
+      />
+      <DeletionModal
+        isOpen={deletionModal}
+        onRequestClose={() => setDeletionModal(false)}
+        onConfirm={() => onRecordDelete(record.id, record.collectionId)}
+        title={`Are you sure you want to delete ${record.name} by ${record.artist}`}
       />
     </RecordStyled>
   );
