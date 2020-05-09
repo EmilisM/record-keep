@@ -6,6 +6,7 @@ import moment from 'moment';
 import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
+import { ReactComponent as Delete } from 'Assets/Add.svg';
 import P from 'Atoms/Text/P';
 import Image from 'Atoms/Image';
 import { getDefaultResourceImage } from 'Services/image';
@@ -38,6 +39,10 @@ const ActionMenuStyled = styled(ActionMenu)`
   }
 `;
 
+const DeleteStyled = styled(Delete)`
+  transform: rotateZ(45deg);
+`;
+
 const ImageStyled = styled(Image)`
   width: 128px;
   height: 128px;
@@ -58,6 +63,11 @@ const options: ActionMenuOption[] = [
     value: 'edit',
     label: 'Edit',
     Icon: Edit,
+  },
+  {
+    value: 'delete',
+    label: 'Delete',
+    Icon: DeleteStyled,
   },
 ];
 

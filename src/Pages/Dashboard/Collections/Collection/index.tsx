@@ -2,8 +2,8 @@ import React, { ReactElement, useEffect, useReducer } from 'react';
 import styled from 'styled-components/macro';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-query';
-import { getCollection } from 'API/Collection';
-import { CollectionMatchParams } from 'Types/Collection';
+import { getCollection, getCollections } from 'API/Collection';
+import { CollectionMatchParams, CollectionDeleteFields } from 'Types/Collection';
 import Loader from 'Atoms/Loader/Loader';
 import { RecordCountCard } from 'Molecules/Card/RecordCountCard';
 import CollectionInfoCard from 'Molecules/Card/CollectionInfoCard';
@@ -15,6 +15,7 @@ import { ReactComponent as Delete } from 'Assets/Add.svg';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { getRecords, deleteRecord as deleteRecordAPI } from 'API/Record';
+import { deleteCollection as deleteCollectionAPI } from 'API/Collection';
 import NewRecorditem from 'Molecules/Record/NewRecordItem';
 import NewRecordModal from 'Organisms/Modal/NewRecordModal';
 import DeletionModal from 'Organisms/Modal/DeletionModal';
@@ -24,6 +25,8 @@ import EditRecordModal from 'Organisms/Modal/EditRecordModal';
 import { isAxiosError } from 'Types/Error';
 import { getGenres } from 'API/Genre';
 import LinkToAnalysisCard from 'Molecules/Card/LinkToAnalysisCard';
+import CollectionDeleteModal from 'Organisms/Modal/CollectionDeleteModal';
+import { FormikHelpers } from 'formik';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -144,8 +147,10 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
   );
 
   const { data: genres, status: genreStatus } = useQuery('genres', getGenres);
+  const { data: collections, status: collectionsStatus } = useQuery('collections', () => getCollections());
 
   const [deleteRecord] = useMutation(deleteRecordAPI);
+  const [deleteCollection] = useMutation(deleteCollectionAPI);
 
   useEffect(() => {
     if (collectionData) {
@@ -156,6 +161,8 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
   const onCollectionActionClick = (options: ActionMenuOption): void => {
     if (options.value === 'edit') {
       dispatch({ type: 'editModal/open' });
+    } else if (options.value === 'delete') {
+      dispatch({ type: 'collectionDeleteModal/open' });
     }
   };
 
@@ -187,7 +194,9 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     !recordsData ||
     recordsStatus === 'loading' ||
     !genres ||
-    genreStatus === 'loading'
+    genreStatus === 'loading' ||
+    !collections ||
+    collectionsStatus === 'loading'
   ) {
     return (
       <LoaderContainer>
@@ -195,6 +204,19 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
       </LoaderContainer>
     );
   }
+
+  const onCollectionDeleteSubmit = (
+    values: CollectionDeleteFields,
+    helpers: FormikHelpers<CollectionDeleteFields>,
+  ): void => {
+    const destinationId = values.action === 'move' ? values.destination.value : undefined;
+
+    deleteCollection({ id: collectionData.id, destinationId }).then(() => {
+      helpers.setSubmitting(false);
+      toast.success('Collection delete completed');
+      push(RouteConfig.Dashboard.Collections.Root);
+    });
+  };
 
   return (
     <CollectionStyled>
@@ -233,6 +255,13 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
         onRequestClose={() => dispatch({ type: 'newRecordModal/close' })}
         recordsRefetch={recordsRefetch}
         collectionId={collectionData.id}
+      />
+      <CollectionDeleteModal
+        activeCollection={collectionData}
+        isOpen={state.collectionDeleteModal}
+        onRequestClose={() => dispatch({ type: 'collectionDeleteModal/close' })}
+        collections={collections}
+        onSubmit={onCollectionDeleteSubmit}
       />
       {state.activeRecord && [
         <DeletionModal
