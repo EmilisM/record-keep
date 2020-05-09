@@ -100,7 +100,13 @@ const UserActivityGraphCard = ({ className }: Props): ReactElement => {
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={getActivityChartData()}>
             <Tooltip formatter={formatter} label="test" />
-            <Line dataKey="count" type="monotone" stroke={theme.colors.special.loaderFirst} strokeWidth={2} />
+            <Line
+              dataKey="count"
+              type="monotone"
+              stroke={theme.colors.special.loaderFirst}
+              strokeWidth={2}
+              isAnimationActive={false}
+            />
             <XAxis dataKey="name" hide />
           </LineChart>
         </ResponsiveContainer>

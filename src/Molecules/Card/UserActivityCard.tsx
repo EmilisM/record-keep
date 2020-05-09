@@ -29,7 +29,7 @@ const ContentContainer = styled.div`
 `;
 
 const ListStyled = styled(List)`
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
 `;
 
