@@ -19,7 +19,11 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
   switch (activity.action.name) {
     case 'CollectionCreate': {
       if (!activity.collection) {
-        return null;
+        return (
+          <ListItem key={index} time={time} Icon={CollectionIcon}>
+            Created collection
+          </ListItem>
+        );
       }
 
       return (
@@ -30,7 +34,7 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
           time={time}
           Icon={CollectionIcon}
         >
-          Created collecion {activity.collection?.name}
+          Created collection {activity.collection && activity.collection?.name}
         </ListItem>
       );
     }
@@ -43,7 +47,11 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
     }
     case 'CollectionUpdate': {
       if (!activity.collection) {
-        return null;
+        return (
+          <ListItem key={index} time={time} Icon={CollectionIcon}>
+            Updated collection
+          </ListItem>
+        );
       }
 
       return (
@@ -60,7 +68,11 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
     }
     case 'CollectionDeleteWithMove': {
       if (!activity.collection) {
-        return null;
+        return (
+          <ListItem key={index} time={time} Icon={CollectionIcon}>
+            Deleted collecion and moved records
+          </ListItem>
+        );
       }
 
       return (
@@ -105,7 +117,11 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
     }
     case 'RecordCreate': {
       if (!activity.record) {
-        return null;
+        return (
+          <ListItem key={index} time={time} Icon={RecordIcon}>
+            Created record
+          </ListItem>
+        );
       }
 
       return (
@@ -129,7 +145,11 @@ const getUserActivityItems = (activity: UserActivity, index: number): ReactEleme
     }
     case 'RecordUpdate': {
       if (!activity.record) {
-        return null;
+        return (
+          <ListItem key={index} time={time} Icon={RecordIcon}>
+            Created record
+          </ListItem>
+        );
       }
 
       return (
