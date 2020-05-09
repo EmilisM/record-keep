@@ -45,10 +45,6 @@ const Link = styled(LinkBase)`
     font-size: ${props => fontSizes[props.fontSize || 'normal'].mobile}px;
   }
 
-  &:hover {
-    opacity: 0.6;
-  }
-
   transition: all 300ms ease;
 `;
 

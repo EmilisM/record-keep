@@ -19,6 +19,10 @@ const LinkStyled = styled(Link)`
   align-items: center;
 
   padding: 10px 20px;
+
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 const ArrowStyled = styled(Arrow)`

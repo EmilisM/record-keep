@@ -69,6 +69,12 @@ const RecordItemStyled = styled(RecordItem)`
   }
 `;
 
+const LinkStyled = styled(Link)`
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
 const accountMenuOptions: ActionMenuOption[] = [
   {
     value: 'edit',
@@ -147,9 +153,9 @@ const Records = (): ReactElement => {
         {data.length === 0 && (
           <H level="2" color="primaryDarker" fontWeight="semiBold" fontSize="normal">
             You have no records, go to{' '}
-            <Link to={RouteConfig.Dashboard.Collections.Root} fontWeight="semiBold" color="primaryDarker">
+            <LinkStyled to={RouteConfig.Dashboard.Collections.Root} fontWeight="semiBold" color="primaryDarker">
               collections page
-            </Link>{' '}
+            </LinkStyled>{' '}
             to create some.
           </H>
         )}
