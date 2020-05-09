@@ -5,8 +5,6 @@ import ActionMenu from 'Organisms/ActionMenu';
 import { ActionMenuOption } from 'Types/ActionMenu';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
 import H from 'Atoms/Text/H';
-import { useQuery } from 'react-query';
-import { getUserInfo } from 'API/User';
 import P from 'Atoms/Text/P';
 import moment from 'moment';
 import EditUserInfoModal from 'Organisms/Modal/EditUserInfoModal';
@@ -17,6 +15,7 @@ import { updateImage, createImage } from 'API/Image';
 import { updateUserInfo } from 'API/User';
 import { FormikHelpers } from 'formik';
 import { toast } from 'react-toastify';
+import { UserInfo } from 'Types/User';
 
 const CardStyled = styled(Card)`
   width: 100%;
@@ -85,11 +84,12 @@ const actionMenuOptions: ActionMenuOption[] = [
 
 type Props = {
   className?: string;
+  data: UserInfo;
+  refetch: () => Promise<UserInfo>;
 };
 
-const UserCard = ({ className }: Props): ReactElement => {
+const UserCard = ({ className, data, refetch }: Props): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data, status, refetch } = useQuery('userInfo', getUserInfo);
 
   const [mutateUpdateImage] = useMutation(updateImage);
   const [mutateCreateImage] = useMutation(createImage);
@@ -126,7 +126,7 @@ const UserCard = ({ className }: Props): ReactElement => {
   };
 
   return (
-    <CardStyled className={className} isLoading={status === 'loading' && !data}>
+    <CardStyled className={className}>
       <CardHeader>
         <UserImage src={data?.profileImage?.data} />
         <ActionMenuStyled options={actionMenuOptions} onChange={onChangeActionMenu} />

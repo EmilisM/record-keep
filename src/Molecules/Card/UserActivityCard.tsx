@@ -1,13 +1,11 @@
 import React, { ReactElement } from 'react';
 import Card from 'Atoms/Card/Card';
-import { useQuery } from 'react-query';
-import { getUserInfo } from 'API/User';
 import styled from 'styled-components/macro';
 import H from 'Atoms/Text/H';
-import Loader from 'Atoms/Loader/Loader';
 import getUserActivityItems from 'Services/userActivity';
 import List from 'Molecules/List/List';
 import moment from 'moment';
+import { UserInfo } from 'Types/User';
 
 const CardStyled = styled(Card)`
   display: flex;
@@ -36,14 +34,12 @@ const ListStyled = styled(List)`
   overflow-y: auto;
 `;
 
-const UserActivityCard = (): ReactElement => {
-  const { data, status } = useQuery('userInfo', getUserInfo);
+type Props = {
+  userInfo: UserInfo;
+};
 
-  if (!data || status === 'loading') {
-    return <Loader />;
-  }
-
-  const activities = data.userActivities.sort((one, two) => {
+const UserActivityCard = ({ userInfo }: Props): ReactElement => {
+  const activities = userInfo.userActivities.sort((one, two) => {
     const oneStamp = moment(one.timestamp);
     const twoStamp = moment(two.timestamp);
 

@@ -3,6 +3,9 @@ import styled from 'styled-components/macro';
 import UserCard from 'Organisms/UserCard';
 import UserActivityCard from 'Molecules/Card/UserActivityCard';
 import UserActivityGraphCard from 'Molecules/Card/UserActivityGraphCard';
+import { useQuery } from 'react-query';
+import { getUserInfo } from 'API/User';
+import Loader from 'Atoms/Loader/Loader';
 
 const HomeContainer = styled.div`
   width: 100%;
@@ -42,16 +45,33 @@ const UserActivityGraphCardStyled = styled(UserActivityGraphCard)`
   margin-top: 10px;
 `;
 
-const Home = (): ReactElement => (
-  <HomeContainer>
-    <FirstColumn>
-      <UserActivityCard />
-    </FirstColumn>
-    <SecondColumn>
-      <UserCard />
-      <UserActivityGraphCardStyled />
-    </SecondColumn>
-  </HomeContainer>
-);
+const LoaderContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+const Home = (): ReactElement => {
+  const { data, status, refetch } = useQuery('userInfo', getUserInfo);
+
+  if (!data || status === 'loading') {
+    return (
+      <LoaderContainer>
+        <Loader />
+      </LoaderContainer>
+    );
+  }
+
+  return (
+    <HomeContainer>
+      <FirstColumn>
+        <UserActivityCard userInfo={data} />
+      </FirstColumn>
+      <SecondColumn>
+        <UserCard data={data} refetch={refetch} />
+        <UserActivityGraphCardStyled data={data} />
+      </SecondColumn>
+    </HomeContainer>
+  );
+};
 
 export default Home;

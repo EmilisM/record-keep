@@ -1,15 +1,13 @@
 import React, { ReactElement, useContext } from 'react';
 import Card from 'Atoms/Card/Card';
-import { useQuery } from 'react-query';
-import { getUserInfo } from 'API/User';
 import styled, { ThemeContext } from 'styled-components/macro';
 import H from 'Atoms/Text/H';
-import Loader from 'Atoms/Loader/Loader';
 import { LineChart, ResponsiveContainer, Line, Tooltip, TooltipFormatter, XAxis } from 'recharts';
 import { countBy, map } from 'lodash';
 import moment from 'moment';
 import { UserActivityChart } from 'Types/UserActivities';
 import { isNumber } from 'Types/General';
+import { UserInfo } from 'Types/User';
 
 const CardStyled = styled(Card)`
   display: flex;
@@ -35,15 +33,11 @@ const ContentContainer = styled.div`
 
 type Props = {
   className?: string;
+  data: UserInfo;
 };
 
-const UserActivityGraphCard = ({ className }: Props): ReactElement => {
+const UserActivityGraphCard = ({ className, data }: Props): ReactElement => {
   const theme = useContext(ThemeContext);
-  const { data, status } = useQuery('userInfo', getUserInfo);
-
-  if (!data || status === 'loading') {
-    return <Loader />;
-  }
 
   const getActivityChartData = (): UserActivityChart[] => {
     const activities = data.userActivities.sort((one, two) => {
