@@ -132,3 +132,8 @@ export interface RecordGenre {
 export interface SelectedRecords {
   [K: number]: true;
 }
+
+export interface RecordProgression {
+  name: string;
+  value: number;
+}

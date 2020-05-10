@@ -2,8 +2,8 @@ import React, { ReactElement, useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components/macro';
 import Card from 'Atoms/Card/Card';
 import { AreaChart, ResponsiveContainer, Area, Tooltip, XAxis } from 'recharts';
-import { GenreProgression } from 'Types/Genre';
 import H from 'Atoms/Text/H';
+import { RecordTypeProgression } from 'Types/RecordType';
 
 const CardStyled = styled(Card)`
   background-color: ${props => props.theme.colors.background.secondaryDarker};
@@ -25,10 +25,10 @@ const ContentContainer = styled.div`
 
 type Props = {
   className?: string;
-  genreProgression: GenreProgression[];
+  recordTypeProgression: RecordTypeProgression[];
 };
 
-const GenreProgressionCard = ({ className, genreProgression }: Props): ReactElement => {
+const CollectionRecordTypeCard = ({ className, recordTypeProgression }: Props): ReactElement => {
   const theme = useContext(ThemeContext);
 
   const getColor = (index: number): string => {
@@ -39,20 +39,20 @@ const GenreProgressionCard = ({ className, genreProgression }: Props): ReactElem
     <CardStyled className={className}>
       <TitleContainer>
         <H level="2" color="primaryLight" fontWeight="semiBold" fontSize="normal">
-          Genre progression
+          Record type progression
         </H>
       </TitleContainer>
       <ContentContainer>
-        {genreProgression.length !== 0 ? (
+        {recordTypeProgression.length !== 0 ? (
           <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={genreProgression} stackOffset="expand">
+            <AreaChart data={recordTypeProgression} stackOffset="expand">
               <XAxis dataKey="name" stroke={theme.colors.text.primaryLight} interval="preserveStartEnd" />
-              {Object.keys(genreProgression[0].genres).map((genre, i) => (
+              {Object.keys(recordTypeProgression[0].recordTypes).map((rt, i) => (
                 <Area
-                  key={genre}
+                  key={rt}
                   type="monotone"
-                  name={genre}
-                  dataKey={`genres.${genre}`}
+                  name={rt}
+                  dataKey={`recordTypes.${rt}`}
                   stackId="1"
                   stroke={getColor(i)}
                   fill={getColor(i)}
@@ -71,4 +71,4 @@ const GenreProgressionCard = ({ className, genreProgression }: Props): ReactElem
   );
 };
 
-export default GenreProgressionCard;
+export default CollectionRecordTypeCard;

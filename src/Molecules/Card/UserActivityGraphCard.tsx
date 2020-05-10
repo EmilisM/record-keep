@@ -96,7 +96,7 @@ const UserActivityGraphCard = ({ className, data }: Props): ReactElement => {
       <ContentContainer>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={getActivityChartData()}>
-            <Tooltip formatter={formatter} label="test" />
+            <Tooltip formatter={formatter} />
             <Line
               dataKey="count"
               type="monotone"
