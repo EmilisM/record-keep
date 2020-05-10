@@ -3,12 +3,22 @@ import { Link as RouterLink } from 'react-router-dom';
 import styled, { DefaultTheme } from 'styled-components/macro';
 import { FontSizes } from 'Types/Style';
 
-type Sizes = 'normal';
+type Sizes = 'normal' | 'landingTitle' | 'dashboardTitle';
 const fontSizes: FontSizes<Sizes> = {
   normal: {
     desktop: 20,
     tablet: 18,
     mobile: 16,
+  },
+  dashboardTitle: {
+    desktop: 30,
+    tablet: 30,
+    mobile: 25,
+  },
+  landingTitle: {
+    desktop: 80,
+    tablet: 80,
+    mobile: 50,
   },
 };
 

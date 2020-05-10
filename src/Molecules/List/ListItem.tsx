@@ -10,8 +10,11 @@ const ListItemStyled = styled.li`
   flex-direction: row;
 
   width: 100%;
-  height: 48px;
   padding: 5px 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    padding: 5px 10px;
+  }
 
   &:not(:first-child) {
     border: solid ${props => props.theme.colors.border.cardShadow};

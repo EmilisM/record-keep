@@ -80,6 +80,45 @@ export const reducer = (state: State, action: Actions): State => {
         collectionDeleteModal: false,
       };
     }
+    case 'selectedRecords/clear': {
+      return {
+        ...state,
+        selectedRecords: {},
+      };
+    }
+    case 'selectedRecords/add': {
+      return {
+        ...state,
+        selectedRecords: {
+          ...state.selectedRecords,
+          [action.payload]: true,
+        },
+      };
+    }
+    case 'selectedRecords/remove': {
+      const newSelectedRecords = {
+        ...state.selectedRecords,
+      };
+
+      delete newSelectedRecords[action.payload];
+
+      return {
+        ...state,
+        selectedRecords: newSelectedRecords,
+      };
+    }
+    case 'deleteAllModal/open': {
+      return {
+        ...state,
+        deleteAllModal: true,
+      };
+    }
+    case 'deleteAllModal/close': {
+      return {
+        ...state,
+        deleteAllModal: false,
+      };
+    }
     default: {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const never: never = action;
@@ -95,4 +134,6 @@ export const initialState: State = {
   activeRecord: null,
   editRecordModal: false,
   collectionDeleteModal: false,
+  selectedRecords: {},
+  deleteAllModal: false,
 };

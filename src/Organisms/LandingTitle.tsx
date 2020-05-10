@@ -37,7 +37,9 @@ const LinkStyled = styled(Link)`
 const LandingTitle = (): ReactElement => (
   <TitleStyled>
     <HeadingFirstStyled fontWeight="semiBold" fontSize="landingTitle" level="1">
-      <LinkStyled to={RouteConfig.Home}>Record Keep</LinkStyled>
+      <LinkStyled fontSize="landingTitle" to={RouteConfig.Home}>
+        Record Keep
+      </LinkStyled>
     </HeadingFirstStyled>
     <HeadingSecondStyled fontWeight="regular" fontSize="landingSubTitle" level="2">
       An online music collection for enthusiasts.

@@ -17,8 +17,8 @@ export const createRecord = async (data: CreateRecordModel): Promise<void> => {
   return await API.post('/api/record', data);
 };
 
-export const deleteRecord = async (id: number): Promise<void> => {
-  return await API.delete(`/api/record/${id}`);
+export const deleteRecord = async (id: (number | string)[]): Promise<void> => {
+  return await API.delete(`/api/record?${id.map(id => `id=${id}`).join('&')}`);
 };
 
 export const updateRecord = async (data: UpdateRecordModel): Promise<void> => {

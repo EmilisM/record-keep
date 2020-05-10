@@ -114,7 +114,7 @@ const Records = (): ReactElement => {
   };
 
   const onRecordDelete = (record: Record): void => {
-    mutateDeleteRecord(record.id)
+    mutateDeleteRecord([record.id])
       .then(() => refetch())
       .then(() => {
         dispatch({ type: 'deleteModal/close' });

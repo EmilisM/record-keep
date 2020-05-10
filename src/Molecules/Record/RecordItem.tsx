@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 import Image from 'Atoms/Image';
 import Link from 'Atoms/Link/Link';
@@ -11,7 +11,11 @@ import Span from 'Atoms/Text/Span';
 import P from 'Atoms/Text/P';
 import moment from 'moment';
 
-const RecordItemStyled = styled(Link)`
+type RecordItemStyleProps = {
+  selected: boolean;
+};
+
+const RecordItemStyled = styled(Link)<RecordItemStyleProps>`
   display: flex;
   width: 100%;
   align-items: center;
@@ -31,6 +35,8 @@ const RecordItemStyled = styled(Link)`
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     padding: 10px;
   }
+
+  background-color: ${props => props.selected && props.theme.colors.background.primaryDarker};
 `;
 
 const TitleContainer = styled.div`
@@ -81,15 +87,25 @@ const RowContainer = styled.div`
 
 export type Props = {
   className?: string;
+  isSelected?: boolean;
+  onClick?: (e: MouseEvent<HTMLAnchorElement>) => void;
   to: string;
   accountMenuOptions: ActionMenuOption[];
   accountMenuOnChange: (option: ActionMenuOption) => void;
   record: Record;
 };
 
-const RecordItem = ({ className, to, accountMenuOptions, accountMenuOnChange, record }: Props): ReactElement => {
+const RecordItem = ({
+  className,
+  to,
+  accountMenuOptions,
+  accountMenuOnChange,
+  record,
+  isSelected,
+  onClick,
+}: Props): ReactElement => {
   return (
-    <RecordItemStyled className={className} to={to}>
+    <RecordItemStyled className={className} to={to} selected={!!isSelected} onClick={onClick}>
       <ImageStyled className="record-item__image" src={getDefaultResourceImage(record.image?.data)} />
       <TitleContainer>
         <RowContainer>

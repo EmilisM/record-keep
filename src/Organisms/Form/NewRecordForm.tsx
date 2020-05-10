@@ -23,6 +23,7 @@ import { Record } from 'Types/Record';
 import FormSelect from 'Atoms/Form/FormSelect';
 import FormButton from 'Atoms/Form/FormButton';
 import Form from 'Atoms/Form/Form';
+import { Collection } from 'Types/Collection';
 
 const ImagePickerStyled = styled(ImagePicker)`
   margin-top: 10px;
@@ -100,10 +101,17 @@ type Props = {
   className?: string;
   collectionId: number;
   recordsRefetch: () => Promise<Record[]>;
+  collectionRefetch: () => Promise<Collection>;
   onRequestClose: () => void;
 };
 
-const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose }: Props): ReactElement => {
+const NewRecordForm = ({
+  className,
+  recordsRefetch,
+  collectionId,
+  onRequestClose,
+  collectionRefetch,
+}: Props): ReactElement => {
   const { data: recordTypes } = useQuery('recordTypes', getRecordTypes);
   const { data: genres } = useQuery('genres', getGenres);
   const { data: recordFormats } = useQuery('recordFormats', getRecordFormats);
@@ -191,6 +199,7 @@ const NewRecordForm = ({ className, recordsRefetch, collectionId, onRequestClose
           recordLength,
         }),
       )
+      .then(() => collectionRefetch())
       .then(() => recordsRefetch())
       .then(() => {
         helpers.setSubmitting(false);

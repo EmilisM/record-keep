@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useReducer } from 'react';
+import React, { ReactElement, useEffect, useReducer, MouseEvent } from 'react';
 import styled from 'styled-components/macro';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-query';
@@ -13,6 +13,7 @@ import EditCollectionModal from 'Organisms/Modal/EditCollectionModal';
 import RecordItem from 'Molecules/Record/RecordItem';
 import { ReactComponent as Delete } from 'Assets/Add.svg';
 import { ReactComponent as Edit } from 'Assets/Edit.svg';
+import { ReactComponent as Select } from 'Assets/Select.svg';
 import { RouteConfig } from 'Routes/RouteConfig';
 import { getRecords, deleteRecord as deleteRecordAPI } from 'API/Record';
 import { deleteCollection as deleteCollectionAPI } from 'API/Collection';
@@ -27,6 +28,7 @@ import { getGenres } from 'API/Genre';
 import LinkToAnalysisCard from 'Molecules/Card/LinkToAnalysisCard';
 import CollectionDeleteModal from 'Organisms/Modal/CollectionDeleteModal';
 import { FormikHelpers } from 'formik';
+import { isEmpty } from 'lodash';
 
 const CollectionStyled = styled.div`
   display: flex;
@@ -82,18 +84,14 @@ const DeleteStyled = styled(Delete)`
 `;
 
 const RecordItemStyled = styled(RecordItem)`
-  margin-top: 20px;
-
-  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
-    margin-top: 10px;
-  }
+  margin-top: 10px;
 `;
 
 const NewRecorditemStyled = styled(NewRecorditem)`
-  margin-top: 20px;
+  margin: 20px 0;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
-    margin-top: 10px;
+    margin: 10px 0;
   }
 `;
 
@@ -104,19 +102,6 @@ const LinkToAnalysisCardStyled = styled(LinkToAnalysisCard)`
     margin-top: 10px;
   }
 `;
-
-const accountMenuOptions: ActionMenuOption[] = [
-  {
-    value: 'edit',
-    label: 'Edit',
-    Icon: Edit,
-  },
-  {
-    value: 'delete',
-    label: 'Delete',
-    Icon: DeleteStyled,
-  },
-];
 
 type Props = RouteComponentProps<CollectionMatchParams> & {
   setTitle: (newTitle: string) => void;
@@ -167,12 +152,18 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
   };
 
   const onChange = (options: ActionMenuOption, activeRecord: Record): void => {
-    dispatch({ type: 'activeRecord/set', payload: activeRecord });
-
     if (options.value === 'delete') {
+      dispatch({ type: 'activeRecord/set', payload: activeRecord });
+      dispatch({ type: 'selectedRecords/clear' });
       dispatch({ type: 'deletionModal/open' });
     } else if (options.value === 'edit') {
+      dispatch({ type: 'activeRecord/set', payload: activeRecord });
+      dispatch({ type: 'selectedRecords/clear' });
       dispatch({ type: 'editRecordModal/open' });
+    } else if (options.value === 'select' && state.selectedRecords[activeRecord.id]) {
+      dispatch({ type: 'selectedRecords/remove', payload: activeRecord.id });
+    } else if (options.value === 'select' && !state.selectedRecords[activeRecord.id]) {
+      dispatch({ type: 'selectedRecords/add', payload: activeRecord.id });
     }
   };
 
@@ -181,11 +172,12 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
       return;
     }
 
-    deleteRecord(state.activeRecord.id).then(() => {
-      recordsRefetch();
-      dispatch({ type: 'deletionModal/close' });
-      toast.success('Record delete complete');
-    });
+    deleteRecord([state.activeRecord.id])
+      .then(() => recordsRefetch())
+      .then(() => {
+        dispatch({ type: 'deletionModal/close' });
+        toast.success('Record deletion completed');
+      });
   };
 
   if (
@@ -205,6 +197,28 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
     );
   }
 
+  const getAccountMenuOptions = (recordId: number): ActionMenuOption[] => {
+    const accountMenuOptions: ActionMenuOption[] = [
+      {
+        value: 'edit',
+        label: 'Edit',
+        Icon: Edit,
+      },
+      {
+        value: 'delete',
+        label: 'Delete',
+        Icon: DeleteStyled,
+      },
+      {
+        value: 'select',
+        label: state.selectedRecords[recordId] ? 'Deselect' : 'Select',
+        Icon: Select,
+      },
+    ];
+
+    return accountMenuOptions;
+  };
+
   const onCollectionDeleteSubmit = (
     values: CollectionDeleteFields,
     helpers: FormikHelpers<CollectionDeleteFields>,
@@ -216,6 +230,34 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
       toast.success('Collection delete completed');
       push(RouteConfig.Dashboard.Collections.Root);
     });
+  };
+
+  const onClickRecordItem = (e: MouseEvent<HTMLAnchorElement>, recordId: number): void => {
+    if (isEmpty(state.selectedRecords)) {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (state.selectedRecords[recordId]) {
+      dispatch({ type: 'selectedRecords/remove', payload: recordId });
+    } else {
+      dispatch({ type: 'selectedRecords/add', payload: recordId });
+    }
+  };
+
+  const onConfirmAllDelete = (): void => {
+    if (isEmpty(state.selectedRecords)) {
+      return;
+    }
+
+    deleteRecord([...Object.keys(state.selectedRecords)])
+      .then(() => recordsRefetch())
+      .then(() => {
+        dispatch({ type: 'selectedRecords/clear' });
+        dispatch({ type: 'deleteAllModal/close' });
+        toast.success('Record deletion completed');
+      });
   };
 
   return (
@@ -232,15 +274,21 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
         </StickyContainer>
       </ColumnFirst>
       <ColumnSecond>
-        <RecordCountCard count={collectionData.recordCount} />
+        <RecordCountCard
+          onDeleteSelected={() => dispatch({ type: 'deleteAllModal/open' })}
+          selectedCount={Object.keys(state.selectedRecords).length}
+          count={collectionData.recordCount}
+        />
         <NewRecorditemStyled onClick={() => dispatch({ type: 'newRecordModal/open' })} />
         {recordsData.map(record => (
           <RecordItemStyled
             key={record.id}
             to={`${RouteConfig.Dashboard.Records.Root}/${record.id}`}
-            accountMenuOptions={accountMenuOptions}
+            accountMenuOptions={getAccountMenuOptions(record.id)}
             accountMenuOnChange={option => onChange(option, record)}
             record={record}
+            isSelected={state.selectedRecords[record.id]}
+            onClick={e => onClickRecordItem(e, record.id)}
           />
         ))}
       </ColumnSecond>
@@ -254,6 +302,7 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
         isOpen={state.newRecordModal}
         onRequestClose={() => dispatch({ type: 'newRecordModal/close' })}
         recordsRefetch={recordsRefetch}
+        collectionRefetch={collectionRefetch}
         collectionId={collectionData.id}
       />
       <CollectionDeleteModal
@@ -263,6 +312,17 @@ const Collection = ({ setTitle, match }: Props): ReactElement => {
         collections={collections}
         onSubmit={onCollectionDeleteSubmit}
       />
+      {!isEmpty(state.selectedRecords) && (
+        <DeletionModal
+          key="deletionModal"
+          title={`Are you sure you want to delete ${Object.keys(state.selectedRecords).length} ${
+            Object.keys(state.selectedRecords).length > 1 ? 'records' : 'record'
+          } ?`}
+          isOpen={state.deleteAllModal}
+          onRequestClose={() => dispatch({ type: 'deleteAllModal/close' })}
+          onConfirm={onConfirmAllDelete}
+        />
+      )}
       {state.activeRecord && [
         <DeletionModal
           key="deletionModal"

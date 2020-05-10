@@ -128,3 +128,7 @@ export interface RecordGenre {
   name: string;
   value: number;
 }
+
+export interface SelectedRecords {
+  [K: number]: true;
+}

@@ -1,5 +1,5 @@
 import { ActionWithPayload, Action } from './State';
-import { Record } from './Record';
+import { Record, SelectedRecords } from './Record';
 
 export interface State {
   editModal: boolean;
@@ -8,6 +8,8 @@ export interface State {
   activeRecord: Record | null;
   editRecordModal: boolean;
   collectionDeleteModal: boolean;
+  selectedRecords: SelectedRecords;
+  deleteAllModal: boolean;
 }
 
 export type Actions =
@@ -23,4 +25,9 @@ export type Actions =
   | Action<'editRecordModal/open'>
   | Action<'editRecordModal/close'>
   | Action<'collectionDeleteModal/open'>
-  | Action<'collectionDeleteModal/close'>;
+  | Action<'collectionDeleteModal/close'>
+  | Action<'selectedRecords/clear'>
+  | ActionWithPayload<'selectedRecords/add', number>
+  | ActionWithPayload<'selectedRecords/remove', number>
+  | Action<'deleteAllModal/open'>
+  | Action<'deleteAllModal/close'>;

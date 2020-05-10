@@ -19,7 +19,7 @@ const ArrowStyled = styled(Arrow)`
 
 const MobileMenuStyled = styled.div<Pick<Props, 'isOpen'>>`
   width: 100%;
-  height: ${props => (props.isOpen ? '294px' : '54px')};
+  height: ${props => (props.isOpen ? '354px' : '54px')};
 
   display: none;
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
@@ -77,7 +77,7 @@ const DashboardMenuMobile = ({ className, isOpen, onClick, onClickLogout }: Prop
   <MobileMenuStyled isOpen={isOpen} className={className}>
     <HeaderContainer>
       <TitleStyled fontWeight="semiBold" fontSize="dashboardTitle" level="1">
-        <LinkStyled to={RouteConfig.Dashboard.Home} onClick={onClick}>
+        <LinkStyled fontSize="dashboardTitle" to={RouteConfig.Dashboard.Home} onClick={onClick}>
           Record keep
         </LinkStyled>
       </TitleStyled>

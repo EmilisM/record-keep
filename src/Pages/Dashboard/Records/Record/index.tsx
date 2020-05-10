@@ -110,7 +110,7 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
   }
 
   const onRecordDelete = (recordId: number, collectionId: number): void => {
-    mutateDeleteRecord(recordId).then(() => {
+    mutateDeleteRecord([recordId]).then(() => {
       toast.success('Record delete successful');
       push(`${RouteConfig.Dashboard.Collections.Root}/${collectionId}`);
     });

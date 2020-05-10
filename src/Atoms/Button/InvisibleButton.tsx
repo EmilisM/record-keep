@@ -31,9 +31,8 @@ const Button = styled.button<Props>`
   border: unset;
   background: inherit;
   padding: 0;
-  
-  @media ((min-width: ${props => props.theme.breakpoints.mobile}) and (max-width: ${props =>
-  props.theme.breakpoints.desktop})) {
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
     font-size: ${props => fontSizes[props.fontSize || 'medium'].tablet};
   }
 
@@ -42,8 +41,25 @@ const Button = styled.button<Props>`
   }
 `;
 
-const InvisibleButton = ({ className, name, onClick, children, type }: Props): ReactElement => (
-  <Button className={className} onClick={onClick} name={name} type={type || 'button'}>
+const InvisibleButton = ({
+  className,
+  name,
+  onClick,
+  children,
+  type,
+  color,
+  fontWeight,
+  fontSize,
+}: Props): ReactElement => (
+  <Button
+    className={className}
+    onClick={onClick}
+    name={name}
+    type={type || 'button'}
+    color={color}
+    fontWeight={fontWeight}
+    fontSize={fontSize}
+  >
     {children}
   </Button>
 );

@@ -3,6 +3,7 @@ import Modal from 'Atoms/Modal';
 import NewRecordForm from 'Organisms/Form/NewRecordForm';
 import { Record } from 'Types/Record';
 import { ReactComponent as RecordIcon } from 'Assets/Records.svg';
+import { Collection } from 'Types/Collection';
 
 type Props = {
   className?: string;
@@ -10,9 +11,17 @@ type Props = {
   onRequestClose: () => void;
   collectionId: number;
   recordsRefetch: () => Promise<Record[]>;
+  collectionRefetch: () => Promise<Collection>;
 };
 
-const NewRecordModal = ({ className, isOpen, onRequestClose, collectionId, recordsRefetch }: Props): ReactElement => (
+const NewRecordModal = ({
+  className,
+  isOpen,
+  onRequestClose,
+  collectionId,
+  recordsRefetch,
+  collectionRefetch,
+}: Props): ReactElement => (
   <Modal
     Icon={RecordIcon}
     className={className}
@@ -20,7 +29,12 @@ const NewRecordModal = ({ className, isOpen, onRequestClose, collectionId, recor
     onRequestClose={onRequestClose}
     title="Create a new record"
   >
-    <NewRecordForm collectionId={collectionId} recordsRefetch={recordsRefetch} onRequestClose={onRequestClose} />
+    <NewRecordForm
+      collectionId={collectionId}
+      recordsRefetch={recordsRefetch}
+      onRequestClose={onRequestClose}
+      collectionRefetch={collectionRefetch}
+    />
   </Modal>
 );
 
