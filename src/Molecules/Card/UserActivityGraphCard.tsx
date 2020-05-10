@@ -100,7 +100,7 @@ const UserActivityGraphCard = ({ className, data }: Props): ReactElement => {
             <Line
               dataKey="count"
               type="monotone"
-              stroke={theme.colors.special.loaderFirst}
+              stroke={theme.colors.background.secondaryDark}
               strokeWidth={2}
               isAnimationActive={false}
             />

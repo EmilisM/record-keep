@@ -14,6 +14,10 @@ const TitleContainer = styled.div`
   padding: 20px;
   background-color: ${props => props.theme.colors.background.secondaryDarker};
   border-radius: 4px 4px 0 0;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    padding: 10px 20px;
+  }
 `;
 
 type Props = {

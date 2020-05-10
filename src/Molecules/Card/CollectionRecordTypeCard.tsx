@@ -17,6 +17,10 @@ const HStyled = styled(H)`
 
 const TitleContainer = styled.div`
   padding: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    padding: 10px 20px;
+  }
 `;
 
 const ContentContainer = styled.div`

@@ -14,7 +14,7 @@ const TitleContainer = styled.div`
   border-radius: 4px 4px 0 0;
 
   @media (max-width: ${props => props.theme.breakpoints.desktop}) {
-    padding: 10px;
+    padding: 10px 20px;
   }
 `;
 
