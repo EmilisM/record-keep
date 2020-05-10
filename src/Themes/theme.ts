@@ -45,6 +45,7 @@ const theme: DefaultTheme = {
         '#9090a9',
         '#362b3b',
       ],
+      starSelected: '#ffdc64',
     },
   },
   font: {

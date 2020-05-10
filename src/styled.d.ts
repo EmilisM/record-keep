@@ -34,6 +34,7 @@ declare module 'styled-components' {
         success: string;
         error: string;
         chartColorsPrimary: string[];
+        starSelected: string;
       };
     };
     font: {

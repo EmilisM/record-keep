@@ -4,8 +4,6 @@ import styled from 'styled-components/macro';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ToastContainerStyled = styled(ToastContainer)`
-  top: 80px;
-
   @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     top: unset;
     bottom: 0px;
@@ -13,7 +11,7 @@ const ToastContainerStyled = styled(ToastContainer)`
   }
 
   .Toastify__toast {
-    background: ${props => props.theme.colors.background.secondaryDark};
+    background: ${props => props.theme.colors.background.secondaryDarker};
     font-family: ${props => props.theme.font.fontFamily.primary};
     font-size: 20px;
 
@@ -41,6 +39,6 @@ const ToastContainerStyled = styled(ToastContainer)`
   }
 `;
 
-const CustomToastContainer = (): ReactElement => <ToastContainerStyled autoClose={2000} />;
+const CustomToastContainer = (): ReactElement => <ToastContainerStyled position="bottom-right" autoClose={2000} />;
 
 export default CustomToastContainer;

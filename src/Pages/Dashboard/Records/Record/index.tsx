@@ -1,9 +1,9 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
-import { RecordMatchParams } from 'Types/Record';
+import { RecordMatchParams, UpdateRecordModel } from 'Types/Record';
 import styled from 'styled-components/macro';
 import { useQuery, useMutation } from 'react-query';
-import { getRecord, deleteRecord } from 'API/Record';
+import { getRecord, deleteRecord, updateRecord } from 'API/Record';
 import { getCollection } from 'API/Collection';
 import { isAxiosError } from 'Types/Error';
 import { RouteConfig } from 'Routes/RouteConfig';
@@ -15,6 +15,7 @@ import CollectionItem from 'Molecules/Collection/CollectionItem';
 import EditRecordModal from 'Organisms/Modal/EditRecordModal';
 import DeletionModal from 'Organisms/Modal/DeletionModal';
 import { toast } from 'react-toastify';
+import RecordRatingCard from 'Molecules/Card/RecordRatingCard';
 
 const RecordStyled = styled.div`
   display: flex;
@@ -53,6 +54,14 @@ const SecondColumn = styled.div`
   }
 `;
 
+const RecordRatingCardStyled = styled(RecordRatingCard)`
+  margin-top: 20px;
+
+  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+    margin-top: 10px;
+  }
+`;
+
 const CollectionItemStyled = styled(CollectionItem)`
   border-radius: 0 0 4px 4px;
 `;
@@ -66,6 +75,7 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
   const [editModal, setEditModal] = useState(false);
   const [deletionModal, setDeletionModal] = useState(false);
   const [mutateDeleteRecord] = useMutation(deleteRecord);
+  const [mutateRecord] = useMutation(updateRecord);
 
   const onRecordError = (err: unknown): void => {
     if (isAxiosError(err) && err.response?.status === 404) {
@@ -116,6 +126,29 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
     });
   };
 
+  const onChange = (rating: number): void => {
+    if (rating > 5 || rating < 1) {
+      return;
+    }
+
+    const request: UpdateRecordModel = {
+      id: record.id,
+      operations: [
+        {
+          op: 'add',
+          path: '/rating',
+          value: rating,
+        },
+      ],
+    };
+
+    mutateRecord(request)
+      .then(() => refetch())
+      .then(() => {
+        toast.success('Rating update complete');
+      });
+  };
+
   return (
     <RecordStyled>
       <FirstColumn>
@@ -129,6 +162,7 @@ const Record = ({ setTitle, match }: Props): ReactElement => {
           subTitle={collection.description || ''}
           to={`${RouteConfig.Dashboard.Collections.Root}/${collection.id}`}
         />
+        <RecordRatingCardStyled onChange={onChange} rating={record.rating || 0} />
       </SecondColumn>
       <EditRecordModal
         isOpen={editModal}
