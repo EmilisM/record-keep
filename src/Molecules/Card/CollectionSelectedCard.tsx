@@ -17,11 +17,12 @@ const CardStyled = styled(Card)`
 `;
 
 const SelectStyled = styled(Select)`
-  margin-left: 10px;
+  margin-left: auto;
   min-width: 200px;
 
-  @media (max-width: ${props => props.theme.breakpoints.desktop}) {
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
     margin-left: auto;
+    min-width: 150px;
   }
 `;
 
@@ -34,8 +35,8 @@ type Props = {
 
 const CollectionSelectedCard = ({ className, onChangeCollection, collections, value }: Props): ReactElement => (
   <CardStyled className={className}>
-    <H fontWeight="light" color="primaryLight" fontSize="normal" level="2">
-      Selected collection:
+    <H fontWeight="semiBold" color="primaryLight" fontSize="normal" level="2">
+      Selected collection
     </H>
     <SelectStyled options={collections} onChange={onChangeCollection} value={value} />
   </CardStyled>
