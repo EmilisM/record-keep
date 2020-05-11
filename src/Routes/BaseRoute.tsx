@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { ReactElement } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Home from 'Pages/Home';
@@ -9,7 +9,7 @@ import { RouteConfig } from './RouteConfig';
 import DashboardRoute from './DashboardRoute';
 import LandingNotFound from 'Pages/LandingNotFound';
 
-const BaseRoute: FC = () => (
+const BaseRoute = (): ReactElement => (
   <Switch>
     <Redirect exact from={RouteConfig.Root} to={RouteConfig.Home} />
     <LandingLayout exact path={RouteConfig.Home} component={Home} />
