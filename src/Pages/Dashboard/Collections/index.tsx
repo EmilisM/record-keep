@@ -120,7 +120,7 @@ const Collections = (): ReactElement => {
     dispatch({ type: 'isCreating/set', payload: false });
   };
 
-  const accountMenuOnChange = (option: ActionMenuOption, index: number): void => {
+  const menuOnChange = (option: ActionMenuOption, index: number): void => {
     if (!data) {
       return;
     }
@@ -186,7 +186,7 @@ const Collections = (): ReactElement => {
               title={item.name}
               subTitle={getRecordCountText(item.recordCount)}
               accountMenuOptions={accountMenuOptions}
-              accountMenuOnChange={option => accountMenuOnChange(option, index)}
+              accountMenuOnChange={option => menuOnChange(option, index)}
               image={item.image?.data}
             />
           ))}
