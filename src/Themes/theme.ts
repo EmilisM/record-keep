@@ -3,9 +3,9 @@ import { DefaultTheme } from 'styled-components/macro';
 const theme: DefaultTheme = {
   colors: {
     background: {
-      primary: '#F3F1F4',
-      primaryDarker: '#dfd8e2',
-      primaryLight: '#dfd8e2',
+      primary: 'white',
+      primaryDarker: '#E0E0E0',
+      primaryLight: '#F5F5F5',
       secondary: '#9C7481',
       secondaryDark: '#43364A',
       secondaryDarker: '#2F3043',
@@ -16,14 +16,14 @@ const theme: DefaultTheme = {
       secondaryDarkestLighter: '#302B3A',
     },
     text: {
-      primaryLight: '#F3F1F4',
+      primaryLight: '#FAFAFA',
       primaryLighter: 'rgba(243, 241, 244, 0.6)',
       primaryDark: '#2F3043',
       primaryDarker: '#303030',
       error: '#ff3333',
     },
     border: {
-      primary: '#F3F1F4',
+      primary: '#FAFAFA',
       cardShadow: '#8c8291',
       error: '#ff3333',
     },

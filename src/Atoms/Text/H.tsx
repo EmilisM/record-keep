@@ -25,13 +25,13 @@ const fontSizes: FontSizes<Sizes> = {
     mobile: 25,
   },
   landingSubTitle: {
-    desktop: 60,
+    desktop: 45,
     tablet: 40,
     mobile: 25,
   },
   landingTitle: {
-    desktop: 80,
-    tablet: 80,
+    desktop: 50,
+    tablet: 50,
     mobile: 50,
   },
 };

@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 const LoginCard = styled.div`
   border: 1px solid ${props => props.theme.colors.border.primary};
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 20px;
 
   width: 100%;
