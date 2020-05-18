@@ -8,6 +8,7 @@ import moment from 'moment';
 import { UserActivityChart } from 'Types/UserActivities';
 import { isNumber } from 'Types/General';
 import { UserInfo } from 'Types/User';
+import P from 'Atoms/Text/P';
 
 const CardStyled = styled(Card)`
   display: flex;
@@ -29,6 +30,10 @@ const ContentContainer = styled.div`
 
   border: solid ${props => props.theme.colors.border.cardShadow};
   border-width: 1px 0 0 0;
+`;
+
+const PStyled = styled(P)`
+  padding: 10px 20px;
 `;
 
 type Props = {
@@ -94,19 +99,23 @@ const UserActivityGraphCard = ({ className, data }: Props): ReactElement => {
         </H>
       </TitleContainer>
       <ContentContainer>
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={getActivityChartData()}>
-            <Tooltip formatter={formatter} />
-            <Line
-              dataKey="count"
-              type="monotone"
-              stroke={theme.colors.background.secondaryDark}
-              strokeWidth={2}
-              isAnimationActive={false}
-            />
-            <XAxis dataKey="name" hide />
-          </LineChart>
-        </ResponsiveContainer>
+        {data.userActivities.length <= 0 ? (
+          <PStyled color="primaryDarker">No activity yet</PStyled>
+        ) : (
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={getActivityChartData()}>
+              <Tooltip formatter={formatter} />
+              <Line
+                dataKey="count"
+                type="monotone"
+                stroke={theme.colors.background.secondaryDark}
+                strokeWidth={2}
+                isAnimationActive={false}
+              />
+              <XAxis dataKey="name" hide />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </ContentContainer>
     </CardStyled>
   );

@@ -6,6 +6,7 @@ import getUserActivityItems from 'Services/userActivity';
 import List from 'Molecules/List/List';
 import moment from 'moment';
 import { UserInfo } from 'Types/User';
+import P from 'Atoms/Text/P';
 
 const CardStyled = styled(Card)`
   display: flex;
@@ -34,6 +35,10 @@ const ListStyled = styled(List)`
   overflow-y: auto;
 `;
 
+const PStyled = styled(P)`
+  padding: 10px 20px;
+`;
+
 type Props = {
   userInfo: UserInfo;
 };
@@ -60,7 +65,11 @@ const UserActivityCard = ({ userInfo }: Props): ReactElement => {
         </H>
       </TitleContainer>
       <ContentContainer>
-        <ListStyled>{activities.map(getUserActivityItems)}</ListStyled>
+        {activities.length <= 0 ? (
+          <PStyled color="primaryDarker">No activity yet</PStyled>
+        ) : (
+          <ListStyled>{activities.map(getUserActivityItems)}</ListStyled>
+        )}
       </ContentContainer>
     </CardStyled>
   );
