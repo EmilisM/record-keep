@@ -21,7 +21,7 @@
     "@types/react-transition-group": "^4.2.4",
     "@types/recharts": "^1.8.10",
     "@types/styled-components": "^4.4.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "formik": "^2.1.4",
     "http-proxy-middleware": "^1.0.3",
     "lodash": "^4.17.15",
